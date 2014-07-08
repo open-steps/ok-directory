@@ -238,12 +238,24 @@ Pyk.newsDiscovery = function(){
                 
                 // Return the HTML of the Card for this article                         
                 return that._renderArticleCardHtml(article);
+                
             })
             .on("mouseover", function(d){
+                        	
                 $(this).find(".panel").addClass("flip");
+                
+                var article = that._findArticleById(d.key);   
+                
+                // Zoom map to element
+                panMapToArticle(that,article);
+                
             })
             .on("mouseout", function(d){
+            
                 $(this).find(".panel").removeClass("flip");
+                
+                // Fit bounds of map to make all markers visible
+                mapFitBounds();
             });
             
         grid_list.exit().remove();
@@ -372,7 +384,7 @@ Pyk.newsDiscovery = function(){
 	      	      
 	    });
 	    	    
-	    $('#mapToggle').click(function () { 
+	    /*$('#mapToggle').click(function () { 
 			
 			mapViewOn = !mapViewOn;
 			
@@ -392,7 +404,7 @@ Pyk.newsDiscovery = function(){
 			}
 			
 	      	      
-	    });
+	    });*/
     
     };
     
@@ -400,8 +412,7 @@ Pyk.newsDiscovery = function(){
     this.initMap = function(){
 	    
     	initializeMap();
-    	
-    	$('#map').hide();
+    	    	
     }
     
      /*--------------------

@@ -23,6 +23,7 @@ var initializeMap = function() {
             }).addTo(map);
   
   markers = new L.MarkerClusterGroup();
+    
   map.addLayer(markers);
     
   // Disable wheel zoom
@@ -34,6 +35,18 @@ var initializeMap = function() {
 var codeAddressFromArticle = function(context,article,last) {
 
 	var addressToGeocode = article.country+', '+article.city;	
+	
+	// Setup marker icon
+	var imgIcon = L.icon({
+	    iconUrl: article.image_url,
+	    shadowUrl: 'res/img/avatar_bg.png',
+	
+	    iconSize:     [32, 32], // size of the icon
+	    shadowSize:   [34, 34], // size of the shadow
+	    iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
+	    shadowAnchor: [1,1],  // the same for the shadow
+	    popupAnchor:  [16,0] // point from which the popup should open relative to the iconAnchor
+	});
 
 	// If the address was not already fetched, do it
 	if (!fetchedAddresses[addressToGeocode]){
@@ -52,7 +65,7 @@ var codeAddressFromArticle = function(context,article,last) {
 				fetchedAddresses[addressToGeocode] = data.results[0].locations[0].latLng.lat+","+data.results[0].locations[0].latLng.lng;
 			
 				// Add marker
-				var marker = new L.marker(new L.latLng(data.results[0].locations[0].latLng.lat,data.results[0].locations[0].latLng.lng));
+				var marker = new L.marker(new L.latLng(data.results[0].locations[0].latLng.lat,data.results[0].locations[0].latLng.lng),{icon: imgIcon});
 				setupMarkerWithArticle(context,marker,article,last);				
 			}						
 		
@@ -65,12 +78,51 @@ var codeAddressFromArticle = function(context,article,last) {
 		
 		//console.log("Fetched address with coordinates: "+latLng[0]+" "+latLng[1]);		
 		
-		var marker = new L.marker(new L.latLng(latLng[0],latLng[1]));		
+		var marker = new L.marker(new L.latLng(latLng[0],latLng[1]),{icon: imgIcon});		
 		setupMarkerWithArticle(context,marker,article,last);	
 			
-	}	
+	}		
 	
+}
+
+// Moves the centre of the map to the position of an article
+var panMapToArticle = function(context,article){
+
+	var addressToGeocode = article.country+', '+article.city;		
+
+	// If the address was not already fetched, do it
+	if (!fetchedAddresses[addressToGeocode]){
+	
+		// replace placeholders in the url
+		var finalGeocodeApiURL = geocodeApiURL.replace('#city#',article.city);	
+		finalGeocodeApiURL = finalGeocodeApiURL.replace('#country#',article.country);	
 		
+		//console.log("Fetching address on: "+finalGeocodeApiURL);		
+			
+		$.getJSON( finalGeocodeApiURL, function( data ) {	
+							
+			if (data.info.statuscode == 0) {									
+			
+				// Store fetched address
+				fetchedAddresses[addressToGeocode] = data.results[0].locations[0].latLng.lat+","+data.results[0].locations[0].latLng.lng;
+			
+				map.panTo(new L.latLng(data.results[0].locations[0].latLng.lat,data.results[0].locations[0].latLng.lng));	
+				map.setZoom(6);			
+			}						
+		
+		});
+	
+	}else{
+	
+		// Extract coordinates from map
+		var latLng = fetchedAddresses[addressToGeocode].split(",");				
+	
+		map.panTo(new L.latLng(latLng[0],latLng[1]));	
+		map.setZoom(6);			
+			
+	}
+	
+	$('#details').html(context._renderArticlePopupHtml(article));
 	
 }
 
@@ -79,12 +131,24 @@ var setupMarkerWithArticle = function(context,marker,article,last){
 
 	marker.bindPopup(context._renderArticlePopupHtml(article));
 
+	marker.on('mouseover', function (a) {
+    
+    	$('#details').html(context._renderArticlePopupHtml(article));
+    
+ 	});
+
  	markers.addLayer(marker);
  	
  	if (last){
-		map.fitBounds(markers.getBounds(),{padding: [50,50]});		     			     			     	 	
-	}	
+ 		mapFitBounds();
+ 	}
 
+}
+
+var mapFitBounds = function(){
+	
+	map.fitBounds(markers.getBounds(),{padding: [50,50]});		     			     			     	 	
+	
 }
 
 /*--------------------

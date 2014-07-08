@@ -13,12 +13,12 @@
     <link rel="shortcut icon" href="/pykcharts/images/favicon.ico" type="image/ico">
     <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,600' rel='stylesheet' type='text/css'>
     <link href="res/lib/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="res/css/details.css" rel="stylesheet" type="text/css">
     <link href="res/css/master.css" rel="stylesheet" type="text/css">
     <link href="res/css/flip.css" rel="stylesheet" type="text/css">
 	<link href="res/lib/leaflet-0.7.3/MarkerCluster.Default.css" rel="stylesheet" type="text/css">
 	<link href="res/lib/leaflet-0.7.3/leaflet.css" rel="stylesheet" type="text/css">
-	<link href="res/css/mapview.css" rel="stylesheet" type="text/css">
-    <link href="res/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="res/font-awesome/css/font-awesome.min.css" rel="stylesheet">
   </head>
 
   <body>
@@ -38,16 +38,10 @@
 			<button id="mapToggle" type="button" class="btn btn-default btn-sm">Map View</button>
 			<a href="http://www.bit.ly/ddjform" target="_blank"><button type="button" class="btn btn-default btn-sm">Join the directory</button></a>
       <a href="#"><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal">About</button></a>
-      
-			
-                  
+          
 			</form>
       </nav>
 
-
-        
-   		
-        
 		<!-- Modal -->
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   		<div class="modal-dialog">
@@ -85,14 +79,13 @@
     <div id="wrap">
               
       <div class="container pyk-news-discovery">
-      
-      
+            
         <div class="row navigation">
-          <div class="col-sm-12 tag-holder">
-
+          
+          <div class="col-sm-2 tag-holder"> <!-- tag-holder -->
             
             <!--country -->
-            <div class="col-sm-3">
+            <div class="col-sm-2">
               <h4 id="tb1"></h4>
               <div>
                 <ul id="table1" class="tag-list"></ul>
@@ -100,7 +93,7 @@
             </div>
 
             <!--city -->
-            <div class="col-sm-3">
+            <div class="col-sm-2">
               <h4 id="tb6"></h4>
               <div>
                 <ul id="table6" class="tag-list"></ul>
@@ -108,7 +101,7 @@
             </div>
 
             <!--institution -->
-            <div class="col-sm-3">
+            <div class="col-sm-2">
               <h4 id="tb2"></h4>
               <div>
                 <ul id="table2" class="tag-list"></ul>
@@ -116,7 +109,7 @@
             </div>
 
             <!--skills -->
-            <div class="col-sm-3">
+            <div class="col-sm-2">
               <h4 id="tb3"></h4>
               <div>
                 <ul id="table3" class="tag-list"></ul>
@@ -124,7 +117,7 @@
             </div>
 
             <!--github -->
-            <div class="col-sm-3">
+            <div class="col-sm-2">
               <h4 id="tb5"></h4>
               <div>
                 <ul id="table5" class="tag-list"></ul>
@@ -139,19 +132,27 @@
               </div>
             </div>-->
           
+          </div> <!-- end of tag-holder -->
+          
+          <div class="col-md-10"> <!-- contents -->
+          
+          	 <div id="details_container" class="row">
+		        <div id="map" class="col-md-10"></div>
+			    <div id="details" class="col-md-2"></div>
+	        </div>
+	        
+	        <div class="row">
+	          <div class="col-sm-12">
+	            <div class="gridster">
+	              <ul id="grid" class="thumbnails"></ul>
+	            </div>
+	          </div>
+	        </div>          
+          
           </div>
 
-        </div>
-        
-        <div id="map" style="width: 100%; height: 400px"></div>
-
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="gridster">
-              <ul id="grid" class="thumbnails"></ul>
-            </div>
-          </div>
-        </div>
+        </div> <!-- end of row navigation -->        
+       
       </div>
     </div>
     <div class="footer navbar navbar-default navbar-fixed-bottom">
