@@ -6,12 +6,18 @@
 
 #map { 
   height: 340px;
+  border: 2px solid #fff;
+}
+
+#details_wrapper{
+  height: 340px;
 }
 
 #details{
   height: 340px; 
   background: #fff;
-  padding: 20px;
+  padding: 10px;
+  text-align: center;
 }
 
 .layer {

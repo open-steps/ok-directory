@@ -9,7 +9,7 @@ var markers;
 var fetchedAddresses = new Object();
 var mapQuestApiKey = "Fmjtd|luur206a20%2Cbn%3Do5-9at004"; // Open Steps APIKey, change please
 var geocodeApiURL="http://www.mapquestapi.com/geocoding/v1/address?key="+mapQuestApiKey+"&country=#country#&city=#city#";
-
+var currentArticle = undefined;
 var initializeMap = function() {
   
   // Init Map
@@ -35,6 +35,10 @@ var initializeMap = function() {
 var codeAddressFromArticle = function(context,article,last) {
 
 	var addressToGeocode = article.country+', '+article.city;	
+	
+	if (!article.image_url){
+		article.image_url = 'res/img/noimage.png';
+	}
 	
 	// Setup marker icon
 	var imgIcon = L.icon({
@@ -107,7 +111,7 @@ var panMapToArticle = function(context,article){
 				fetchedAddresses[addressToGeocode] = data.results[0].locations[0].latLng.lat+","+data.results[0].locations[0].latLng.lng;
 			
 				map.panTo(new L.latLng(data.results[0].locations[0].latLng.lat,data.results[0].locations[0].latLng.lng));	
-				map.setZoom(6);			
+				//map.setZoom(6);			
 			}						
 		
 		});
@@ -118,22 +122,37 @@ var panMapToArticle = function(context,article){
 		var latLng = fetchedAddresses[addressToGeocode].split(",");				
 	
 		map.panTo(new L.latLng(latLng[0],latLng[1]));	
-		map.setZoom(6);			
+		//map.setZoom(6);			
 			
-	}
-	
-	$('#details').html(context._renderArticlePopupHtml(article));
+	}		
 	
 }
 
 // Utility method to bind the popup of the marker and add it to the layer.
 var setupMarkerWithArticle = function(context,marker,article,last){
 
-	marker.bindPopup(context._renderArticlePopupHtml(article));
+	//marker.bindPopup(context._renderArticlePopupHtml(article));
 
 	marker.on('mouseover', function (a) {
     
     	$('#details').html(context._renderArticlePopupHtml(article));
+    
+ 	});
+ 	
+ 	/*marker.on('click', function (a) {
+    
+    	if (currentArticle){
+    		currentArticle = undefined;
+    	}else{
+    		currentArticle = article;
+    	}
+    	
+    	refreshDetails();
+ 	});*/
+ 	
+ 	marker.on('mouseout', function (a) {
+    
+    	//$('#details').html("<img src=\"res/img/avatar_placeholder.png\"/>");
     
  	});
 
@@ -145,9 +164,19 @@ var setupMarkerWithArticle = function(context,marker,article,last){
 
 }
 
+/*var refreshDetails(){
+
+	if (currentArticle){
+		$('#details').html(context._renderArticlePopupHtml(article));
+	}else{
+		$('#details').html("<img src=\"res/img/avatar_placeholder.png\"/>");
+	}
+
+}*/
+
 var mapFitBounds = function(){
 	
-	map.fitBounds(markers.getBounds(),{padding: [50,50]});		     			     			     	 	
+	map.fitBounds(markers.getBounds(),{padding: [50,50]});	
 	
 }
 

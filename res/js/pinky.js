@@ -61,7 +61,7 @@ Pyk.newsDiscovery = function(){
         });
         
         this.crossfilter.ff_dimension = this.crossfilter.data.dimension(function(d){
-            return d.institution;
+            return d.organisation;
         });
 
         // --  -- //
@@ -156,7 +156,7 @@ Pyk.newsDiscovery = function(){
 
 
 
-        // Institution
+        // organisation
         var ff_tags = this._removeEmptyKeys(this.crossfilter.ff_dimension.group().all(), "ff");
         var ff_list = d3.select("#table2").selectAll("li").data(ff_tags);
         ff_list.enter().append("li");
@@ -207,7 +207,7 @@ Pyk.newsDiscovery = function(){
         id_list
             .html(function(d){
                 var article = that._findArticleById(d.key);
-                var link = "<a href='#'>" + article.title;
+                var link = "<a href='#'>" + article.name;
                 link += "<span class='badge'>" + d.value + "</span>";
                 link += "</a>";                              
                 
@@ -248,6 +248,9 @@ Pyk.newsDiscovery = function(){
                 
                 // Zoom map to element
                 panMapToArticle(that,article);
+                
+                // Set the Html contents in the details div
+                $('#details').html(that._renderArticlePopupHtml(article));
                 
             })
             .on("mouseout", function(d){
@@ -383,29 +386,7 @@ Pyk.newsDiscovery = function(){
           $("#search").val("");
 	      	      
 	    });
-	    	    
-	    /*$('#mapToggle').click(function () { 
-			
-			mapViewOn = !mapViewOn;
-			
-			if (!mapViewOn){
-			
-				$('#mapToggle').text('Map View');
-				
-				$('#grid').show();
-				$('#map').hide();
-				
-			}else{
-			
-				$('#mapToggle').text('Grid View');
-				
-				$('#grid').hide();
-				$('#map').show();
-			}
-			
-	      	      
-	    });*/
-    
+	    	        
     };
     
     // Defines method for search and typeahead.
@@ -420,22 +401,58 @@ Pyk.newsDiscovery = function(){
     --------------------*/
     
     // Generates the HTML content of the card representation of the articles on the grid
-    this._renderArticleCardHtml = function(article){
+    this._renderArticleCardHtml = function(article){  
+    
+    	// Check for image_url
+    	if (!article.image_url){
+    		article.image_url = 'res/img/noimage.png';
+    	}      	
     
     	var container = $("<div/>").addClass("panel");
         var front = $("<div/>").addClass("front");
         var back  = $("<div/>").addClass("back");
-        front.html("<img class='thumbnail' src='"+article.image_url+"' width='117' height='130' /><br/>" + "<b>" + article.title + "</b>");
+        front.html("<img class='thumbnail' src='"+article.image_url+"' width='117' height='130' /><br/>" + "<b>" + article.name + "</b>" + "<br/><i>" + article.organisation + "</i>");
         var back_content = "";
-        back_content += $("<div/>").addClass("name").html(article.title).get(0).outerHTML;
-        back_content += $("<div/>").addClass("institution").html(article.institution).get(0).outerHTML;
+        back_content += $("<div/>").addClass("name").html(article.name).get(0).outerHTML;
+        back_content += $("<div/>").addClass("organisation").html(article.organisation).get(0).outerHTML;
         back_content += $("<div/>").addClass("city").html(article.city + ", " + article.country).get(0).outerHTML;
-        back_content += $("<div/>").addClass("pgp").html("PGP: " + '<a href="' + article.pgp_url + '" target="_self">' + article.pgp + "</a>").get(0).outerHTML;
+        
+        //PGP
+        if (article.pgpkey && article.pgpurl){
+        	back_content += $("<div/>").addClass("pgp_key").html("PGP: " + '<a href="' + article.pgpurl + '" target="_self">' + article.pgpkey + "</a>").get(0).outerHTML;
+        }else if (article.pgpkey && !article.pgpurl){ 
+        	back_content += $("<div/>").addClass("pgp_key").html("PGP: " + article.pgpkey).get(0).outerHTML;
+        }      
 
-        back_content += $("<div/>").addClass("email").html("<br>" + '<i class="fa fa-envelope fa-lg"></i> ' + '<a href="' + "mailto:" + article.email_url + '">'  + article.email + "</a>").get(0).outerHTML;
-        back_content += $("<div/>").addClass("twitter").html('<i class="fa fa-twitter fa-lg"></i> ' + '<a href="' + article.twitter_url + '" target="_blank">' + article.twitter + "</a>").get(0).outerHTML;    
-        back_content += $("<div/>").addClass("github").html('<i class="fa fa-github fa-lg"></i> ' + '<a href="' + article.github_url + '" target="_blank">' + article.github + "</a>").get(0).outerHTML;
-        back_content += $("<div/>").addClass("website").html('<i class="fa fa-globe fa-lg"></i> ' + '<a href="' + article.website_url + '" target="_blank">' + article.website + "</a>").get(0).outerHTML;    
+		// EMAIL
+		if (article.email){
+			back_content += $("<div/>").addClass("email").html('</br><a href="' + "mailto:" + article.email + '"><i class="fa fa-envelope fa-lg"></i></a>').get(0).outerHTML;
+		}
+		
+		// WEBSITE
+		if (article.website){
+			back_content += $("<div/>").addClass("website").html('<a href="' + article.website + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>').get(0).outerHTML; 
+		}
+		
+		// TWITTER
+		if (article.twitter){
+			back_content += $("<div/>").addClass("twitter").html('<a href="' + article.twitter + '" target="_blank"><i class="fa fa-twitter fa-lg"></i></a>').get(0).outerHTML;  
+		}
+		
+		// FACEBOOK
+		if (article.facebook){
+			back_content += $("<div/>").addClass("twitter").html('<a href="' + article.facebook + '" target="_blank"><i class="fa fa-facebook fa-lg"></i></a>').get(0).outerHTML;  
+		}
+		
+		// LINKEDIN
+		if (article.linkedin){
+			back_content += $("<div/>").addClass("twitter").html('<a href="' + article.linkedin + '" target="_blank"><i class="fa fa-linkedin fa-lg"></i></a>').get(0).outerHTML;  
+		}
+        
+        // GITHUB
+		if (article.github){
+			back_content += $("<div/>").addClass("github").html('<a href="' + article.github + '" target="_blank"><i class="fa fa-github fa-lg"></i></a>').get(0).outerHTML;
+		}	   
 
         back.html(back_content);
         container.append(front);
@@ -448,21 +465,57 @@ Pyk.newsDiscovery = function(){
     // Generates the HTML content of popups showed when clicking markers on the map
     this._renderArticlePopupHtml = function(article){
     
+    	// Check for image_url
+    	if (!article.image_url){
+    		article.image_url = 'res/img/noimage.png';
+    	}
+    
     	var container = $("<div/>").addClass("popup");
         var front = $("<div/>").addClass("front");
         var back  = $("<div/>").addClass("back");
-        front.html("<img class='thumbnail' src='"+article.image_url+"' width='117' height='130' /><br/>" + "<b>" + article.title + "</b>");
+        front.html("<img class='thumbnail' src='"+article.image_url+"' width='117' height='130' /><br/>" + "<b>" + article.name + "</b>");
         
         var back_content = "";
-        back_content += $("<div/>").addClass("name").html(article.title).get(0).outerHTML;
-        back_content += $("<div/>").addClass("institution").html(article.institution).get(0).outerHTML;
+        back_content += $("<div/>").addClass("name").html(article.name).get(0).outerHTML;
+        back_content += $("<div/>").addClass("organisation").html(article.organisation).get(0).outerHTML;
         back_content += $("<div/>").addClass("city").html(article.city + ", " + article.country).get(0).outerHTML;
-        back_content += $("<div/>").addClass("pgp").html("PGP: " + '<a href="' + article.pgp_url + '" target="_self">' + article.pgp + "</a>").get(0).outerHTML;
+        
+        //PGP
+        if (article.pgpkey && article.pgpurl){
+        	back_content += $("<div/>").addClass("pgp_key").html("PGP: " + '<a href="' + article.pgpurl + '" target="_self">' + article.pgpkey + "</a>").get(0).outerHTML;
+        }else if (article.pgpkey && !article.pgpurl){ 
+        	back_content += $("<div/>").addClass("pgp_key").html("PGP: " + article.pgpkey).get(0).outerHTML;
+        }  
 
-        back_content += $("<div/>").addClass("email").html("<br>" + '<i class="fa fa-envelope fa-lg"></i> ' + '<a href="' + "mailto:" + article.email_url + '">'  + article.email + "</a>").get(0).outerHTML;
-        back_content += $("<div/>").addClass("twitter").html('<i class="fa fa-twitter fa-lg"></i> ' + '<a href="' + article.twitter_url + '" target="_blank">' + article.twitter + "</a>").get(0).outerHTML;    
-        back_content += $("<div/>").addClass("github").html('<i class="fa fa-github fa-lg"></i> ' + '<a href="' + article.github_url + '" target="_blank">' + article.github + "</a>").get(0).outerHTML;
-        back_content += $("<div/>").addClass("website").html('<i class="fa fa-globe fa-lg"></i> ' + '<a href="' + article.website_url + '" target="_blank">' + article.website + "</a>").get(0).outerHTML;
+        // EMAIL
+		if (article.email){
+			back_content += $("<div/>").addClass("email").html('</br><a href="' + "mailto:" + article.email + '"><i class="fa fa-envelope fa-lg"></i></a>').get(0).outerHTML;
+		}
+		
+		// WEBSITE
+		if (article.website){
+			back_content += $("<div/>").addClass("website").html('<a href="' + article.website + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>').get(0).outerHTML; 
+		}
+		
+		// TWITTER
+		if (article.twitter){
+			back_content += $("<div/>").addClass("twitter").html('<a href="' + article.twitter + '" target="_blank"><i class="fa fa-twitter fa-lg"></i></a>').get(0).outerHTML;  
+		}
+		
+		// FACEBOOK
+		if (article.facebook){
+			back_content += $("<div/>").addClass("twitter").html('<a href="' + article.facebook + '" target="_blank"><i class="fa fa-facebook fa-lg"></i></a>').get(0).outerHTML;  
+		}
+		
+		// LINKEDIN
+		if (article.linkedin){
+			back_content += $("<div/>").addClass("twitter").html('<a href="' + article.linkedin + '" target="_blank"><i class="fa fa-linkedin fa-lg"></i></a>').get(0).outerHTML;  
+		}
+        
+        // GITHUB
+		if (article.github){
+			back_content += $("<div/>").addClass("github").html('<a href="' + article.github + '" target="_blank"><i class="fa fa-github fa-lg"></i></a>').get(0).outerHTML;
+		}	
 
         back.html(back_content);
         container.append(front);
@@ -524,7 +577,7 @@ Pyk.newsDiscovery = function(){
 			articleSearchFilter.articleTitles.push(value["key"]);  
 		});
 		
-        // Institution
+        // organisation
         var ff_tags = this._removeEmptyKeys(this.crossfilter.ff_dimension.group().all(), "ff");
        
         $.each(ff_tags, function( index, value ) {	
@@ -547,10 +600,10 @@ Pyk.newsDiscovery = function(){
        
         $.each(id_tags, function( index, value ) {
         	var a = that._findArticleById(value["key"]);
-        	articleSearchFilter[a.title] = new Object;
-        	articleSearchFilter[a.title].filter = "id";
-			articleSearchFilter[a.title].id = a.id;
-			articleSearchFilter.articleTitles.push(a.title);  
+        	articleSearchFilter[a.name] = new Object;
+        	articleSearchFilter[a.name].filter = "id";
+			articleSearchFilter[a.name].id = a.id;
+			articleSearchFilter.articleTitles.push(a.name);  
         				
 		});
             	
@@ -599,14 +652,14 @@ Reduce functions for the arrays
 of AA. 
 ------------------------------*/
 function reduceAdd(p, v) {
-  v.skills.forEach (function(val, idx) {
+  v.skills.split(',').forEach (function(val, idx) {
      p[val] = (p[val] || 0) + 1; //increment counts
   });
   return p;
 }
 
 function reduceRemove(p, v) {
-  v.skills.forEach (function(val, idx) {
+  v.skills.split(',').forEach (function(val, idx) {
      p[val] = (p[val] || 0) - 1; //decrement counts
   });
   return p;

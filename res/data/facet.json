@@ -15,8 +15,8 @@
         },
         {
             "type": "alphabetical",
-            "label": "institution",
-            "name": "institution"
+            "label": "organisation",
+            "name": "organisation"
         },
         {
             "type": "nominal", 
@@ -26,7 +26,7 @@
         {
             "type": "alphabetical",
             "label": "github or bitbucket",
-            "name": "github/bitbucket"
+            "name": "github"
         },
         {
             "type": "alphabetical",
