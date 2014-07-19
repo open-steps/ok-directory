@@ -22,7 +22,7 @@ var initializeMap = function() {
             maxZoom: 8,
             }).addTo(map);
   
-  markers = new L.MarkerClusterGroup();
+  markers = new L.MarkerClusterGroup({showCoverageOnHover: false});
     
   map.addLayer(markers);
     

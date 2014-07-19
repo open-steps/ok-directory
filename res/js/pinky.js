@@ -178,7 +178,7 @@ Pyk.newsDiscovery = function(){
 
 
         // GitHub
-        var gg_tags = this._removeEmptyKeys(this.crossfilter.gg_dimension.group().all(), "gg");
+        /*var gg_tags = this._removeEmptyKeys(this.crossfilter.gg_dimension.group().all(), "gg");
         var gg_list = d3.select("#table5").selectAll("li").data(gg_tags);
        	gg_list.enter().append("li");
         gg_list
@@ -194,7 +194,7 @@ Pyk.newsDiscovery = function(){
             .on("click", function(d){
                 that.filter("gg", d.key);
             });
-        gg_list.exit().remove();
+        gg_list.exit().remove();*/
 
 
 		// Before rendering the Grid, we have to clear the layerGroup in the map instance in order to display new markers
@@ -403,17 +403,31 @@ Pyk.newsDiscovery = function(){
     // Generates the HTML content of the card representation of the articles on the grid
     this._renderArticleCardHtml = function(article){  
     
-    	// Check for image_url
-    	if (!article.image_url){
-    		article.image_url = 'res/img/noimage.png';
-    	}      	
-    
-    	var container = $("<div/>").addClass("panel");
+    	var container = $("<div/>").addClass("popup");
         var front = $("<div/>").addClass("front");
         var back  = $("<div/>").addClass("back");
-        front.html("<img class='thumbnail' src='"+article.image_url+"' width='117' height='130' /><br/>" + "<b>" + article.name + "</b>" + "<br/><i>" + article.organisation + "</i>");
+    
+    	var thumbnail = $("<img/>").addClass("thumbnail");
+    	// Check for image_url
+    	if (!article.profileimg && article.twitter){
+    		//this._getTwitterProfileUrl(article,thumbnail);        				    		
+    		article.profileimg = 'res/img/noimage.png';        		    				
+    		thumbnail.attr("src",article.profileimg);    		
+    	}else if (!article.profileimg && !article.twitter){
+    		article.profileimg = 'res/img/noimage.png';        		    				
+    		thumbnail.attr("src",article.profileimg);
+    	}else if(article.profileimg){
+    		thumbnail.attr("src",article.profileimg);
+    	}else{
+    		article.profileimg = 'res/img/noimage.png';        		    				
+    		thumbnail.attr("src",article.profileimg);    		
+    	}
+    	
+    	front.append(thumbnail);
+    	front.append("<br/>" + "<b>" + article.name + "</b>");
+    	
         var back_content = "";
-        back_content += $("<div/>").addClass("name").html(article.name).get(0).outerHTML;
+        //back_content += $("<div/>").addClass("name").html(article.name).get(0).outerHTML;
         back_content += $("<div/>").addClass("organisation").html(article.organisation).get(0).outerHTML;
         back_content += $("<div/>").addClass("city").html(article.city + ", " + article.country).get(0).outerHTML;
         
@@ -465,18 +479,32 @@ Pyk.newsDiscovery = function(){
     // Generates the HTML content of popups showed when clicking markers on the map
     this._renderArticlePopupHtml = function(article){
     
-    	// Check for image_url
-    	if (!article.image_url){
-    		article.image_url = 'res/img/noimage.png';
-    	}
-    
     	var container = $("<div/>").addClass("popup");
         var front = $("<div/>").addClass("front");
         var back  = $("<div/>").addClass("back");
-        front.html("<img class='thumbnail' src='"+article.image_url+"' width='117' height='130' /><br/>" + "<b>" + article.name + "</b>");
+    
+    
+    	var thumbnail = $("<img/>").addClass("thumbnail");
+    	// Check for image_url
+    	if (!article.profileimg && article.twitter){
+    		//this._getTwitterProfileUrl(article,thumbnail);        				    		
+    		article.profileimg = 'res/img/noimage.png';        		    				
+    		thumbnail.attr("src",article.profileimg);
+    	}else if (!article.profileimg && !article.twitter){
+    		article.profileimg = 'res/img/noimage.png';        		    				
+    		thumbnail.attr("src",article.profileimg);
+    	}else if(article.profileimg){
+    		thumbnail.attr("src",article.profileimg);
+    	}else{
+    		article.profileimg = 'res/img/noimage.png';        		    				
+    		thumbnail.attr("src",article.profileimg);
+    	}
+    	
+    	front.append(thumbnail);
+    	front.append("<br/>" + "<b>" + article.name + "</b>");
         
         var back_content = "";
-        back_content += $("<div/>").addClass("name").html(article.name).get(0).outerHTML;
+        //back_content += $("<div/>").addClass("name").html(article.name).get(0).outerHTML;
         back_content += $("<div/>").addClass("organisation").html(article.organisation).get(0).outerHTML;
         back_content += $("<div/>").addClass("city").html(article.city + ", " + article.country).get(0).outerHTML;
         
@@ -643,7 +671,33 @@ Pyk.newsDiscovery = function(){
         return a;
     };
     
-  
+    // retrieves the profile_url of the user specified as parameter
+    this._getTwitterProfileUrl = function(article,holder){
+    
+    	// Clean possible inconsistences in data input
+    	article.twitter = article.twitter.replace( "@", "" );
+    	article.twitter = article.twitter.replace( "http://www.twitter.com/", "" );
+    	article.twitter = article.twitter.replace( "https://www.twitter.com/", "" );
+    	article.twitter = article.twitter.replace( "https://twitter.com/", "" );
+    	article.twitter = article.twitter.replace( "http://twitter.com/", "" );
+    	article.twitter = article.twitter.replace( "twitter.com/", "" );
+    	
+    	$.get( "ext/twitter/twitter_profile_retriever.php?screen_name="+article.twitter, function( data ) {
+			console.log(holder+" "+data);
+			article.profileimg = data;
+			holder.attr("src",article.profileimg + '?' + new Date().getTime());		
+		});
+        	
+    
+    };
+    
+    // retrieves the profile_url of the user specified as parameter
+    this._getFacebookProfileUrl = function(username){
+    
+    	console.log('_getTwitterProfileUrl');
+    
+    };
+      
 };
 
 
