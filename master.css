@@ -97,17 +97,11 @@ body, html{
     float         : left;
     display       : block;
     width         : 107px;
-    height        : 110px;
+    height        : 120px;
     overflow      : hidden;
     background    : #fff;
     text-align    : center;
     position: relative;
-}
-
-.pyk-news-discovery .thumbnail{
-	height: 48px;
-	width: 48px;
-	margin: 0 auto;
 }
 
 .pyk-news-discovery #grid li:hover {

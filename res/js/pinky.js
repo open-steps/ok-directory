@@ -407,22 +407,29 @@ Pyk.newsDiscovery = function(){
         var front = $("<div/>").addClass("front");
         var back  = $("<div/>").addClass("back");
     
-    	var thumbnail = $("<img/>").addClass("thumbnail");
-    	// Check for image_url
-    	if (!article.profileimg && article.twitter){
-    		//this._getTwitterProfileUrl(article,thumbnail);        				    		
-    		article.profileimg = 'res/img/noimage.png';        		    				
-    		thumbnail.attr("src",article.profileimg);    		
-    	}else if (!article.profileimg && !article.twitter){
-    		article.profileimg = 'res/img/noimage.png';        		    				
-    		thumbnail.attr("src",article.profileimg);
-    	}else if(article.profileimg){
-    		thumbnail.attr("src",article.profileimg);
-    	}else{
-    		article.profileimg = 'res/img/noimage.png';        		    				
-    		thumbnail.attr("src",article.profileimg);    		
-    	}
+    	var thumbnail = $("<div/>").addClass("thumbnail thumbnail_holder_"+article.id);
     	
+    	// Check for image_url
+    	if(article.profileimg){
+    		
+    		thumbnail.append("<img src=\""+article.profileimg+"\"></img>");
+    		
+    	}else if (!article.profileimg && article.twitter){
+    	
+    		this._getTwitterProfileUrl(article);        				    		
+    		
+    	}else if (!article.profileimg && !article.twitter){
+    	
+    		article.profileimg = 'res/img/noimage.png';        		    				
+    		thumbnail.append("<img src=\""+article.profileimg+"\"></img>");
+    		
+    	}else{
+    	
+    		article.profileimg = 'res/img/noimage.png';        		    				
+    		thumbnail.append("<img src=\""+article.profileimg+"\"></img>");
+    		
+    	}
+    	    	
     	front.append(thumbnail);
     	front.append("<br/>" + "<b>" + article.name + "</b>");
     	
@@ -484,20 +491,27 @@ Pyk.newsDiscovery = function(){
         var back  = $("<div/>").addClass("back");
     
     
-    	var thumbnail = $("<img/>").addClass("thumbnail");
+    	var thumbnail = $("<div/>").addClass("thumbnail thumbnail_holder_"+article.id);
+    	
     	// Check for image_url
-    	if (!article.profileimg && article.twitter){
-    		//this._getTwitterProfileUrl(article,thumbnail);        				    		
-    		article.profileimg = 'res/img/noimage.png';        		    				
-    		thumbnail.attr("src",article.profileimg);
+    	if(article.profileimg){
+    		
+    		thumbnail.append("<img src=\""+article.profileimg+"\"></img>");
+    		
+    	}else if (!article.profileimg && article.twitter){
+    	
+    		this._getTwitterProfileUrl(article);        				    		
+    		
     	}else if (!article.profileimg && !article.twitter){
+    	
     		article.profileimg = 'res/img/noimage.png';        		    				
-    		thumbnail.attr("src",article.profileimg);
-    	}else if(article.profileimg){
-    		thumbnail.attr("src",article.profileimg);
+    		thumbnail.append("<img src=\""+article.profileimg+"\"></img>");
+    		
     	}else{
+    	
     		article.profileimg = 'res/img/noimage.png';        		    				
-    		thumbnail.attr("src",article.profileimg);
+    		thumbnail.append("<img src=\""+article.profileimg+"\"></img>");
+    		
     	}
     	
     	front.append(thumbnail);
@@ -672,7 +686,7 @@ Pyk.newsDiscovery = function(){
     };
     
     // retrieves the profile_url of the user specified as parameter
-    this._getTwitterProfileUrl = function(article,holder){
+    this._getTwitterProfileUrl = function(article){
     
     	// Clean possible inconsistences in data input
     	article.twitter = article.twitter.replace( "@", "" );
@@ -683,9 +697,9 @@ Pyk.newsDiscovery = function(){
     	article.twitter = article.twitter.replace( "twitter.com/", "" );
     	
     	$.get( "ext/twitter/twitter_profile_retriever.php?screen_name="+article.twitter, function( data ) {
-			console.log(holder+" "+data);
-			article.profileimg = data;
-			holder.attr("src",article.profileimg + '?' + new Date().getTime());		
+    		data = data.replace("\n","");
+			article.profileimg = data;	
+			$(".thumbnail_holder_"+article.id).append("<img src=\""+article.profileimg+"\"></img>");		
 		});
         	
     
