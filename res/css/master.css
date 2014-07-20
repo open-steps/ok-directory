@@ -108,6 +108,7 @@ body, html{
 	height: 48px;
 	width: 48px;
 	margin: 0 auto;
+	border: 1px #333333 solid;
 }
 
 .pyk-news-discovery #grid li:hover {

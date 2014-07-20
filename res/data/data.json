@@ -98,7 +98,7 @@
 	        "organisation": "Year of Open source",
 	        "email": "sam@yearofopensource.net",
 	        "website": "http://www.yearofopensource.net",
-	        "twitter": "http://www.twitter.com/YrOfOpenSource"
+	        "twitter": "http://www.twitter.com/cameralibre"
 	    },
 	    {
 	        "id": 9,
@@ -524,7 +524,7 @@
 	        "country": "Germany",
 	        "city": "Berlin",
 	        "skills": "Open Data, Open Source, Software Development",
-	        "twitter": "http://www.twitter.com/opensteps",
+	        "twitter": "http://www.twitter.com/acorbi",
 	        "website": "http://www.open-steps.org",
 	        "github": "http://github.com/opensteps",
 	        "pgpkey": 73270052,

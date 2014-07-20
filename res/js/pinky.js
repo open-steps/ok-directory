@@ -233,11 +233,14 @@ Pyk.newsDiscovery = function(){
                 
                 var lastOne = i==grid_list[0].length-1 ? true : false;                
                 
+                // Call this line before codeAddressFromArticle to ensure that profile image url is already being fetched
+                var cardHtml = that._renderArticleCardHtml(article);
+                
          		// Place a marker on the map as well for each of the elements in the grid, specify if it is the last one to update map bounds.
 				codeAddressFromArticle(that,article,lastOne);                                                                                                  
                 
                 // Return the HTML of the Card for this article                         
-                return that._renderArticleCardHtml(article);
+                return cardHtml;
                 
             })
             .on("mouseover", function(d){
@@ -407,31 +410,10 @@ Pyk.newsDiscovery = function(){
         var front = $("<div/>").addClass("front");
         var back  = $("<div/>").addClass("back");
     
-    	var thumbnail = $("<div/>").addClass("thumbnail thumbnail_holder_"+article.id);
-    	
-    	// Check for image_url
-    	if(article.profileimg){
-    		
-    		thumbnail.append("<img src=\""+article.profileimg+"\"></img>");
-    		
-    	}else if (!article.profileimg && article.twitter){
-    	
-    		this._getTwitterProfileUrl(article);        				    		
-    		
-    	}else if (!article.profileimg && !article.twitter){
-    	
-    		article.profileimg = 'res/img/noimage.png';        		    				
-    		thumbnail.append("<img src=\""+article.profileimg+"\"></img>");
-    		
-    	}else{
-    	
-    		article.profileimg = 'res/img/noimage.png';        		    				
-    		thumbnail.append("<img src=\""+article.profileimg+"\"></img>");
-    		
-    	}
-    	    	
+    	var thumbnail = $("<div/>").addClass("thumbnail thumbnail_holder_"+article.id);    	
     	front.append(thumbnail);
     	front.append("<br/>" + "<b>" + article.name + "</b>");
+    	article.profileimg = this._getProfileImageUrl(article,thumbnail);    
     	
         var back_content = "";
         //back_content += $("<div/>").addClass("name").html(article.name).get(0).outerHTML;
@@ -457,7 +439,7 @@ Pyk.newsDiscovery = function(){
 		
 		// TWITTER
 		if (article.twitter){
-			back_content += $("<div/>").addClass("twitter").html('<a href="' + article.twitter + '" target="_blank"><i class="fa fa-twitter fa-lg"></i></a>').get(0).outerHTML;  
+			back_content += $("<div/>").addClass("twitter").html('<a href="https://www.twitter.com/' + article.twitter + '" target="_blank"><i class="fa fa-twitter fa-lg"></i></a>').get(0).outerHTML;  
 		}
 		
 		// FACEBOOK
@@ -491,31 +473,10 @@ Pyk.newsDiscovery = function(){
         var back  = $("<div/>").addClass("back");
     
     
-    	var thumbnail = $("<div/>").addClass("thumbnail thumbnail_holder_"+article.id);
-    	
-    	// Check for image_url
-    	if(article.profileimg){
-    		
-    		thumbnail.append("<img src=\""+article.profileimg+"\"></img>");
-    		
-    	}else if (!article.profileimg && article.twitter){
-    	
-    		this._getTwitterProfileUrl(article);        				    		
-    		
-    	}else if (!article.profileimg && !article.twitter){
-    	
-    		article.profileimg = 'res/img/noimage.png';        		    				
-    		thumbnail.append("<img src=\""+article.profileimg+"\"></img>");
-    		
-    	}else{
-    	
-    		article.profileimg = 'res/img/noimage.png';        		    				
-    		thumbnail.append("<img src=\""+article.profileimg+"\"></img>");
-    		
-    	}
-    	
+    	var thumbnail = $("<div/>").addClass("thumbnail thumbnail_holder_"+article.id);    	
     	front.append(thumbnail);
     	front.append("<br/>" + "<b>" + article.name + "</b>");
+    	article.profileimg = this._getProfileImageUrl(article,thumbnail);    
         
         var back_content = "";
         //back_content += $("<div/>").addClass("name").html(article.name).get(0).outerHTML;
@@ -541,7 +502,7 @@ Pyk.newsDiscovery = function(){
 		
 		// TWITTER
 		if (article.twitter){
-			back_content += $("<div/>").addClass("twitter").html('<a href="' + article.twitter + '" target="_blank"><i class="fa fa-twitter fa-lg"></i></a>').get(0).outerHTML;  
+			back_content += $("<div/>").addClass("twitter").html('<a href="https://www.twitter.com/' + article.twitter + '" target="_blank"><i class="fa fa-twitter fa-lg"></i></a>').get(0).outerHTML;    
 		}
 		
 		// FACEBOOK
@@ -685,8 +646,29 @@ Pyk.newsDiscovery = function(){
         return a;
     };
     
-    // retrieves the profile_url of the user specified as parameter
-    this._getTwitterProfileUrl = function(article){
+    // retrieves the profile image url of the user specified as parameter
+    this._getProfileImageUrl = function(article,thumbnail_holder){
+    
+    	// Check for image_url
+    	if(article.profileimg){
+    		
+    		thumbnail_holder.html("<img src=\""+article.profileimg+"\"></img>");
+    		
+    	}else if (!article.profileimg && article.twitter){
+    	
+    		this._getTwitterProfileImageUrl(article);        				    		
+    		
+    	}else{
+    	
+    		article.profileimg = 'res/img/noimage.png';        		    				
+    		thumbnail_holder.html("<img src=\""+article.profileimg+"\"></img>");
+    		
+    	}
+    
+    }
+    
+    // Looks for the profile image url on twitter
+    this._getTwitterProfileImageUrl = function(article){
     
     	// Clean possible inconsistences in data input
     	article.twitter = article.twitter.replace( "@", "" );
@@ -699,7 +681,7 @@ Pyk.newsDiscovery = function(){
     	$.get( "ext/twitter/twitter_profile_retriever.php?screen_name="+article.twitter, function( data ) {
     		data = data.replace("\n","");
 			article.profileimg = data;	
-			$(".thumbnail_holder_"+article.id).append("<img src=\""+article.profileimg+"\"></img>");		
+			$(".thumbnail_holder_"+article.id).html("<img src=\""+article.profileimg+"\"></img>");		
 		});
         	
     

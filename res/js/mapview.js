@@ -36,19 +36,17 @@ var codeAddressFromArticle = function(context,article,last) {
 
 	var addressToGeocode = article.country+', '+article.city;	
 	
-	if (!article.image_url){
-		article.image_url = 'res/img/noimage.png';
-	}
+	console.log(article.profileimg);
 	
 	// Setup marker icon
 	var imgIcon = L.icon({
-	    iconUrl: article.image_url,
-	    shadowUrl: 'res/img/avatar_bg.png',
+	    iconUrl: 'res/img/dot.png',
+	    //shadowUrl: 'res/img/avatar_bg.png',
 	
-	    iconSize:     [32, 32], // size of the icon
-	    shadowSize:   [34, 34], // size of the shadow
+	    iconSize:     [16, 16], // size of the icon
+	    //shadowSize:   [34, 34], // size of the shadow
 	    iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
-	    shadowAnchor: [1,1],  // the same for the shadow
+	    //shadowAnchor: [1,1],  // the same for the shadow
 	    popupAnchor:  [16,0] // point from which the popup should open relative to the iconAnchor
 	});
 
