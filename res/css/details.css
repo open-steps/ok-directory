@@ -1,0 +1,38 @@
+#details_container{
+  height: 340px;
+  margin-left : 40px;
+  margin-top : 10px;
+}
+
+#map { 
+  height: 340px;
+  border: 2px solid #fff;
+}
+
+#details_wrapper{
+  height: 340px;
+}
+
+#details{
+  height: 340px; 
+  background: #fff;
+  padding: 10px;
+  text-align: center;
+}
+
+.layer {
+  position: absolute;
+}
+
+.tile {
+  pointer-events: none;
+  position: absolute;
+  width: 256px;
+  height: 256px;
+}
+
+.info {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}

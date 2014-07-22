@@ -1,0 +1,37 @@
+{
+    "name": "facets",
+    "children":
+    [
+        
+        {
+            "type": "alphabetical",
+            "label": "country",
+            "name": "country"
+        },
+        {
+            "type": "alphabetical",
+            "label": "city",
+            "name": "city"
+        },
+        {
+            "type": "alphabetical",
+            "label": "organisation",
+            "name": "organisation"
+        },
+        {
+            "type": "nominal", 
+            "label": "skills",
+            "name": "skills"
+        },
+        {
+            "type": "alphabetical",
+            "label": "github or bitbucket",
+            "name": "github"
+        },
+        {
+            "type": "alphabetical",
+            "label": "name",
+            "name": "title"
+        }
+    ]
+}
