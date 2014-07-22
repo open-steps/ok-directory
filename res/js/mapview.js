@@ -34,9 +34,7 @@ var initializeMap = function() {
 // Calls the geocoding webservice for an article and adds the marker on the map when found. If it is the last one, set the map bounds so all markers are visible.
 var codeAddressFromArticle = function(context,article,last) {
 
-	var addressToGeocode = article.country+', '+article.city;	
-	
-	console.log(article.profileimg);
+	var addressToGeocode = article.country+', '+article.city;			
 	
 	// Setup marker icon
 	var imgIcon = L.icon({

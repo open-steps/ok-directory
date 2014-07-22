@@ -243,7 +243,7 @@ Pyk.newsDiscovery = function(){
                 return cardHtml;
                 
             })
-            .on("mouseover", function(d){
+            .on("click", function(d){
                         	
                 $(this).find(".panel").addClass("flip");
                 
@@ -256,13 +256,13 @@ Pyk.newsDiscovery = function(){
                 $('#details').html(that._renderArticlePopupHtml(article));
                 
             })
-            .on("mouseout", function(d){
+            /*.on("mouseout", function(d){
             
                 $(this).find(".panel").removeClass("flip");
                 
                 // Fit bounds of map to make all markers visible
                 mapFitBounds();
-            });
+            })*/;
             
         grid_list.exit().remove();
     };

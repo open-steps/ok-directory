@@ -1,23 +1,26 @@
 #details_container{
-  height: 340px;
+  height: 340px;  
   margin-left : 40px;
   margin-top : 10px;
+  background: white;
 }
 
 #map { 
   height: 340px;
-  border: 2px solid #fff;
+  border: 2px solid #fff;  
 }
 
 #details_wrapper{
-  height: 340px;
+  height: 300px; 
+  position: fixed;
+  padding: 10px 0px 0px 0px;
 }
 
-#details{
-  height: 340px; 
-  background: #fff;
-  padding: 10px;
+#details{  
+  width: 140px;
+  background: #fff;  
   text-align: center;
+  padding: 10px;  
 }
 
 .layer {

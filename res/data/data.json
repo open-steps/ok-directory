@@ -428,7 +428,7 @@
 	    },
 	    {
 	        "id": 35,
-	        "country": "Brasil",
+	        "country": "Brazil",
 	        "city": "Belo Horizonte",
 	        "skills": "Open Source,Software Development,Open Hardware",
 	        "name": "Ewerson Guimaraes (Crash)",
@@ -722,6 +722,79 @@
 	        "company": "K-Monitor",
 	        "email": "info@k-monitor.hu",
 	        "facebook": "https://www.facebook.com/Kmonitor"
+	    },
+	    {
+	        "id": 59,
+	        "timestamp": "2014-07-21T12:30:58.492Z",
+	        "name": "Sander van der Waal",
+	        "shortbio": "Sander is Projects Director at Open Knowledge (Central) in the UK and looks after funded projects in many areas of Open Knowledge. He's looking forward to an opportunity to explore whether merging efforts of this great directory with project listings at Open Knowledge local groups would be feasible.",
+	        "profileimg": "https://pbs.twimg.com/profile_images/378800000859805846/TVEN23bQ_400x400.jpeg",
+	        "country": "United Kingdom",
+	        "city": "London",
+	        "skills": "Open Government, Open Data, Open Source, Open Science, Research, Software Development, Creative Commons, Open Hardware",
+	        "twitter": "https://twitter.com/sandervdwaal",
+	        "website": "http://okfn.org/projects",
+	        "company": "Open Knowledge (Central)",
+	        "email": "sander.vanderwaal@okfn.org"
+	    },
+	    {
+	        "id": 60,
+	        "timestamp": "2014-07-21T16:13:34.057Z",
+	        "name": "Open Knowledge France",
+	        "shortbio": "Open Knowledge France is a community of 40+ active members and organizations dedicated to make open knowledge a used and useful ressource to the whole society. To this end, it organizes events and leads projects such as School of Data (ecoledesdonnees.fr), Public Domain Calculators (http://calculateurdomainepublic.fr/) or Open Postcards (http://openpostcards.github.io/). ",
+	        "profileimg": "http://img11.hostingpics.net/thumbs/mini_870796602038384729761657856823882808n.png",
+	        "country": "France",
+	        "skills": "Open Government, Open Data, Open Science, Data Journalism, Creative Commons, Data Visualisation",
+	        "twitter": "okfnfr",
+	        "website": "http://fr.okfn.org",
+	        "github": "http://github.com/okfnfr",
+	        "email": "contact@okfn.fr",
+	        "facebook": "https://www.facebook.com/OpenKnowledgeFoundationFrance"
+	    },
+	    {
+	        "id": 61,
+	        "timestamp": "2014-07-21T18:37:21.056Z",
+	        "name": "Miguel Laginha",
+	        "shortbio": "Hacker of all trades, manager of none.\n\nOpinionated nerd and open web|data|source evangelist. Tech lead for http://www.ost.pt . Portuguese.",
+	        "profileimg": "https://pbs.twimg.com/profile_images/3476106157/31f8a8ade9df322a5af5e8c603d2168c.jpeg",
+	        "country": "Portugal",
+	        "city": "Coimbra",
+	        "skills": "Open Data, Open Source",
+	        "twitter": "https://twitter.com/brecke",
+	        "website": "http://miguellaginha.com",
+	        "github": "http://github.com/brecke",
+	        "company": "Instituto Pedro Nunes",
+	        "email": "me@miguellaginha.com"
+	    },
+	    {
+	        "id": 62,
+	        "timestamp": "2014-07-21T22:41:00.444Z",
+	        "name": "Felipe Álvarez",
+	        "shortbio": "Developer at Ciudadano Inteligente in Chile",
+	        "profileimg": "https://s.gravatar.com/avatar/1125ee92676a25fc63a4118de4f9f237?s=80",
+	        "country": "Chile",
+	        "city": "Santiago",
+	        "skills": "Open Government, Open Data, Open Source, Software Development, Creative Commons, Data Visualisation",
+	        "twitter": "http://www.twitter.com/lfalvarez",
+	        "github": "http://github.com/lfalvarez",
+	        "company": "Fundación Ciudadano Inteligente",
+	        "email": "luisfelipealvarez@gmail.com",
+	        "facebook": "http://www.facebook.com/luisfelipealvarez"
+	    },
+	    {
+	        "id": 63,
+	        "timestamp": "2014-07-22T12:33:36.773Z",
+	        "name": "Eliana Quiroz",
+	        "shortbio": "I am from Bolivia, actually I live ther, in La Paz. Love to use ICT for development. I have gained experienced in the use of social media for governance at UNDP and World Bank, both offices in Bolvia.\nPassionate about everything that shines :)",
+	        "profileimg": "http://about.me/e_liana",
+	        "country": "Bolivia",
+	        "city": "La Paz",
+	        "skills": "Open Government, Open Data, Data Journalism, Human Rights, Research, Creative Commons, Data Visualisation",
+	        "twitter": "http://www.twitter.com/e_liana",
+	        "website": "http.//www.internetalaboliviana.wordpress.com",
+	        "company": "UNDP Bolivia",
+	        "email": "eliana.m.quiroz@gmail.com",
+	        "facebook": "http://facebook.com/eliana.quiroz"
 	    }
 	]
 }
