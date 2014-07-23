@@ -1,6 +1,7 @@
 <?php
 ini_set('display_errors', 1);
 require_once('TwitterAPIExchange.php');
+require_once('twitter_config.php');
 
 /** Get parameter */
 $screen_name = $_GET['screen_name'];
@@ -14,14 +15,6 @@ if (file_exists($filename)){
 	echo file_get_contents($filename);
 	
 }else{
-
-	/** Set access tokens here - see: https://dev.twitter.com/apps/ **/
-	$settings = array(
-	    'oauth_access_token' => "yourdatahere",
-	    'oauth_access_token_secret' => "yourdatahere",
-	    'consumer_key' => "yourdatahere",
-	    'consumer_secret' => "yourdatahere"
-	);
 	
 	/** URL for REST request, see: https://dev.twitter.com/docs/api/1.1/ **/
 	$url = 'https://api.twitter.com/1.1/users/show.json';
