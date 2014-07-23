@@ -529,7 +529,7 @@
 	        "github": "http://github.com/opensteps",
 	        "pgpkey": 73270052,
 	        "pgpurl": "http://pool.sks-keyservers.net/pks/lookup?search=0x73270052",
-	        "company": "Open Steps",
+	        "organisation": "Open Steps",
 	        "email": "alex@open-steps.org"
 	    },
 	    {
@@ -543,7 +543,7 @@
 	        "twitter": "http://www.twitter.com/j_norwood_young",
 	        "website": "http://code4sa.org",
 	        "github": "http://github.org/code4sa",
-	        "company": "Code for South Africa",
+	        "organisation": "Code for South Africa",
 	        "email": "jason@code4sa.org",
 	        "facebook": "http://www.facebook.com/j_norwood_young"
 	    },
@@ -557,7 +557,7 @@
 	        "skills": "Open Government, Open Data, Data Journalism, Research, GIS, Data Visualisation",
 	        "twitter": "http://www.twitter.com/siyafrica",
 	        "github": "http://github.org/siyafrica",
-	        "company": "Hacks/Hackers Johannesburg",
+	        "organisation": "Hacks/Hackers Johannesburg",
 	        "email": "siyafrica@gmail.com",
 	        "facebook": "http://www.facebook.com/siyabonga.africa"
 	    },
@@ -570,7 +570,7 @@
 	        "city": "Monrovia",
 	        "skills": "Open Government, Open Data, Open Source, Data Visualisation",
 	        "twitter": "http://www.twitter.com/draperc",
-	        "company": "iLab Liberia",
+	        "organisation": "iLab Liberia",
 	        "email": "carter@ilabliberia.org",
 	        "facebook": "http://www.facebook.com/carjimdra"
 	    },
@@ -592,7 +592,7 @@
 	        "skills": "Open Government, Open Data, Open Science, Research, GIS, Creative Commons",
 	        "twitter": "http://www.twitter.com/alabaeye",
 	        "website": "http://transitionlab.de",
-	        "company": "transition>>lab"
+	        "organisation": "transition>>lab"
 	    },
 	    {
 	        "id": 49,
@@ -604,7 +604,7 @@
 	        "skills": "Open Data, Open Source, Open Science, Research, Software Development, Data Visualisation, Open Hardware",
 	        "twitter": "http://www.twitter.com/zegaracr",
 	        "website": "http://www.photosynq.org",
-	        "company": "Photosynq plant hapiness project",
+	        "organisation": "Photosynq plant hapiness project",
 	        "email": "zegaracr@msu.edu"
 	    },
 	    {
@@ -617,7 +617,7 @@
 	        "skills": "Open Data, Open Source, Data Journalism, Human Rights, Data Visualisation, Open Hardware",
 	        "twitter": "http://www.twitter.com/pelleaardema",
 	        "website": "http://www.openforchange.info",
-	        "company": "Open for Change",
+	        "organisation": "Open for Change",
 	        "email": "pelle@openforchange.info"
 	    },
 	    {
@@ -629,7 +629,7 @@
 	        "city": "Den Haag",
 	        "skills": "Open Data",
 	        "twitter": "http://www.twitter.com/rbesseling",
-	        "company": "Cordaid",
+	        "organisation": "Cordaid",
 	        "email": "opendata@cordaid.nl"
 	    },
 	    {
@@ -642,7 +642,7 @@
 	        "skills": "Open Data, Data Journalism, Graphic Design, GIS, Data Visualisation",
 	        "twitter": "http://www.twitter.com/PatrickStotz",
 	        "website": "http://mappable.info",
-	        "company": "mappable.info",
+	        "organisation": "mappable.info",
 	        "email": "PatrickStotz@gmx.de"
 	    },
 	    {
@@ -656,7 +656,7 @@
 	        "skills": "Open Data, Data Journalism, Data Visualisation, Data Storytelling",
 	        "twitter": "http://www.twitter.com/nikaaleksejeva ",
 	        "website": "http://blog.infogr.am",
-	        "company": "infogr.am",
+	        "organisation": "infogr.am",
 	        "email": "nika@infogr.am",
 	        "facebook": "http://www.facebook.com/nika.aleksejeva "
 	    },
@@ -670,7 +670,7 @@
 	        "twitter": "http://www.twitter.com/snajmi",
 	        "website": "http://codeforpakistan.org",
 	        "github": "http://github.com/codeforpakistan",
-	        "company": "Code for Pakistan",
+	        "organisation": "Code for Pakistan",
 	        "email": "sheba@codeforamerica.org"
 	    },
 	    {
@@ -683,7 +683,7 @@
 	        "skills": "Open Government, Open Data, Open Source",
 	        "twitter": "http://www.twitter.com/meklerg",
 	        "website": "http://www.mejoratuescuela.org",
-	        "company": "IMCO",
+	        "organisation": "IMCO",
 	        "email": "francisco.mekler@imco.org.mx",
 	        "facebook": "paco.mekler"
 	    },
@@ -706,7 +706,7 @@
 	        "twitter": "http://www.twitter.com/opensteps",
 	        "website": "http://www.open-steps.org",
 	        "github": "http://github.com/opensteps",
-	        "company": "Open Steps",
+	        "organisation": "Open Steps",
 	        "email": "margo@open-steps.org",
 	        "facebook": "http://www.facebook.com/openstepsorg"
 	    },
@@ -719,7 +719,7 @@
 	        "city": "Budapest",
 	        "skills": "Open Government, Open Data, Data Journalism, Software Development, Data Visualisation",
 	        "website": "http://k-monitor.hu",
-	        "company": "K-Monitor",
+	        "organisation": "K-Monitor",
 	        "email": "info@k-monitor.hu",
 	        "facebook": "https://www.facebook.com/Kmonitor"
 	    },
@@ -734,7 +734,7 @@
 	        "skills": "Open Government, Open Data, Open Source, Open Science, Research, Software Development, Creative Commons, Open Hardware",
 	        "twitter": "https://twitter.com/sandervdwaal",
 	        "website": "http://okfn.org/projects",
-	        "company": "Open Knowledge (Central)",
+	        "organisation": "Open Knowledge (Central)",
 	        "email": "sander.vanderwaal@okfn.org"
 	    },
 	    {
@@ -763,7 +763,7 @@
 	        "twitter": "https://twitter.com/brecke",
 	        "website": "http://miguellaginha.com",
 	        "github": "http://github.com/brecke",
-	        "company": "Instituto Pedro Nunes",
+	        "organisation": "Instituto Pedro Nunes",
 	        "email": "me@miguellaginha.com"
 	    },
 	    {
@@ -777,7 +777,7 @@
 	        "skills": "Open Government, Open Data, Open Source, Software Development, Creative Commons, Data Visualisation",
 	        "twitter": "http://www.twitter.com/lfalvarez",
 	        "github": "http://github.com/lfalvarez",
-	        "company": "Fundación Ciudadano Inteligente",
+	        "organisation": "Fundación Ciudadano Inteligente",
 	        "email": "luisfelipealvarez@gmail.com",
 	        "facebook": "http://www.facebook.com/luisfelipealvarez"
 	    },
@@ -792,7 +792,7 @@
 	        "skills": "Open Government, Open Data, Data Journalism, Human Rights, Research, Creative Commons, Data Visualisation",
 	        "twitter": "http://www.twitter.com/e_liana",
 	        "website": "http.//www.internetalaboliviana.wordpress.com",
-	        "company": "UNDP Bolivia",
+	        "organisation": "UNDP Bolivia",
 	        "email": "eliana.m.quiroz@gmail.com",
 	        "facebook": "http://facebook.com/eliana.quiroz"
 	    }
