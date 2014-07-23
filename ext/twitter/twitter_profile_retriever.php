@@ -17,10 +17,10 @@ if (file_exists($filename)){
 
 	/** Set access tokens here - see: https://dev.twitter.com/apps/ **/
 	$settings = array(
-	    'oauth_access_token' => "1616076026-XnMIdCgf0habHjdTTbKTVz0MfcBQwWMOCgNWtfG",
-	    'oauth_access_token_secret' => "TRPioapfPlClxGjXERDHtNP91Qvj9wRc8oCg5udxmDNbV",
-	    'consumer_key' => "s47dFPYt7kf6znvAVBRK6N9lj",
-	    'consumer_secret' => "Sxpd9T9Ax44X1naFwfuMHt3OzPuVBV76O3SIixlAdAYhq3MNEe"
+	    'oauth_access_token' => "yourdatahere",
+	    'oauth_access_token_secret' => "yourdatahere",
+	    'consumer_key' => "yourdatahere",
+	    'consumer_secret' => "yourdatahere"
 	);
 	
 	/** URL for REST request, see: https://dev.twitter.com/docs/api/1.1/ **/
