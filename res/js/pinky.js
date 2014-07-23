@@ -245,16 +245,22 @@ Pyk.newsDiscovery = function(){
             })
             .on("click", function(d){
                         	
+                $(this).find(".panel").addClass("flip");  
+                
+                var article = that._findArticleById(d.key);                 
+                
+                // Set the Html contents in the details div
+                $('#details').html(that._renderArticlePopupHtml(article));
+                
+            })
+            .on("mouseover", function(d){
+                        	
                 $(this).find(".panel").addClass("flip");
                 
                 var article = that._findArticleById(d.key);   
                 
                 // Zoom map to element
-                panMapToArticle(that,article);
-                
-                // Set the Html contents in the details div
-                $('#details').html(that._renderArticlePopupHtml(article));
-                
+                panMapToArticle(that,article);                               
             })
             /*.on("mouseout", function(d){
             
