@@ -66,8 +66,8 @@
 	    },
 	    {
 	        "id": 6,
-	        "country": "France/Germany",
-	        "city": "Paris/Berlin",
+	        "country": "Germany",
+	        "city": "Berlin",
 	        "skills": "Data Journalism,Open Data",
 	        "name": "Nicolas Kayser-Bril",
 	        "shortbio": "Nicolas Kayser-Bril, 27, is CEO and co-founder of Journalism++, a company that tells data-driven stories. Before founding Journalism++ in late 2011, Nicolas was in charge of datajournalism at OWNI, where he led several experiments in crowdsourced data gathering. A self-taught programmer and journalist, Nicolas holds a degree in Media Economics. \nHe is regularly invited to international conferences and events to evangelize about data-driven journalism. He was a speaker at Strata in London, Re:Publica in Berlin, the World News Summit in Paris or the World Press Freedom Day in Washington, DC. He also trains journalists to data science and datajournalism. He led workshops and trainings in France, Belgium, Bosnia, Senegal and Tunisia.\nYou can follow him on Twitter @nicolaskb.",
@@ -417,8 +417,8 @@
 	    },
 	    {
 	        "id": 34,
-	        "country": "Argentina/Australia",
-	        "city": "Buenos Aires/Hobart",
+	        "country": "Australia",
+	        "city": "Hobart",
 	        "skills": "Research,Open Data,Open Government",
 	        "name": "Silvana Fumega",
 	        "shortbio": "Access to Public Information/OpenGov Consultant. \nPhD candidate- UTAS ",
@@ -579,7 +579,8 @@
 	        "timestamp": "2014-07-15T17:03:35.207Z",
 	        "name": "Jie-Eun Hwang",
 	        "shortbio": "Teaching at Architecture School. Interested in Urban Data analysis and Design Education.",
-	        "country": "Korea",
+	        "country": "South Korea",
+	        "city": "Seoul",
 	        "skills": "Open Source, GIS, Creative Commons, Data Visualisation"
 	    },
 	    {

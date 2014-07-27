@@ -43,7 +43,7 @@ var codeAddressFromArticle = function(context,article,last) {
 	
 	    iconSize:     [16, 16], // size of the icon
 	    //shadowSize:   [34, 34], // size of the shadow
-	    iconAnchor:   [0,0], // point of the icon which will correspond to marker's location
+	    iconAnchor:   [8,8], // point of the icon which will correspond to marker's location
 	    //shadowAnchor: [1,1],  // the same for the shadow
 	    popupAnchor:  [16,0] // point from which the popup should open relative to the iconAnchor
 	});
@@ -74,10 +74,7 @@ var codeAddressFromArticle = function(context,article,last) {
 	}else{
 	
 		// Extract coordinates from map
-		var latLng = fetchedAddresses[addressToGeocode].split(",");				
-		
-		//console.log("Fetched address with coordinates: "+latLng[0]+" "+latLng[1]);		
-		
+		var latLng = fetchedAddresses[addressToGeocode].split(",");						
 		var marker = new L.marker(new L.latLng(latLng[0],latLng[1]),{icon: imgIcon});		
 		setupMarkerWithArticle(context,marker,article,last);	
 			
@@ -159,16 +156,6 @@ var setupMarkerWithArticle = function(context,marker,article,last){
  	}
 
 }
-
-/*var refreshDetails(){
-
-	if (currentArticle){
-		$('#details').html(context._renderArticlePopupHtml(article));
-	}else{
-		$('#details').html("<img src=\"res/img/avatar_placeholder.png\"/>");
-	}
-
-}*/
 
 var mapFitBounds = function(){
 	
