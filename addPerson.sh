@@ -1,4 +1,4 @@
 #!/bin/bash
 curl -H "Accept: application/ld+json" $1 > tmp.json
-node ./addPersons.js
+node ./addPerson.js
 rm tmp.json
