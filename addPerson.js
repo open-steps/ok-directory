@@ -42,6 +42,7 @@ function fixArrays(obj){
     obj[field] = 'n/a';
   }
 });
+obj.id = new Date().getTime();
 
 list.children.push(obj);
 fs.writeFileSync('res/data/data.json',
