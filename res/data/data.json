@@ -1,15 +1,14 @@
 {
-    "name": "contentItems",
     "children": [
         {
             "id": 1,
             "country": "India",
             "city": "Mumbai",
-            "skills":"Software Development,Open Source",
+            "skills": "Software Development,Open Source",
             "name": "Anand Doshi",
             "shortbio": "I work at Web Notes Technologies Pvt. Ltd. as a software developer. I've helped build ERPNext and opendataproject.in",
             "organisation": "Web Notes Technologies Pvt. Ltd.",
-            "email": "anand@erpnext.com",        
+            "email": "anand@erpnext.com",
             "website": "http://toughspirit.in",
             "twitter": "@anandpdoshi",
             "github": "http://github.com/anandpdoshi"
@@ -438,7 +437,7 @@
         },
         {
             "id": 36,
-            "country": "Brazil",        
+            "country": "Brazil",
             "city": "São Paulo",
             "skills": "Open Data",
             "name": "Lara Krumholz",
@@ -514,8 +513,7 @@
             "twitter": "https://twitter.com/mbauwens",
             "facebook": "https://www.facebook.com/mbauwens",
             "google": "https://plus.google.com/116589201391591303703/posts"
-        }
-        ,
+        },
         {
             "id": 43,
             "timestamp": "2014-07-13T17:53:38.026Z",
@@ -711,7 +709,7 @@
             "email": "margo@open-steps.org",
             "facebook": "http://www.facebook.com/openstepsorg"
         },
-         {
+        {
             "id": 58,
             "timestamp": "2014-07-21T10:01:52.027Z",
             "name": "K-Monitor",
@@ -797,5 +795,6 @@
             "email": "eliana.m.quiroz@gmail.com",
             "facebook": "http://facebook.com/eliana.quiroz"
         }
-    ]
+    ],
+    "name": "contentItems"
 }
