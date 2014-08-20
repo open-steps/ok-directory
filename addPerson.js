@@ -37,6 +37,12 @@ function fixArrays(obj){
   }
 }
 
+['id', 'country', 'city', 'skills', 'name', 'shortbio', 'organisation', 'email', 'website', 'twitter'].forEach(function(field) {
+  if (!obj[field]) {
+    obj[field] = '';
+  }
+});
+
 list.children.push(obj);
 fs.writeFileSync('res/data/data.json',
     JSON.stringify(sortObject(list, true), undefined, 4));
