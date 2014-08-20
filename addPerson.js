@@ -39,7 +39,7 @@ function fixArrays(obj){
 
 ['id', 'country', 'city', 'skills', 'name', 'shortbio', 'organisation', 'email', 'website', 'twitter'].forEach(function(field) {
   if (!obj[field]) {
-    obj[field] = '';
+    obj[field] = 'n/a';
   }
 });
 
