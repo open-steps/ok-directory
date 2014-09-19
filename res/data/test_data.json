@@ -1,0 +1,70 @@
+{
+  "@context": "http://plp.hackers4peace.net/context.jsonld",
+  "@graph": [
+    {
+        "name": "Alex Corbi",
+        "additionalname": "",
+        "description": "Software developer",
+        "birthDate": "08/08/1985",
+        "nationality": "",
+        "address": {
+            "street": "Hermannstr",
+            "code": "",
+            "city": "Berlin",
+            "country": "Germany"
+        },
+        "telephone": "",
+        "faxNumber": "",
+        "website": "http://www.open-steps.org",
+        "image": "http://pbs.twimg.com/profile_images/1113334395/Screen_shot_2010-08-26_at_1.48.20_AM_normal.png",
+        "workLocation": {
+            "company": "Open Steps",
+            "jobtitle": "",
+            "street": "",
+            "code": "",
+            "city": ""
+        },
+        "contactPoint": [
+            {
+                "id": "mailto:alex@open-steps.org"
+            },
+            {
+                "id": "http://www.alexcorbi.com"
+            }
+        ],
+        "member": [],
+        "interest": []
+    },
+    {
+        "name": "Johny lee",
+        "additionalname": "",
+        "description": "Designer",
+        "birthDate": "12/02/1965",
+        "nationality": "Agorian",
+        "address": {
+            "street": "loop street",
+            "code": "",
+            "city": "Phnom Penh",
+            "country": "Cambodia"
+        },
+        "telephone": "",
+        "faxNumber": "",
+        "website": "http://www.agoracollective.org",
+        "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+        "workLocation": {
+            "company": "JLee",
+            "jobtitle": "",
+            "street": "",
+            "code": "",
+            "city": ""
+        },
+        "contactPoint": [
+            {
+                "id": "johny@lee.com"
+            }
+        ],
+        "member": [],
+        "interest": []
+    }
+  ]
+}

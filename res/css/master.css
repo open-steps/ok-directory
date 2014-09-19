@@ -4,12 +4,12 @@ body, html{
     height: 100%;
 }
 
-#wrap { 
+#wrap {
     min-height : 100%;
     height     : auto !important;
     height     : 100%;
     margin     : 0 auto -60px;
-    padding-top: 60px;
+    padding-top: 10px;
 }
 
 .header {
@@ -83,11 +83,11 @@ body, html{
 }
 
 .pyk-news-discovery #grid{
-    margin      : 0;    
+    margin      : 0;
     padding     : 0;
     text-indent : 0;
     margin-left : 40px;
-    margin-top  : 10px;  
+    margin-top  : 10px;
 }
 
 .pyk-news-discovery #grid li{
@@ -115,8 +115,8 @@ body, html{
     transition: all 0.25s ease;
     box-shadow: 0px 3px 0px #0a90f6;
     z-index:9;
-    -webkit-transition: opacity 0.5s ease-in; 
-    -moz-transition: opacity 0.5s ease-in; 
+    -webkit-transition: opacity 0.5s ease-in;
+    -moz-transition: opacity 0.5s ease-in;
     -o-transition: opacity 0.5s ease-in;
 }
 
@@ -138,7 +138,7 @@ body, html{
     color: #000;
     font-weight: 400;
     font-size: 10.5px;
-    
+
 }
 
 .pyk-news-discovery #grid li a {
@@ -197,7 +197,7 @@ body, html{
 
 .pyk-news-discovery .tag-list li:hover{
     background: #0a90f6;
-    transition: all 0.3s ease;    
+    transition: all 0.3s ease;
 }
 
 

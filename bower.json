@@ -1,0 +1,29 @@
+{
+  "name": "ok-directory-plp-impl",
+  "version": "0.0.0",
+  "homepage": "https://github.com/acorbi/ok-directory-public",
+  "authors": [
+    "Open-Steps.org <contact@open-steps.org>"
+  ],
+  "description": "Implementation of the Open Knowledge Directory using PLP Pattern",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "bootstrap3-typeahead": "~3.0.3",
+    "d3": "~3.4.11",
+    "crossfilter": "~1.3.9",
+    "fontawesome": "~4.2.0",
+    "leaflet.markercluster": "~0.4.0",
+    "jquery": "~2.1.1",
+    "leaflet": "~0.7.3",
+    "superagent": "~0.18.2",
+    "node-uuid": "~1.4.1"
+  }
+}
