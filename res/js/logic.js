@@ -21,12 +21,26 @@ Pyk.newsDiscovery = function(){
             that.renderColHeadings();
         });
 
-        $.getJSON(window.plp.directory, function(json){
-            that.data = JSON.stringify(json);
+        // Get the data from directory
+        superagent.get(window.plp.directory)
+          .withCredentials()
+          .set('Accept', 'application/json')
+          .end(function(res){
+
+          if (res.ok) {
+
+            that.data = JSON.stringify(res.body);
             that.initCrossfilter();
             that.initMap();
             that.renderTags();
             that.initSearch();
+
+          } else {
+
+            alert('Oh no! error ' + res.text);
+
+          }
+
         });
 
         // Load Data, Create Crossfilter & Render
