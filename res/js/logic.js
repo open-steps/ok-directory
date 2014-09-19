@@ -22,8 +22,7 @@ Pyk.newsDiscovery = function(){
         });
 
         // Get the data from directory
-        superagent.get(window.plp.directory)
-          .withCredentials()
+        superagent.get(window.plp.config.directory)
           .set('Accept', 'application/json')
           .end(function(res){
 
