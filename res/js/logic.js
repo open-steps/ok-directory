@@ -16,33 +16,34 @@ Pyk.newsDiscovery = function(){
         var that = this;
 
         // Load Facets & Render
-        $.getJSON("res/data/facet.json", function(json){
+        $.getJSON('res/data/facet.json', function(json){
             that.facet = json;
             that.renderColHeadings();
         });
 
-        // Get the data from directory
+        //Get the data from directory
         superagent.get(window.plp.config.directory)
           .set('Accept', 'application/json')
           .end(function(res){
 
-          if (res.ok) {
+            if (res.ok) {
 
-            that.data = JSON.stringify(res.body);
-            that.initCrossfilter();
-            that.initMap();
-            that.renderTags();
-            that.initSearch();
+              var graph = res.body["@graph"];
+              that.data = graph;
+              that.initCrossfilter();
+              that.initMap();
+              that.renderTags();
+              that.initSearch();
 
-          } else {
+            } else {
 
-            alert('Oh no! error ' + res.text);
+              alert('Oh no! error ' + res.text);
 
-          }
+            }
 
         });
 
-        // Load Data, Create Crossfilter & Render
+        //Load Data, Create Crossfilter & Render
         // $.getJSON("res/data/test_data.json", function(json){
         //     that.data = json;
         //     that.initCrossfilter();
@@ -63,48 +64,49 @@ Pyk.newsDiscovery = function(){
 
     this.initCrossfilter = function(){
 
-        this.crossfilter = {};
-        this.crossfilter.data = crossfilter(this.data["@graph"]);
+        // this.data contains the array of profiles.
+        this.cf = {};
+        this.cf.data = crossfilter(this.data);
 
-        this.crossfilter.id_dimension = this.crossfilter.data.dimension(function(d){
+        this.cf.id_dimension = this.cf.data.dimension(function(d){
             // return uuid
             var id = uuid.v4();
             articles[id] = d;
             return id;
         });
 
-        this.crossfilter.dd_dimension = this.crossfilter.data.dimension(function(d){
-            return d["address"]["country"];
+        this.cf.dd_dimension = this.cf.data.dimension(function(d){
+            return d["about"]["address"]["country"];
         });
 
-        this.crossfilter.ee_dimension = this.crossfilter.data.dimension(function(d){
-            return d["address"]["city"];
+        this.cf.ee_dimension = this.cf.data.dimension(function(d){
+            return d["about"]["address"]["city"];
         });
 
-        // this.crossfilter.gg_dimension = this.crossfilter.data.dimension(function(d){
+        // this.cf.gg_dimension = this.cf.data.dimension(function(d){
         //     return d.github;
         // });
 
-        this.crossfilter.ff_dimension = this.crossfilter.data.dimension(function(d){
-            return d["workLocation"]["company"];
+        this.cf.ff_dimension = this.cf.data.dimension(function(d){
+            return d["about"]["workLocation"]["company"];
         });
 
         // --  -- //
         // We need 2 identical dimensions for the numbers to update
         // See http://git.io/_IvVUw for details
-        this.crossfilter.aa_dimension = this.crossfilter.data.dimension(function(d){
-            return d["interest"];
+        this.cf.aa_dimension = this.cf.data.dimension(function(d){
+            return d["about"]["interest"];
         });
 
         // This is the dimension that we'll use for rendering
-        this.crossfilter.aar_dimension = this.crossfilter.data.dimension(function(d){
-            return d["interest"];
+        this.cf.aar_dimension = this.cf.data.dimension(function(d){
+            return d["about"]["interest"];
         });
 
         // Create empty filter roster
         this.activeFilters = {
 
-            "gg": [],
+            //"gg": [],
             "ee": [],
             "ff": [],
             "dd": [],
@@ -119,7 +121,7 @@ Pyk.newsDiscovery = function(){
       var that = this;
 
       // Skills
-      var aa_tags = this._aaReduce(this.crossfilter.aar_dimension.groupAll().reduce(reduceAdd, reduceRemove, reduceInitial).value());
+      var aa_tags = this._aaReduce(this.cf.aar_dimension.groupAll().reduce(reduceAdd, reduceRemove, reduceInitial).value());
       var aa_list = d3.select("#table3").selectAll("li").data(aa_tags);
       aa_list.enter().append("li").html(function(d){
               var link = "<a href='#'>" + d.key;
@@ -136,7 +138,7 @@ Pyk.newsDiscovery = function(){
       aa_list.exit().remove();
 
       // Country
-      var dd_tags = this._removeEmptyKeys(this.crossfilter.dd_dimension.group().all(), "dd");
+      var dd_tags = this._removeEmptyKeys(this.cf.dd_dimension.group().all(), "dd");
       var dd_list = d3.select("#table1").selectAll("li").data(dd_tags);
       dd_list.enter().append("li").html(function(d){
               var link = "<a href='#'>" + d.key;
@@ -153,7 +155,7 @@ Pyk.newsDiscovery = function(){
       dd_list.exit().remove();
 
       // City
-      var ee_tags = this._removeEmptyKeys(this.crossfilter.ee_dimension.group().all(), "ee");
+      var ee_tags = this._removeEmptyKeys(this.cf.ee_dimension.group().all(), "ee");
       var ee_list = d3.select("#table6").selectAll("li").data(ee_tags);
       ee_list.enter().append("li").html(function(d){
               var link = "<a href='#'>" + d.key;
@@ -170,7 +172,7 @@ Pyk.newsDiscovery = function(){
       ee_list.exit().remove();
 
       // organisation
-      var ff_tags = this._removeEmptyKeys(this.crossfilter.ff_dimension.group().all(), "ff");
+      var ff_tags = this._removeEmptyKeys(this.cf.ff_dimension.group().all(), "ff");
       var ff_list = d3.select("#table2").selectAll("li").data(ff_tags);
       ff_list.enter().append("li").html(function(d){
               var link = "<a href='#'>" + d.key;
@@ -187,9 +189,9 @@ Pyk.newsDiscovery = function(){
       ff_list.exit().remove();
 
       // GitHub
-      /*var gg_tags = this._removeEmptyKeys(this.crossfilter.gg_dimension.group().all(), "gg");
+      /*var gg_tags = this._removeEmptyKeys(this.cf.gg_dimension.group().all(), "gg");
       var gg_list = d3.select("#table5").selectAll("li").data(gg_tags);
-     	gg_list.enter().append("li");
+      gg_list.enter().append("li");
       gg_list
           .html(function(d){
               var link = "<a href='#'>" + d.key;
@@ -205,11 +207,11 @@ Pyk.newsDiscovery = function(){
           });
       gg_list.exit().remove();*/
 
-  		// Before rendering the Grid, we have to clear the layerGroup in the map instance in order to display new markers
-  		clearLayers();
+      // Before rendering the Grid, we have to clear the layerGroup in the map instance in order to display new markers
+      clearLayers();
 
       // Title aka Full Name
-      id_tags = this._removeEmptyKeys(this.crossfilter.id_dimension.group().all(), "id");
+      id_tags = this._removeEmptyKeys(this.cf.id_dimension.group().all(), "id");
       var id_list = d3.select("#table4").selectAll("li").data(id_tags);
       id_list.enter().append("li").html(function(d){
             var article = that._findArticleById(d.key);
@@ -240,8 +242,8 @@ Pyk.newsDiscovery = function(){
           // Call this line before codeAddressFromArticle to ensure that profile image url is already being fetched
           var cardHtml = that._renderArticleCardHtml(article);
 
-     		  // Place a marker on the map as well for each of the elements in the grid, specify if it is the last one to update map bounds.
-		      codeAddressFromArticle(that,article,lastOne);
+          // Place a marker on the map as well for each of the elements in the grid, specify if it is the last one to update map bounds.
+          codeAddressFromArticle(that,article,lastOne);
 
           // Return the HTML of the Card for this article
           return cardHtml;
@@ -289,44 +291,44 @@ Pyk.newsDiscovery = function(){
       }
       // RUN ALL THE FILTERS! :P
 
-      this.crossfilter.ee_dimension.filterAll();
+      this.cf.ee_dimension.filterAll();
       if(this.activeFilters["ee"].length > 0){
-          this.crossfilter.ee_dimension.filter(function(d){
+          this.cf.ee_dimension.filter(function(d){
               return that.activeFilters["ee"].indexOf(d) > -1;
           });
       }
 
-      // this.crossfilter.gg_dimension.filterAll();
+      // this.cf.gg_dimension.filterAll();
       // if(this.activeFilters["gg"].length > 0){
-      //     this.crossfilter.gg_dimension.filter(function(d){
+      //     this.cf.gg_dimension.filter(function(d){
       //         return that.activeFilters["gg"].indexOf(d) > -1;
       //     });
       // }
 
-      this.crossfilter.dd_dimension.filterAll();
+      this.cf.dd_dimension.filterAll();
       if(this.activeFilters["dd"].length > 0){
-          this.crossfilter.dd_dimension.filter(function(d){
+          this.cf.dd_dimension.filter(function(d){
               return that.activeFilters["dd"].indexOf(d) > -1;
           });
       }
 
-      this.crossfilter.ff_dimension.filterAll();
+      this.cf.ff_dimension.filterAll();
       if(this.activeFilters["ff"].length > 0){
-          this.crossfilter.ff_dimension.filter(function(d){
+          this.cf.ff_dimension.filter(function(d){
               return that.activeFilters["ff"].indexOf(d) > -1;
           });
       }
 
-      this.crossfilter.id_dimension.filterAll();
+      this.cf.id_dimension.filterAll();
       if(this.activeFilters["id"].length > 0){
-          this.crossfilter.id_dimension.filter(function(d){
+          this.cf.id_dimension.filter(function(d){
               return that.activeFilters["id"].indexOf(d) > -1;
           });
       }
 
-      this.crossfilter.aa_dimension.filterAll();
+      this.cf.aa_dimension.filterAll();
       if(this.activeFilters["aa"].length > 0){
-          this.crossfilter.aa_dimension.filter(function(d){
+          this.cf.aa_dimension.filter(function(d){
               // d is the data of the dataset
               // f is the filters that are applied
               var f = that.activeFilters["aa"];
@@ -346,64 +348,64 @@ Pyk.newsDiscovery = function(){
     // Defines method for search and typeahead.
     this.initSearch = function(){
 
-    	var that = this;
+      var that = this;
 
-    	var searchFilterArray = this._buildSearchFilterArray();
+      var searchFilterArray = this._buildSearchFilterArray();
 
-	    $('#search').typeahead({
+      $('#search').typeahead({
 
-		    source: function (query, process) {
+        source: function (query, process) {
 
-		      var articleTitles = searchFilterArray.articleTitles
-		      process(articleTitles);
+          var articleTitles = searchFilterArray.articleTitles
+          process(articleTitles);
 
-		    },
-		    updater: function (item) {
+        },
+        updater: function (item) {
 
-		      var searchTerm = item;
-			    var article = searchFilterArray[searchTerm];
-			    if(article.filter){
-			      	that.filter(article.filter,article["id"]);
-			    }
+          var searchTerm = item;
+          var article = searchFilterArray[searchTerm];
+          if(article.filter){
+              that.filter(article.filter,article["id"]);
+          }
 
-	    		return item;
+          return item;
 
-		    },
-		    matcher: function (item) {
+        },
+        matcher: function (item) {
 
-		      if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
-			      return true;
-			    }
+          if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
+            return true;
+          }
 
-		    },
-		    sorter: function (items) {
+        },
+        sorter: function (items) {
 
-		      return items.sort();
+          return items.sort();
 
-		    },
-		    highlighter: function (item) {
+        },
+        highlighter: function (item) {
 
-		     var regex = new RegExp( '(' + this.query + ')', 'gi' );
-			   return item.replace( regex, "<strong>$1</strong>" );
+         var regex = new RegExp( '(' + this.query + ')', 'gi' );
+         return item.replace( regex, "<strong>$1</strong>" );
 
-		    },
+        },
 
-		  });
+      });
 
-		  $('#clear_search_btn').click(function () {
+      $('#clear_search_btn').click(function () {
 
-  		  that.initCrossfilter();
+        that.initCrossfilter();
         that.renderTags();
         $("#search").val("");
 
-	    });
+      });
 
     };
 
     // Defines method for search and typeahead.
     this.initMap = function(){
 
-    	initializeMap();
+      initializeMap();
 
     }
 
@@ -414,14 +416,14 @@ Pyk.newsDiscovery = function(){
     // Generates the HTML content of the card representation of the articles on the grid
     this._renderArticleCardHtml = function(article){
 
-    	var container = $("<div/>").addClass("popup");
+      var container = $("<div/>").addClass("popup");
       var front = $("<div/>").addClass("front");
       var back  = $("<div/>").addClass("back");
 
-    	var thumbnail = $("<div/>").addClass("thumbnail thumbnail_holder_"+article["id"]);
-    	front.append(thumbnail);
-    	front.append("<br/>" + "<b>" + article["name"] + "</b>");
-    	article["image"] = this._getProfileImageUrl(article,thumbnail);
+      var thumbnail = $("<div/>").addClass("thumbnail thumbnail_holder_"+article["id"]);
+      front.append(thumbnail);
+      front.append("<br/>" + "<b>" + article["name"] + "</b>");
+      article["image"] = this._getProfileImageUrl(article,thumbnail);
 
       var back_content = "";
       back_content += $("<div/>").addClass("organisation").html(article["workLocation"]["company"]).get(0).outerHTML;
@@ -429,40 +431,40 @@ Pyk.newsDiscovery = function(){
 
       //PGP
       // if (article.pgpkey && article.pgpurl){
-      // 	back_content += $("<div/>").addClass("pgp_key").html("PGP: " + '<a href="' + article.pgpurl + '" target="_self">' + article.pgpkey + "</a>").get(0).outerHTML;
+      //  back_content += $("<div/>").addClass("pgp_key").html("PGP: " + '<a href="' + article.pgpurl + '" target="_self">' + article.pgpkey + "</a>").get(0).outerHTML;
       // }else if (article.pgpkey && !article.pgpurl){
-      // 	back_content += $("<div/>").addClass("pgp_key").html("PGP: " + article.pgpkey).get(0).outerHTML;
+      //  back_content += $("<div/>").addClass("pgp_key").html("PGP: " + article.pgpkey).get(0).outerHTML;
       // }
 
-    	// // EMAIL
-    	// if (article["contactPoint"]["city"]){
-    	// 	back_content += $("<div/>").addClass("email").html('</br><a href="' + "mailto:" + article.email + '"><i class="fa fa-envelope fa-lg"></i></a>').get(0).outerHTML;
-    	// }
+      // // EMAIL
+      // if (article["contactPoint"]["city"]){
+      //  back_content += $("<div/>").addClass("email").html('</br><a href="' + "mailto:" + article.email + '"><i class="fa fa-envelope fa-lg"></i></a>').get(0).outerHTML;
+      // }
 
-    	// WEBSITE
-    	if (article["website"]){
-    		back_content += $("<div/>").addClass("website").html('<a href="' + article["website"] + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>').get(0).outerHTML;
-    	}
+      // WEBSITE
+      if (article["website"]){
+        back_content += $("<div/>").addClass("website").html('<a href="' + article["website"] + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>').get(0).outerHTML;
+      }
 
-    	// // TWITTER
-    	// if (article["contactPoint"]["twitter"]){
-    	// 	back_content += $("<div/>").addClass("twitter").html('<a href="https://www.twitter.com/' + article["contactPoint"]["twitter"] + '" target="_blank"><i class="fa fa-twitter fa-lg"></i></a>').get(0).outerHTML;
-    	// }
+      // // TWITTER
+      // if (article["contactPoint"]["twitter"]){
+      //  back_content += $("<div/>").addClass("twitter").html('<a href="https://www.twitter.com/' + article["contactPoint"]["twitter"] + '" target="_blank"><i class="fa fa-twitter fa-lg"></i></a>').get(0).outerHTML;
+      // }
 
-    	// // FACEBOOK
-    	// if (article.facebook){
-    	// 	back_content += $("<div/>").addClass("twitter").html('<a href="' + article.facebook + '" target="_blank"><i class="fa fa-facebook fa-lg"></i></a>').get(0).outerHTML;
-    	// }
+      // // FACEBOOK
+      // if (article.facebook){
+      //  back_content += $("<div/>").addClass("twitter").html('<a href="' + article.facebook + '" target="_blank"><i class="fa fa-facebook fa-lg"></i></a>').get(0).outerHTML;
+      // }
 
-    	// // LINKEDIN
-    	// if (article.linkedin){
-    	// 	back_content += $("<div/>").addClass("twitter").html('<a href="' + article.linkedin + '" target="_blank"><i class="fa fa-linkedin fa-lg"></i></a>').get(0).outerHTML;
-    	// }
+      // // LINKEDIN
+      // if (article.linkedin){
+      //  back_content += $("<div/>").addClass("twitter").html('<a href="' + article.linkedin + '" target="_blank"><i class="fa fa-linkedin fa-lg"></i></a>').get(0).outerHTML;
+      // }
 
       // // GITHUB
-    	// if (article.github){
-    	// 	back_content += $("<div/>").addClass("github").html('<a href="' + article.github + '" target="_blank"><i class="fa fa-github fa-lg"></i></a>').get(0).outerHTML;
-    	// }
+      // if (article.github){
+      //  back_content += $("<div/>").addClass("github").html('<a href="' + article.github + '" target="_blank"><i class="fa fa-github fa-lg"></i></a>').get(0).outerHTML;
+      // }
 
       back.html(back_content);
       container.append(front);
@@ -475,15 +477,15 @@ Pyk.newsDiscovery = function(){
     // Generates the HTML content of popups showed when clicking markers on the map
     this._renderArticlePopupHtml = function(article){
 
-    	var container = $("<div/>").addClass("popup");
+      var container = $("<div/>").addClass("popup");
       var front = $("<div/>").addClass("front");
       var back  = $("<div/>").addClass("back");
 
 
-    	var thumbnail = $("<div/>").addClass("thumbnail thumbnail_holder_"+article["id"]);
-    	front.append(thumbnail);
-    	front.append("<br/>" + "<b>" + article["name"] + "</b>");
-    	article["profileimg"] = this._getProfileImageUrl(article,thumbnail);
+      var thumbnail = $("<div/>").addClass("thumbnail thumbnail_holder_"+article["id"]);
+      front.append(thumbnail);
+      front.append("<br/>" + "<b>" + article["name"] + "</b>");
+      article["profileimg"] = this._getProfileImageUrl(article,thumbnail);
 
       var back_content = "";
       //back_content += $("<div/>").addClass("name").html(article["name"]]).get(0).outerHTML;
@@ -492,40 +494,40 @@ Pyk.newsDiscovery = function(){
 
       // //PGP
       // if (article.pgpkey && article.pgpurl){
-      // 	back_content += $("<div/>").addClass("pgp_key").html("PGP: " + '<a href="' + article.pgpurl + '" target="_self">' + article.pgpkey + "</a>").get(0).outerHTML;
+      //  back_content += $("<div/>").addClass("pgp_key").html("PGP: " + '<a href="' + article.pgpurl + '" target="_self">' + article.pgpkey + "</a>").get(0).outerHTML;
       // }else if (article.pgpkey && !article.pgpurl){
-      // 	back_content += $("<div/>").addClass("pgp_key").html("PGP: " + article.pgpkey).get(0).outerHTML;
+      //  back_content += $("<div/>").addClass("pgp_key").html("PGP: " + article.pgpkey).get(0).outerHTML;
       // }
 
       // // EMAIL
-		  // if (article.email){
-			 // back_content += $("<div/>").addClass("email").html('</br><a href="' + "mailto:" + article.email + '"><i class="fa fa-envelope fa-lg"></i></a>').get(0).outerHTML;
-		  // }
+      // if (article.email){
+       // back_content += $("<div/>").addClass("email").html('</br><a href="' + "mailto:" + article.email + '"><i class="fa fa-envelope fa-lg"></i></a>').get(0).outerHTML;
+      // }
 
-  		// WEBSITE
-  		if (article["website"]){
-  			back_content += $("<div/>").addClass("website").html('<a href="' + article["website"] + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>').get(0).outerHTML;
-  		}
+      // WEBSITE
+      if (article["website"]){
+        back_content += $("<div/>").addClass("website").html('<a href="' + article["website"] + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>').get(0).outerHTML;
+      }
 
-  		// TWITTER
-  		// if (article["contactPoint"]["twitter"]){
-  		// 	back_content += $("<div/>").addClass("twitter").html('<a href="https://www.twitter.com/' + article["contactPoint"]["twitter"] + '" target="_blank"><i class="fa fa-twitter fa-lg"></i></a>').get(0).outerHTML;
-  		// }
+      // TWITTER
+      // if (article["contactPoint"]["twitter"]){
+      //  back_content += $("<div/>").addClass("twitter").html('<a href="https://www.twitter.com/' + article["contactPoint"]["twitter"] + '" target="_blank"><i class="fa fa-twitter fa-lg"></i></a>').get(0).outerHTML;
+      // }
 
-  		// // FACEBOOK
-  		// if (article.facebook){
-  		// 	back_content += $("<div/>").addClass("twitter").html('<a href="' + article.facebook + '" target="_blank"><i class="fa fa-facebook fa-lg"></i></a>').get(0).outerHTML;
-  		// }
+      // // FACEBOOK
+      // if (article.facebook){
+      //  back_content += $("<div/>").addClass("twitter").html('<a href="' + article.facebook + '" target="_blank"><i class="fa fa-facebook fa-lg"></i></a>').get(0).outerHTML;
+      // }
 
-  		// // LINKEDIN
-  		// if (article.linkedin){
-  		// 	back_content += $("<div/>").addClass("twitter").html('<a href="' + article.linkedin + '" target="_blank"><i class="fa fa-linkedin fa-lg"></i></a>').get(0).outerHTML;
-  		// }
+      // // LINKEDIN
+      // if (article.linkedin){
+      //  back_content += $("<div/>").addClass("twitter").html('<a href="' + article.linkedin + '" target="_blank"><i class="fa fa-linkedin fa-lg"></i></a>').get(0).outerHTML;
+      // }
 
       // // GITHUB
-  		// if (article.github){
-  		// 	back_content += $("<div/>").addClass("github").html('<a href="' + article.github + '" target="_blank"><i class="fa fa-github fa-lg"></i></a>').get(0).outerHTML;
-  		// }
+      // if (article.github){
+      //  back_content += $("<div/>").addClass("github").html('<a href="' + article.github + '" target="_blank"><i class="fa fa-github fa-lg"></i></a>').get(0).outerHTML;
+      // }
 
       back.html(back_content);
       container.append(front);
@@ -543,79 +545,79 @@ Pyk.newsDiscovery = function(){
     // TODO Optimize this function, use Array.filter/reduce
     // Or create a hashmap of ids and their index in the array on init
     this._findArticleById = function(id){
-        return articles[id];
+        return articles[id]["about"];
     };
 
     // Gets the list of titles from the articles
     this._buildSearchFilterArray = function(){
 
-    	var that = this;
+      var that = this;
 
-    	//Define metadata Object, containing an array of titles for the autocompletion
-    	var articleSearchFilter = new Object;
-    	articleSearchFilter.articleTitles = [];
+      //Define metadata Object, containing an array of titles for the autocompletion
+      var articleSearchFilter = new Object;
+      articleSearchFilter.articleTitles = [];
 
-    	// Skills
-    	var aa_tags = this._aaReduce(this.crossfilter.aar_dimension.groupAll().reduce(reduceAdd, reduceRemove, reduceInitial).value());
+      // Skills
+      var aa_tags = this._aaReduce(this.cf.aar_dimension.groupAll().reduce(reduceAdd, reduceRemove, reduceInitial).value());
 
-        $.each(aa_tags, function( index, value ) {
-	        articleSearchFilter[value["key"]] = new Object;
-			articleSearchFilter[value["key"]].filter = "aa";
-			articleSearchFilter[value["key"]].id = value["key"];
-			articleSearchFilter.articleTitles.push(value["key"]);
-		});
+      $.each(aa_tags, function( index, value ) {
+        articleSearchFilter[value["key"]] = new Object;
+        articleSearchFilter[value["key"]].filter = "aa";
+        articleSearchFilter[value["key"]].id = value["key"];
+        articleSearchFilter.articleTitles.push(value["key"]);
+      });
 
-        // Country
-        var dd_tags = this._removeEmptyKeys(this.crossfilter.dd_dimension.group().all(), "dd");
+      // Country
+      var dd_tags = this._removeEmptyKeys(this.cf.dd_dimension.group().all(), "dd");
 
-        $.each(dd_tags, function( index, value ) {
-	        articleSearchFilter[value["key"]] = new Object;
-			articleSearchFilter[value["key"]].filter = "dd";
-			articleSearchFilter[value["key"]].id = value["key"];
-			articleSearchFilter.articleTitles.push(value["key"]);
-		});
+      $.each(dd_tags, function( index, value ) {
+        articleSearchFilter[value["key"]] = new Object;
+        articleSearchFilter[value["key"]].filter = "dd";
+        articleSearchFilter[value["key"]].id = value["key"];
+        articleSearchFilter.articleTitles.push(value["key"]);
+      });
 
-        // City
-        var ee_tags = this._removeEmptyKeys(this.crossfilter.ee_dimension.group().all(), "ee");
+      // City
+      var ee_tags = this._removeEmptyKeys(this.cf.ee_dimension.group().all(), "ee");
 
-        $.each(ee_tags, function( index, value ) {
-        	articleSearchFilter[value["key"]] = new Object;
-			articleSearchFilter[value["key"]].filter = "ee";
-			articleSearchFilter[value["key"]].id = value["key"];
-			articleSearchFilter.articleTitles.push(value["key"]);
-		});
+      $.each(ee_tags, function( index, value ) {
+        articleSearchFilter[value["key"]] = new Object;
+        articleSearchFilter[value["key"]].filter = "ee";
+        articleSearchFilter[value["key"]].id = value["key"];
+        articleSearchFilter.articleTitles.push(value["key"]);
+      });
 
-        // organisation
-        var ff_tags = this._removeEmptyKeys(this.crossfilter.ff_dimension.group().all(), "ff");
+      // organisation
+      var ff_tags = this._removeEmptyKeys(this.cf.ff_dimension.group().all(), "ff");
 
-        $.each(ff_tags, function( index, value ) {
-        	articleSearchFilter[value["key"]] = new Object;
-			articleSearchFilter[value["key"]].filter = "ff";
-			articleSearchFilter[value["key"]].id = value["key"];
-			articleSearchFilter.articleTitles.push(value["key"]);
-		});
+      $.each(ff_tags, function( index, value ) {
+        articleSearchFilter[value["key"]] = new Object;
+        articleSearchFilter[value["key"]].filter = "ff";
+        articleSearchFilter[value["key"]].id = value["key"];
+        articleSearchFilter.articleTitles.push(value["key"]);
+      });
 
-       	// GitHub
-        /*var gg_tags = this._removeEmptyKeys(this.crossfilter.gg_dimension.group().all(), "gg");
+      // GitHub
+      /*var gg_tags = this._removeEmptyKeys(this.cf.gg_dimension.group().all(), "gg");
 
-        $.each(gg_tags, function( index, value ) {
-			console.log(value["key"]);
-			articleTitles.push(value["key"]);
-		});*/
+      $.each(gg_tags, function( index, value ) {
+        console.log(value["key"]);
+        articleTitles.push(value["key"]);
+      });*/
 
-        // Title aka Full Name
-        //id_tags = this._removeEmptyKeys(this.crossfilter.id_dimension.group().all(), "id");
+      // Title aka Full Name
+      //id_tags = this._removeEmptyKeys(this.cf.id_dimension.group().all(), "id");
 
-        $.each(id_tags, function( index, value ) {
-        	var a = that._findArticleById(value["key"]);
-        	articleSearchFilter[a.name] = new Object;
-        	articleSearchFilter[a.name].filter = "id";
-			articleSearchFilter[a.name].id = a.id;
-			articleSearchFilter.articleTitles.push(a.name);
+      $.each(id_tags, function( index, value ) {
+        var a = that._findArticleById(value["key"]);
+        articleSearchFilter[a.name] = new Object;
+        articleSearchFilter[a.name].filter = "id";
+        articleSearchFilter[a.name].id = a.id;
+        articleSearchFilter.articleTitles.push(a.name);
 
-		});
+      });
 
-    	return articleSearchFilter;
+      return articleSearchFilter;
 
     };
 
@@ -654,47 +656,47 @@ Pyk.newsDiscovery = function(){
     // retrieves the profile image url of the user specified as parameter
     this._getProfileImageUrl = function(article,thumbnail_holder){
 
-    	// Check for image_url
-    	if(article["image"]){
+      // Check for image_url
+      if(article["image"]){
 
-    		thumbnail_holder.html("<img src=\""+article["image"]+"\"></img>");
+        thumbnail_holder.html("<img src=\""+article["image"]+"\"></img>");
 
-    	}else if (!article["image"] && article["contactPoint"]["twitter"]){
+      }else if (!article["image"] && article["contactPoint"]["twitter"]){
 
-    		this._getTwitterProfileImageUrl(article);
+        this._getTwitterProfileImageUrl(article);
 
-    	}else{
+      }else{
 
-    		article["image"] = 'res/img/noimage.png';
-    		thumbnail_holder.html("<img src=\""+article["image"]+"\"></img>");
+        article["image"] = 'res/img/noimage.png';
+        thumbnail_holder.html("<img src=\""+article["image"]+"\"></img>");
 
-    	}
+      }
 
     }
 
     // Looks for the profile image url on twitter
     this._getTwitterProfileImageUrl = function(article){
 
-    	// Clean possible inconsistences in data input
-    	article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "@", "" );
-    	article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "http://www.twitter.com/", "" );
-    	article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "https://www.twitter.com/", "" );
-    	article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "https://twitter.com/", "" );
-    	article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "http://twitter.com/", "" );
-    	article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "twitter.com/", "" );
+      // Clean possible inconsistences in data input
+      article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "@", "" );
+      article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "http://www.twitter.com/", "" );
+      article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "https://www.twitter.com/", "" );
+      article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "https://twitter.com/", "" );
+      article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "http://twitter.com/", "" );
+      article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "twitter.com/", "" );
 
-    	$.get( "ext/twitter/twitter_profile_retriever.php?screen_name="+article["contactPoint"]["twitter"], function( data ) {
-    		data = data.replace("\n","");
-			  article["image"] = data;
-			  $(".thumbnail_holder_"+article["id"]).html("<img src=\""+article["image"]+"\"></img>");
-		  });
+      $.get( "ext/twitter/twitter_profile_retriever.php?screen_name="+article["contactPoint"]["twitter"], function( data ) {
+        data = data.replace("\n","");
+        article["image"] = data;
+        $(".thumbnail_holder_"+article["id"]).html("<img src=\""+article["image"]+"\"></img>");
+      });
 
     };
 
     // retrieves the profile_url of the user specified as parameter
     this._getFacebookProfileUrl = function(username){
 
-    	console.log('_getTwitterProfileUrl');
+      console.log('_getTwitterProfileUrl');
 
     };
 
@@ -706,14 +708,14 @@ Reduce functions for the arrays
 of AA.
 ------------------------------*/
 function reduceAdd(p, v) {
-  v["interest"].forEach (function(val, idx) {
+  v["about"]["interest"].forEach (function(val, idx) {
      p[val] = (p[val] || 0) + 1; //increment counts
   });
   return p;
 }
 
 function reduceRemove(p, v) {
-  v["interest"].forEach (function(val, idx) {
+  v["about"]["interest"].forEach (function(val, idx) {
      p[val] = (p[val] || 0) - 1; //decrement counts
   });
   return p;
