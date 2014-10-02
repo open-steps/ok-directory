@@ -1,0 +1,232 @@
+body, html{
+    background-image: url('res/img/bg.png');
+    height: 100%;
+}
+
+#left{
+  background: #fff;
+}
+
+#middle{
+  background: #666;
+}
+
+#right{
+  background: #fff;
+}
+
+.fullheight{
+  height:100%;
+}
+
+.pyk-news-discovery {
+
+}
+
+.pyk-news-discovery #grid{
+  margin      : 0;
+  padding     : 0;
+  text-indent : 0;
+}
+
+.pyk-news-discovery #grid li{
+  padding       : 0;
+  text-indent   : 0;
+  float         : left;
+  display       : block;
+  height        : 110px;
+  overflow      : hidden;
+  background    : #fff;
+  text-align    : center;
+  position:     : relative;
+}
+
+.pyk-news-discovery .thumbnail{
+  height: 48px;
+  /*width: 48px;
+  margin: 0 auto;
+  border: 1px #333333 solid;*/
+}
+
+.pyk-news-discovery #grid li:hover {
+  transition: all 0.25s ease;
+  box-shadow: 0px 3px 0px #0a90f6;
+  z-index:9;
+  -webkit-transition: opacity 0.5s ease-in;
+  -moz-transition: opacity 0.5s ease-in;
+  -o-transition: opacity 0.5s ease-in;
+}
+
+.pyk-news-discovery #grid li .front{
+  display: block;
+  width: 95.4px;
+  height: 180px;
+  padding: 10px;
+  color: #000;
+  font-weight: 400;
+  font-size: 9.5px;
+}
+
+.pyk-news-discovery #grid li .back{
+  display: block;
+  width: 107px;
+  height: 180px;
+  padding: 10px;
+  color: #000;
+  font-weight: 400;
+  font-size: 10.5px;
+}
+
+.pyk-news-discovery #grid li a {
+  text-decoration: none;
+  border-radius: 0;
+  border: 0px;
+  transition: all 0.3s ease;
+}
+
+.pyk-news-discovery #grid li a:hover {
+  background: #DDFF99;
+  transition: all 0.3s ease;
+}
+
+.pyk-news-discovery .tag-holder > div{
+    max-height:200px;
+}
+
+.pyk-news-discovery .tag-holder > div div{
+    max-height:200px;
+}
+
+.pyk-news-discovery .tag-holder > div h4{
+    text-transform: uppercase;
+    padding-left: 10px;
+    font-size: 10px;
+    border-bottom: 1px solid #aaa;
+    padding-bottom: 10px;
+}
+
+.pyk-news-discovery .tag-list{
+    margin: 0;
+    padding: 0;
+    text-indent: 0;
+    list-style: none;
+}
+
+.pyk-news-discovery .tag-list li{
+    font-size: 10px;
+    padding: 6px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    background: #fff;
+    transition: all 0.3s ease;
+}
+
+
+.pyk-news-discovery .tag-list li:hover{
+    background: #0a90f6;
+    transition: all 0.3s ease;
+}
+
+
+.pyk-news-discovery .tag-list li.active{
+    background: #0a90f6;
+    transition: all 0.3s ease;
+}
+
+
+.pyk-news-discovery .tag-list li a{
+    color: #666;
+}
+
+.pyk-news-discovery .tag-list li a:hover{
+    text-decoration: none;
+    color: #fff;
+}
+
+.pyk-news-discovery .tag-list li:active a{
+    text-decoration: none;
+    color: #fff;
+}
+
+.pyk-news-discovery .tag-list li a span.badge{
+    background: transparent;
+    font-weight: 300;
+    color: #999;
+    font-size: 11px;
+    float: right;
+}
+
+.card{
+  height:200px;
+  background: #fff;
+}
+
+.thumbnail {
+
+}
+
+/* Search styling */
+
+input.search-query {
+    padding-left	 : 26px;
+    color            : black;
+    font-size        : 1.0em;
+    font-family      : 'Titillium Web', sans-serif;
+    margin-right: 10px;
+}
+
+.form-control {
+    height: 30px;
+}
+
+form.form-search {
+    position: relative;
+}
+
+form.form-search:before {
+    content:'';
+    display: block;
+    width: 14px;
+    height: 14px;
+    background-image: url(http://getbootstrap.com/2.3.2/assets/img/glyphicons-halflings.png);
+    background-position: -48px 0;
+    position: absolute;
+    top:8px;
+    left:8px;
+    opacity: .5;
+    z-index: 1000;
+}
+
+#details_container{
+  height: 340px;
+  margin-left : 40px;
+  margin-right : 4px;
+  margin-top : 10px;
+  background: white;
+}
+
+#map {
+  height: 340px;
+}
+
+#details{
+  text-align: center;
+  padding: 20px;
+}
+
+.layer {
+  position: absolute;
+}
+
+.tile {
+  pointer-events: none;
+  position: absolute;
+  width: 256px;
+  height: 256px;
+}
+
+.info {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}

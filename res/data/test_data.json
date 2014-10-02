@@ -2,6 +2,7 @@
   "@context": "http://plp.hackers4peace.net/context.jsonld",
   "@graph": [
     {
+      "about":{
         "name": "Alex Corbi",
         "additionalname": "",
         "description": "Software developer",
@@ -34,37 +35,700 @@
         ],
         "member": [],
         "interest": []
+      }
     },
     {
-        "name": "Johny lee",
-        "additionalname": "",
-        "description": "Designer",
-        "birthDate": "12/02/1965",
-        "nationality": "Agorian",
-        "address": {
-            "street": "loop street",
-            "code": "",
-            "city": "Phnom Penh",
-            "country": "Cambodia"
-        },
-        "telephone": "",
-        "faxNumber": "",
-        "website": "http://www.agoracollective.org",
-        "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
-        "workLocation": {
-            "company": "JLee",
-            "jobtitle": "",
-            "street": "",
-            "code": "",
-            "city": ""
-        },
-        "contactPoint": [
-            {
-                "id": "johny@lee.com"
-            }
-        ],
-        "member": [],
-        "interest": []
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": []
+      }
     }
   ]
 }

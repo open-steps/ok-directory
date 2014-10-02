@@ -11,232 +11,99 @@
     <meta name="publisher" content="Open Steps" />
     <meta name="language" content="en_GB" />
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
     <link href="bower_components/leaflet/dist/leaflet.css" rel="stylesheet" type="text/css" />
     <link href="bower_components/leaflet.markercluster/dist/MarkerCluster.css" rel="stylesheet" type="text/css" />
-    <link href="bower_components/fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <link href="res/css/details.css" rel="stylesheet" type="text/css" />
-    <link href="res/css/master.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
 
   </head>
 
   <body>
 
-    <div class="header_new row">
+    <div class="container pyk-news-discovery">
 
-      <div class="col-sm-6">
-        <img src="res/img/world_white.png" height="32"/><b>Open Knowledge Directory</b>
-      </div>
+      <div class="row">
 
-      <div class="col-sm-6">
+        <div id="left" class="col-md-2">
 
-        <form class="form-inline navbar-search" role="form">
+          <div>
 
-          <div class="form-group">
-
-            <input id="search" autocomplete="off" type="text" class="search-query span2 form-control" placeholder="Search directory" />
-
-          </div>
-
-          <button id="clear_search_btn" type="button" class="btn btn-warning btn-sm">
-
-            <div class="glyphicon glyphicon-remove-circle"></div>
-
-            Clear
-
-          </button>
-
-          <a href="http://bit.ly/1ydQY2B" target="_blank">
-
-            <button type="button" class="btn btn-success btn-sm">
-
-              <a href="http://bit.ly/1ydQY2B" target="_blank"></a>
-
-              <div class="glyphicon glyphicon-plus"></div>Join the directory
-
-            </button>
-
-          </a>
-
-          <a href="mailto:contact@open-steps.org">
-
-              <button type="button" class="btn btn-default btn-sm">
-
-                <a href="mailto:contact@open-steps.org"></a>
-
-                <div class="glyphicon glyphicon-envelope"></div>Feedback
-
-              </button>
-          </a>
-
-          <a href="#">
-
-              <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal">
-
-                <a href="#"></a>
-
-                <div class="glyphicon glyphicon-info-sign"></div>About
-
-              </button>
-          </a>
-
-        </form>
-
-      </div>
-
-      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-        <div class="modal-dialog modal-content">
-
-          <div class="modal-header">
-
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&#215;</button>
-
-            <h4 class="modal-title">About</h4>
+            <a id="clearBtn" class="btn btn-default btn-xs" role="button">Clear</a>
+            <a id="joinBtn" class="btn btn-default btn-xs" role="button">Join the directory</a>
+            <a id="feedbackBtn" class="btn btn-default btn-xs" role="button">Feedback</a>
+            <a id="infoBtn" class="btn btn-default btn-xs" role="button">Info</a>
 
           </div>
 
-          <div class="modal-body">
+          <hr>
 
-            <h4>About Open Steps</h4>
+          <div>
 
-            <!-- <p><a href="http://www.open-steps.org">Open Steps</a> is an initiative from two young berliners Alex Corbi (spanish, software developer) and Margo Thierry (french, european politics) who decided to leave their daily lives in July 2013 and travel around the world for one year. The purpose of this journey was to meet people and organisations actively working in Open Knowledge related projects while divulging the principles behind this topic.</p>
-
-            <h4>About this directory</h4>
-
-            <p>During those 12 months, Alex and Margo met numerous enthusiastic activists sharing the same ideas and approaches worldwide. What it began as a simple contact list evolved soon in this directory which has following goals:</p>
-
-            <ul>
-              <li>Increase the visibility of Open Knowledge projects worldwide</li>
-              <li>Facilitate the communication and cooperation across borders</li>
-            </ul>
-
-            <h4>This directory is Open Source</h4>
-
-            <p>While thinking about how to improve our directory, we experienced about the work done by <a href=
-            "http://www.jplusplus.org" target="_blank">Journalism++</a>, a network of datajournalism agencies across Europe which were working on a similar idea but focused on Data Journalists. Since their code was available under open licenses, we were able to reuse it and adapt it for our needs, thanks to them.</p>
-
-            <h4>Contribute</h4>
-
-            <p>Please help us with this initiative by:</p>
-
-            <ul>
-
-              <li>Joining it by filling out <a href="http://bit.ly/1ydQY2B" target="_blank">this form</a>. It takes 2 minutes.</li>
-
-              <li>
-                <p>Spreading the word <a href="https://twitter.com/intent/tweet?button_hashtag=okdirectory&amp;text=Join+the+%40opensteps+%23okdirectory+and+help+mapping+%23openknowledge+around+the+world.+http://bit.ly/1ydQY2B" target="_blank" class="twitter-hashtag-button">#okdirectory on twitter</a>
-                <script type="text/javascript">
-                //<![CDATA[
-                !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-                //]]>
-                </script>
-                </p>
-              </li>
-
-              <li>
-                <p>Cloning, improving, reusing its code on <a href="https://github.com/acorbi/ok-directory-public" target="_blank">Github</a></p>
-              </li>
-
-            </ul>
-
-            <iframe src="http://ghbtns.com/github-btn.html?user=acorbi&amp;repo=ok-directory-public&amp;type=fork&amp;count=true"allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe> -->
+            <span>
+              <h5>Search</h5>
+              <input id="searchField" autocomplete="off" type="text" class="search-query span2 form-control" placeholder="Search directory" />
+            </span>
 
           </div>
 
-        </div>
+          <hr>
 
-      </div>
-
-    </div>
-
-    <div class="container pyk-news-discovery" id="wrap">
-
-      <div class="row navigation">
-
-        <div id="accordion" class="col-sm-2 tag-holder panel-group">
-
-          <div class="col-sm-2">
-
-            <h4 id="tb1"></h4>
+          <div class="tag-holder">
 
             <div>
-              <ul id="table1" class="tag-list"></ul>
-            </div>
 
-          </div><!--city -->
+              <h4 id="tb1"></h4>
+              <div>
+                <ul id="table1" class="tag-list"></ul>
+              </div>
 
-          <div class="col-sm-2">
-
-            <h4 id="tb6"></h4>
-
-            <div>
-              <ul id="table6" class="tag-list"></ul>
-            </div>
-
-          </div><!--institution -->
-
-          <div class="col-sm-2">
-
-            <h4 id="tb2"></h4>
+            </div><!--city -->
 
             <div>
-              <ul id="table2" class="tag-list"></ul>
-            </div>
 
-          </div><!--skills -->
+              <h4 id="tb6"></h4>
+              <div>
+                <ul id="table6" class="tag-list"></ul>
+              </div>
 
-          <div class="col-sm-2">
-
-            <h4 id="tb3"></h4>
+            </div><!--institution -->
 
             <div>
-              <ul id="table3" class="tag-list"></ul>
+
+              <h4 id="tb2"></h4>
+              <div>
+                <ul id="table2" class="tag-list"></ul>
+              </div>
+
+            </div><!--skills -->
+
+            <div>
+
+              <h4 id="tb3"></h4>
+              <div>
+                <ul id="table3" class="tag-list"></ul>
+              </div>
+
             </div>
 
           </div>
-
-          <!--github
-              <div class="col-sm-2">
-                <h4 id="tb5"></h4>
-                <div>
-                  <ul id="table5" class="tag-list"></ul>
-                </div>
-              </div> -->
-          <!--full name aka title -->
-          <!-- <div class="col-sm-3">
-                <h4 id="tb4"></h4>
-                <div>
-                  <ul id="table4" class="tag-list"></ul>
-                </div>
-              </div>-->
 
         </div><!-- end of tag-holder -->
 
-        <div class="col-md-8">
-          <!-- contents -->
+        <div id="joinPage" class="fullheight hidden col-md-10">Join</div>
+        <div id="infoPage" class="fullheight hidden col-md-10">Info</div>
+        <div id="feedbackPage" class="fullheight hidden col-md-10">Feedback</div>
 
-          <div id="details_container" class="row">
+        <div id="middle" class="col-md-8">
+
+          <div class="row">
 
             <div id="map"></div>
 
           </div>
 
-          <div class="row col-sm-12 gridster">
+          <div class="row gridster">
 
-            <ul id="grid" class="thumbnails"></ul>
-
-          </div>
-
-        </div>
-
-        <div class="col-md-2">
-
-          <div id="details_wrapper">
-
-            <div id="details">
-
-              <img src="res/img/avatar_placeholder.png" />
+            <div id="grid">
 
             </div>
 
@@ -244,7 +111,17 @@
 
         </div>
 
-      </div><!-- end of row navigation -->
+        <div id="right" class="col-md-2">
+
+          <div id="details">
+
+            <img src="res/img/avatar_placeholder.png" />
+
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
 
@@ -255,10 +132,8 @@
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="bower_components/bootstrap3-typeahead/bootstrap3-typeahead.min.js" type="text/javascript"></script>
     <script src="bower_components/crossfilter/crossfilter.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="bower_components/jquery.flip/jquery.flip.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="bower_components/node-uuid/uuid.js" type="text/javascript" charset="utf-8"></script>
     <script src="bower_components/superagent/superagent.js" type="text/javascript" charset="utf-8"></script>
-    <script src="res/js/plp-directory.js" type="text/javascript" charset="utf-8"></script>
     <script src="config.js" type="text/javascript" charset="utf-8"></script>
     <script src="res/js/logic.js" type="text/javascript" charset="utf-8"></script>
     <script src="res/js/mapview.js" type="text/javascript" charset="utf-8"></script>
@@ -266,3 +141,104 @@
   </body>
 
 </html>
+
+<!-- <div class="navbar navbar-default navbar-static-top" role="navigation">
+
+  <div class="container">
+
+    <div class="navbar-header">
+
+      <a class="navbar-brand" href="index.html">
+
+        <img src="res/img/world_white.png" height="32"/>
+        <b>Open Knowledge Directory</b>
+
+      </a>
+
+    </div>
+
+    <div class="navbar-collapse collapse">
+
+      <ul class="nav navbar-nav navbar-right">
+
+        <li><input id="searchField" autocomplete="off" type="text" class="search-query span2 form-control" placeholder="Search directory" /></li>
+
+        <li><a id="searchClearBtn" class="btn btn-default btn-md" role="button">Clear</a></li>
+
+        <li><a id="joinDirectoryBtn" class="btn btn-success btn-md" role="button">Join the directory</a></li>
+
+        <li><a id="feedbackBtn" class="btn btn-success btn-md" role="button">Feedback</a></li>
+
+        <li><a id="infoBtn" class="btn btn-success btn-md" role="button">Info</a></li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+</div> -->
+
+<!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+  <div class="modal-dialog modal-content">
+
+    <div class="modal-header">
+
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&#215;</button>
+
+      <h4 class="modal-title">About</h4>
+
+    </div>
+
+    <div class="modal-body">
+
+      <h4>About Open Steps</h4>
+
+      <p><a href="http://www.open-steps.org">Open Steps</a> is an initiative from two young berliners Alex Corbi (spanish, software developer) and Margo Thierry (french, european politics) who decided to leave their daily lives in July 2013 and travel around the world for one year. The purpose of this journey was to meet people and organisations actively working in Open Knowledge related projects while divulging the principles behind this topic.</p>
+
+      <h4>About this directory</h4>
+
+      <p>During those 12 months, Alex and Margo met numerous enthusiastic activists sharing the same ideas and approaches worldwide. What it began as a simple contact list evolved soon in this directory which has following goals:</p>
+
+      <ul>
+        <li>Increase the visibility of Open Knowledge projects worldwide</li>
+        <li>Facilitate the communication and cooperation across borders</li>
+      </ul>
+
+      <h4>This directory is Open Source</h4>
+
+      <p>While thinking about how to improve our directory, we experienced about the work done by <a href=
+      "http://www.jplusplus.org" target="_blank">Journalism++</a>, a network of datajournalism agencies across Europe which were working on a similar idea but focused on Data Journalists. Since their code was available under open licenses, we were able to reuse it and adapt it for our needs, thanks to them.</p>
+
+      <h4>Contribute</h4>
+
+      <p>Please help us with this initiative by:</p>
+
+      <ul>
+
+        <li>Joining it by filling out <a href="http://bit.ly/1ydQY2B" target="_blank">this form</a>. It takes 2 minutes.</li>
+
+        <li>
+          <p>Spreading the word <a href="https://twitter.com/intent/tweet?button_hashtag=okdirectory&amp;text=Join+the+%40opensteps+%23okdirectory+and+help+mapping+%23openknowledge+around+the+world.+http://bit.ly/1ydQY2B" target="_blank" class="twitter-hashtag-button">#okdirectory on twitter</a>
+          <script type="text/javascript">
+          //<![CDATA[
+          !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+          //]]>
+          </script>
+          </p>
+        </li>
+
+        <li>
+          <p>Cloning, improving, reusing its code on <a href="https://github.com/acorbi/ok-directory-public" target="_blank">Github</a></p>
+        </li>
+
+      </ul>
+
+      <iframe src="http://ghbtns.com/github-btn.html?user=acorbi&amp;repo=ok-directory-public&amp;type=fork&amp;count=true"allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
+
+    </div>
+
+  </div>
+
+</div> -->

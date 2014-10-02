@@ -7,9 +7,10 @@ var map;
 var layerGroup;
 var markers;
 var fetchedAddresses = new Object();
-var mapQuestApiKey = "Fmjtd|luur206a20%2Cbn%3Do5-9at004"; // Open Steps APIKey, change please
+var mapQuestApiKey = window.plp.config.mapQuestApiKey; // Open Steps APIKey, change please
 var geocodeApiURL="http://www.mapquestapi.com/geocoding/v1/address?key="+mapQuestApiKey+"&country=#country#&city=#city#";
 var currentArticle = undefined;
+
 var initializeMap = function() {
 
   // Init Map
@@ -173,4 +174,3 @@ var clearLayers = function(){
   markers.clearLayers();
 
 };
-

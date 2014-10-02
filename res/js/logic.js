@@ -1,6 +1,7 @@
+var nd;
 
 $(function(){
-    var nd = new Pyk.newsDiscovery();
+    nd = new Pyk.newsDiscovery();
     nd.init();
 });
 
@@ -8,117 +9,117 @@ var Pyk = {};
 var id_tags;
 var mapViewOn = false;
 var articles = new Object();
+var DEBUG = true;
 
 Pyk.newsDiscovery = function(){
 
     this.init = function(){
 
-        var that = this;
-
         // Load Facets & Render
         $.getJSON('res/data/facet.json', function(json){
-            that.facet = json;
-            that.renderColHeadings();
+            nd.facet = json;
+            nd.renderColHeadings();
         });
 
-        //Get the data from directory
-        superagent.get(window.plp.config.directory)
-          .set('Accept', 'application/json')
-          .end(function(res){
+        if (DEBUG){
 
-            if (res.ok) {
+          //Load Data, Create Crossfilter & Render
+          $.getJSON("res/data/test_data.json", function(json){
+            console.log(json);
+            nd.data = json["@graph"];
+            nd.initCrossfilter();
+            nd.initMap();
+            nd.renderTags();
+            nd.initSearch();
+          });
 
-              var graph = res.body["@graph"];
-              that.data = graph;
-              that.initCrossfilter();
-              that.initMap();
-              that.renderTags();
-              that.initSearch();
+        }else{
 
-            } else {
+          //Get the data from directory
+          superagent.get(window.plp.config.directory)
+            .set('Accept', 'application/json')
+            .end(function(res){
 
-              alert('Oh no! error ' + res.text);
+              if (res.ok) {
 
-            }
+                var graph = res.body["@graph"];
+                nd.data = graph;
+                nd.initCrossfilter();
+                nd.initMap();
+                nd.renderTags();
+                nd.initSearch();
 
-        });
+              } else {
 
-        //Load Data, Create Crossfilter & Render
-        // $.getJSON("res/data/test_data.json", function(json){
-        //     that.data = json;
-        //     that.initCrossfilter();
-        //     that.initMap();
-        //     that.renderTags();
-        //     that.initSearch();
-        // });
+                alert('Oh no! error ' + res.text);
+
+              }
+
+          });
+
+        }
 
     };
 
 
     this.renderColHeadings = function(){
         var h4s = $(".tag-holder h4"); // Capture all the required <h4> tags
-        var f = this.facet.children;  // Get the data that corresponds to it
+        var f = this.facet.children;  // Get the data nd corresponds to it
         for(var i in f) $(h4s[i]).html(f[i].label);
     };
 
 
     this.initCrossfilter = function(){
 
-        // this.data contains the array of profiles.
-        this.cf = {};
-        this.cf.data = crossfilter(this.data);
+      // this.data contains the array of profiles.
+      this.cf = {};
+      this.cf.data = crossfilter(this.data);
 
-        this.cf.id_dimension = this.cf.data.dimension(function(d){
-            // return uuid
-            var id = uuid.v4();
-            articles[id] = d;
-            return id;
-        });
+      this.cf.id_dimension = this.cf.data.dimension(function(d){
+        var id = uuid.v4();
+        articles[id] = d;
+        return id;
+      });
 
-        this.cf.dd_dimension = this.cf.data.dimension(function(d){
-            return d["about"]["address"]["country"];
-        });
+      this.cf.dd_dimension = this.cf.data.dimension(function(d){
+        return d["about"]["address"]["country"];
+      });
 
-        this.cf.ee_dimension = this.cf.data.dimension(function(d){
-            return d["about"]["address"]["city"];
-        });
+      this.cf.ee_dimension = this.cf.data.dimension(function(d){
+        return d["about"]["address"]["city"];
+      });
 
-        // this.cf.gg_dimension = this.cf.data.dimension(function(d){
-        //     return d.github;
-        // });
+      this.cf.ff_dimension = this.cf.data.dimension(function(d){
+        return d["about"]["workLocation"]["company"];
+      });
 
-        this.cf.ff_dimension = this.cf.data.dimension(function(d){
-            return d["about"]["workLocation"]["company"];
-        });
+      // --  -- //
+      // We need 2 identical dimensions for the numbers to update
+      // See http://git.io/_IvVUw for details
+      this.cf.aa_dimension = this.cf.data.dimension(function(d){
+        return d["about"]["interest"];
+      });
 
-        // --  -- //
-        // We need 2 identical dimensions for the numbers to update
-        // See http://git.io/_IvVUw for details
-        this.cf.aa_dimension = this.cf.data.dimension(function(d){
-            return d["about"]["interest"];
-        });
+      // This is the dimension nd we'll use for rendering
+      this.cf.aar_dimension = this.cf.data.dimension(function(d){
+        return d["about"]["interest"];
+      });
 
-        // This is the dimension that we'll use for rendering
-        this.cf.aar_dimension = this.cf.data.dimension(function(d){
-            return d["about"]["interest"];
-        });
+      // Create empty filter roster
+      this.activeFilters = {
 
-        // Create empty filter roster
-        this.activeFilters = {
+          "ee": [],
+          "ff": [],
+          "dd": [],
+          "aa": [],
+          "id": []
+      };
 
-            //"gg": [],
-            "ee": [],
-            "ff": [],
-            "dd": [],
-            "aa": [],
-            "id": []
-        };
     };
-
 
     this.renderTags = function(){
 
-      var that = this;
+      var nd = this;
 
       // Skills
       var aa_tags = this._aaReduce(this.cf.aar_dimension.groupAll().reduce(reduceAdd, reduceRemove, reduceInitial).value());
@@ -130,10 +131,10 @@ Pyk.newsDiscovery = function(){
               return link;
           })
           .classed("active", function(d){
-              return that._isActiveFilter("aa", d.key);
+              return nd._isActiveFilter("aa", d.key);
           })
           .on("click", function(d){
-              that.filter("aa", d.key);
+              nd.filter("aa", d.key);
           });
       aa_list.exit().remove();
 
@@ -147,10 +148,10 @@ Pyk.newsDiscovery = function(){
               return link;
           })
           .classed("active", function(d){
-              return that._isActiveFilter("dd", d.key);
+              return nd._isActiveFilter("dd", d.key);
           })
           .on("click", function(d){
-              that.filter("dd", d.key);
+              nd.filter("dd", d.key);
           });
       dd_list.exit().remove();
 
@@ -164,10 +165,10 @@ Pyk.newsDiscovery = function(){
               return link;
           })
           .classed("active", function(d){
-              return that._isActiveFilter("ee", d.key);
+              return nd._isActiveFilter("ee", d.key);
           })
           .on("click", function(d){
-              that.filter("ee", d.key);
+              nd.filter("ee", d.key);
           });
       ee_list.exit().remove();
 
@@ -181,31 +182,12 @@ Pyk.newsDiscovery = function(){
               return link;
           })
           .classed("active", function(d){
-              return that._isActiveFilter("ff", d.key);
+              return nd._isActiveFilter("ff", d.key);
           })
           .on("click", function(d){
-              that.filter("ff", d.key);
+              nd.filter("ff", d.key);
           });
       ff_list.exit().remove();
-
-      // GitHub
-      /*var gg_tags = this._removeEmptyKeys(this.cf.gg_dimension.group().all(), "gg");
-      var gg_list = d3.select("#table5").selectAll("li").data(gg_tags);
-      gg_list.enter().append("li");
-      gg_list
-          .html(function(d){
-              var link = "<a href='#'>" + d.key;
-              link += "<span class='badge'>" + d.value + "</span>";
-              link += "</a>";
-              return link;
-          })
-          .classed("active", function(d){
-              return that._isActiveFilter("gg", d.key);
-          })
-          .on("click", function(d){
-              that.filter("gg", d.key);
-          });
-      gg_list.exit().remove();*/
 
       // Before rendering the Grid, we have to clear the layerGroup in the map instance in order to display new markers
       clearLayers();
@@ -214,7 +196,7 @@ Pyk.newsDiscovery = function(){
       id_tags = this._removeEmptyKeys(this.cf.id_dimension.group().all(), "id");
       var id_list = d3.select("#table4").selectAll("li").data(id_tags);
       id_list.enter().append("li").html(function(d){
-            var article = that._findArticleById(d.key);
+            var article = nd._findArticleById(d.key);
             var link = "<a href='#'>" + article["name"];
             link += "<span class='badge'>" + d.value + "</span>";
             link += "</a>";
@@ -222,66 +204,45 @@ Pyk.newsDiscovery = function(){
             return link;
         })
         .classed("active", function(d){
-            return that._isActiveFilter("id", d.key);
+            return nd._isActiveFilter("id", d.key);
         })
         .on("click", function(d){
-            that.filter("id", d.key);
+            nd.filter("id", d.key);
         });
       id_list.exit().remove();
 
       // Grid at the bottom
-      d3.select("#grid").selectAll("li").remove();
-      var grid_list = d3.select("#grid").selectAll("li").data(id_tags);
-      grid_list.enter().append("li").html(function(d,i){
+      d3.select("#grid").selectAll("div").remove();
+      var grid_list = d3.select("#grid").selectAll("div").data(id_tags);
+      grid_list.enter().append("div").html(function(d,i){
 
-          // Get full info
-          var article = that._findArticleById(d.key);
+        var article = nd._findArticleById(d.key);
+        var lastOne = i==grid_list[0].length-1 ? true : false;
+        var cardHtml = nd._renderArticleCardHtml(article);
+        codeAddressFromArticle(nd,article,lastOne);
 
-          var lastOne = i==grid_list[0].length-1 ? true : false;
+        return cardHtml;
 
-          // Call this line before codeAddressFromArticle to ensure that profile image url is already being fetched
-          var cardHtml = that._renderArticleCardHtml(article);
-
-          // Place a marker on the map as well for each of the elements in the grid, specify if it is the last one to update map bounds.
-          codeAddressFromArticle(that,article,lastOne);
-
-          // Return the HTML of the Card for this article
-          return cardHtml;
-
-        })
+      })
         .on("click", function(d){
 
-            $(this).find(".panel").addClass("flip");
-
-            var article = that._findArticleById(d.key);
-
-            // Set the Html contents in the details div
-            $('#details').html(that._renderArticlePopupHtml(article));
+            var article = nd._findArticleById(d.key);
+            $('#details').html(nd._renderArticleCardHtml(article));
 
         })
         .on("mouseover", function(d){
 
-            $(this).find(".panel").addClass("flip");
 
-            var article = that._findArticleById(d.key);
-
-            // Zoom map to element
-            panMapToArticle(that,article);
-        })
-        /*.on("mouseout", function(d){
-
-            $(this).find(".panel").removeClass("flip");
-
-            // Fit bounds of map to make all markers visible
-            mapFitBounds();
-        })*/;
+            var article = nd._findArticleById(d.key);
+            panMapToArticle(nd,article);
+        });
 
         grid_list.exit().remove();
     };
 
     this.filter = function(d, e){
 
-      var that = this;
+      var nd = this;
 
       var i = this.activeFilters[d].indexOf(e);
       if(i < 0){
@@ -294,35 +255,28 @@ Pyk.newsDiscovery = function(){
       this.cf.ee_dimension.filterAll();
       if(this.activeFilters["ee"].length > 0){
           this.cf.ee_dimension.filter(function(d){
-              return that.activeFilters["ee"].indexOf(d) > -1;
+              return nd.activeFilters["ee"].indexOf(d) > -1;
           });
       }
-
-      // this.cf.gg_dimension.filterAll();
-      // if(this.activeFilters["gg"].length > 0){
-      //     this.cf.gg_dimension.filter(function(d){
-      //         return that.activeFilters["gg"].indexOf(d) > -1;
-      //     });
-      // }
 
       this.cf.dd_dimension.filterAll();
       if(this.activeFilters["dd"].length > 0){
           this.cf.dd_dimension.filter(function(d){
-              return that.activeFilters["dd"].indexOf(d) > -1;
+              return nd.activeFilters["dd"].indexOf(d) > -1;
           });
       }
 
       this.cf.ff_dimension.filterAll();
       if(this.activeFilters["ff"].length > 0){
           this.cf.ff_dimension.filter(function(d){
-              return that.activeFilters["ff"].indexOf(d) > -1;
+              return nd.activeFilters["ff"].indexOf(d) > -1;
           });
       }
 
       this.cf.id_dimension.filterAll();
       if(this.activeFilters["id"].length > 0){
           this.cf.id_dimension.filter(function(d){
-              return that.activeFilters["id"].indexOf(d) > -1;
+              return nd.activeFilters["id"].indexOf(d) > -1;
           });
       }
 
@@ -330,8 +284,8 @@ Pyk.newsDiscovery = function(){
       if(this.activeFilters["aa"].length > 0){
           this.cf.aa_dimension.filter(function(d){
               // d is the data of the dataset
-              // f is the filters that are applied
-              var f = that.activeFilters["aa"];
+              // f is the filters nd are applied
+              var f = nd.activeFilters["aa"];
 
               var filter = true;
               for(var i in f){
@@ -348,11 +302,10 @@ Pyk.newsDiscovery = function(){
     // Defines method for search and typeahead.
     this.initSearch = function(){
 
-      var that = this;
-
+      var nd = this;
       var searchFilterArray = this._buildSearchFilterArray();
 
-      $('#search').typeahead({
+      $('#searchField').typeahead({
 
         source: function (query, process) {
 
@@ -365,7 +318,7 @@ Pyk.newsDiscovery = function(){
           var searchTerm = item;
           var article = searchFilterArray[searchTerm];
           if(article.filter){
-              that.filter(article.filter,article["id"]);
+              nd.filter(article.filter,article["id"]);
           }
 
           return item;
@@ -392,14 +345,6 @@ Pyk.newsDiscovery = function(){
 
       });
 
-      $('#clear_search_btn').click(function () {
-
-        that.initCrossfilter();
-        that.renderTags();
-        $("#search").val("");
-
-      });
-
     };
 
     // Defines method for search and typeahead.
@@ -409,6 +354,41 @@ Pyk.newsDiscovery = function(){
 
     }
 
+    $("#clearBtn").on('click',function(){
+
+      nd.initCrossfilter();
+      nd.renderTags();
+      $("#search").val("");
+
+    });
+
+    $("#joinBtn").on('click',function(){
+
+      $("#middle").hide();
+      $("#right").hide();
+      $("#joinPage").fadeIn();
+      $("#joinPage").removeClass('hidden');
+
+    });
+
+    $("#feedbackBtn").on('click',function(){
+
+      $("#middle").hide();
+      $("#right").hide();
+      $("#feedbackPage").fadeIn();
+      $("#feedbackPage").removeClass('hidden');
+
+    });
+
+    $("#infoBtn").on('click',function(){
+
+      $("#middle").hide();
+      $("#right").hide();
+      $("#infoPage").fadeIn();
+      $("#infoPage").removeClass('hidden');
+
+    });
+
     /*--------------------
       HELPERS
     --------------------*/
@@ -416,13 +396,13 @@ Pyk.newsDiscovery = function(){
     // Generates the HTML content of the card representation of the articles on the grid
     this._renderArticleCardHtml = function(article){
 
-      var container = $("<div/>").addClass("popup");
-      var front = $("<div/>").addClass("front");
-      var back  = $("<div/>").addClass("back");
+      console.log(article);
 
-      var thumbnail = $("<div/>").addClass("thumbnail thumbnail_holder_"+article["id"]);
-      front.append(thumbnail);
-      front.append("<br/>" + "<b>" + article["name"] + "</b>");
+      var container = $("<div/>").addClass("card col-xs-2");
+
+      var thumbnail = $("<div/>").addClass("thumbnail");
+      container.append(thumbnail);
+      container.append("<br/>" + "<b>" + article["name"] + "</b>");
       article["image"] = this._getProfileImageUrl(article,thumbnail);
 
       var back_content = "";
@@ -466,73 +446,7 @@ Pyk.newsDiscovery = function(){
       //  back_content += $("<div/>").addClass("github").html('<a href="' + article.github + '" target="_blank"><i class="fa fa-github fa-lg"></i></a>').get(0).outerHTML;
       // }
 
-      back.html(back_content);
-      container.append(front);
-      container.append(back);
-
-      return container.get(0).outerHTML;
-
-    }
-
-    // Generates the HTML content of popups showed when clicking markers on the map
-    this._renderArticlePopupHtml = function(article){
-
-      var container = $("<div/>").addClass("popup");
-      var front = $("<div/>").addClass("front");
-      var back  = $("<div/>").addClass("back");
-
-
-      var thumbnail = $("<div/>").addClass("thumbnail thumbnail_holder_"+article["id"]);
-      front.append(thumbnail);
-      front.append("<br/>" + "<b>" + article["name"] + "</b>");
-      article["profileimg"] = this._getProfileImageUrl(article,thumbnail);
-
-      var back_content = "";
-      //back_content += $("<div/>").addClass("name").html(article["name"]]).get(0).outerHTML;
-      back_content += $("<div/>").addClass("organisation").html(article["workLocation"]["company"]).get(0).outerHTML;
-      back_content += $("<div/>").addClass("city").html(article["address"]["city"] + ", " + article["address"]["country"]).get(0).outerHTML;
-
-      // //PGP
-      // if (article.pgpkey && article.pgpurl){
-      //  back_content += $("<div/>").addClass("pgp_key").html("PGP: " + '<a href="' + article.pgpurl + '" target="_self">' + article.pgpkey + "</a>").get(0).outerHTML;
-      // }else if (article.pgpkey && !article.pgpurl){
-      //  back_content += $("<div/>").addClass("pgp_key").html("PGP: " + article.pgpkey).get(0).outerHTML;
-      // }
-
-      // // EMAIL
-      // if (article.email){
-       // back_content += $("<div/>").addClass("email").html('</br><a href="' + "mailto:" + article.email + '"><i class="fa fa-envelope fa-lg"></i></a>').get(0).outerHTML;
-      // }
-
-      // WEBSITE
-      if (article["website"]){
-        back_content += $("<div/>").addClass("website").html('<a href="' + article["website"] + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>').get(0).outerHTML;
-      }
-
-      // TWITTER
-      // if (article["contactPoint"]["twitter"]){
-      //  back_content += $("<div/>").addClass("twitter").html('<a href="https://www.twitter.com/' + article["contactPoint"]["twitter"] + '" target="_blank"><i class="fa fa-twitter fa-lg"></i></a>').get(0).outerHTML;
-      // }
-
-      // // FACEBOOK
-      // if (article.facebook){
-      //  back_content += $("<div/>").addClass("twitter").html('<a href="' + article.facebook + '" target="_blank"><i class="fa fa-facebook fa-lg"></i></a>').get(0).outerHTML;
-      // }
-
-      // // LINKEDIN
-      // if (article.linkedin){
-      //  back_content += $("<div/>").addClass("twitter").html('<a href="' + article.linkedin + '" target="_blank"><i class="fa fa-linkedin fa-lg"></i></a>').get(0).outerHTML;
-      // }
-
-      // // GITHUB
-      // if (article.github){
-      //  back_content += $("<div/>").addClass("github").html('<a href="' + article.github + '" target="_blank"><i class="fa fa-github fa-lg"></i></a>').get(0).outerHTML;
-      // }
-
-      back.html(back_content);
-      container.append(front);
-      container.append(back);
-
+      container.append(back_content);
       return container.get(0).outerHTML;
 
     }
@@ -550,8 +464,6 @@ Pyk.newsDiscovery = function(){
 
     // Gets the list of titles from the articles
     this._buildSearchFilterArray = function(){
-
-      var that = this;
 
       //Define metadata Object, containing an array of titles for the autocompletion
       var articleSearchFilter = new Object;
@@ -597,24 +509,13 @@ Pyk.newsDiscovery = function(){
         articleSearchFilter.articleTitles.push(value["key"]);
       });
 
-      // GitHub
-      /*var gg_tags = this._removeEmptyKeys(this.cf.gg_dimension.group().all(), "gg");
-
-      $.each(gg_tags, function( index, value ) {
-        console.log(value["key"]);
-        articleTitles.push(value["key"]);
-      });*/
-
-      // Title aka Full Name
-      //id_tags = this._removeEmptyKeys(this.cf.id_dimension.group().all(), "id");
-
+      // add to search filter
       $.each(id_tags, function( index, value ) {
-        var a = that._findArticleById(value["key"]);
+        var a = nd._findArticleById(value["key"]);
         articleSearchFilter[a.name] = new Object;
         articleSearchFilter[a.name].filter = "id";
         articleSearchFilter[a.name].id = a.id;
         articleSearchFilter.articleTitles.push(a.name);
-
       });
 
       return articleSearchFilter;
@@ -696,7 +597,7 @@ Pyk.newsDiscovery = function(){
     // retrieves the profile_url of the user specified as parameter
     this._getFacebookProfileUrl = function(username){
 
-      console.log('_getTwitterProfileUrl');
+      console.log('_getFacebookProfileUrl');
 
     };
 
