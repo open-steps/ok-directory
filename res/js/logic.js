@@ -63,9 +63,9 @@ Pyk.newsDiscovery = function(){
 
 
     this.renderColHeadings = function(){
-        var h4s = $(".tag-holder h4"); // Capture all the required <h4> tags
+        var h5s = $(".tag-holder h5"); // Capture all the required <h4> tags
         var f = this.facet.children;  // Get the data nd corresponds to it
-        for(var i in f) $(h4s[i]).html(f[i].label);
+        for(var i in f) $(h5s[i]).html(f[i].label);
     };
 
 
@@ -224,20 +224,20 @@ Pyk.newsDiscovery = function(){
         return cardHtml;
 
       })
-        .on("click", function(d){
+      .on("click", function(d){
 
-            var article = nd._findArticleById(d.key);
-            $('#details').html(nd._renderArticleCardHtml(article));
+          var article = nd._findArticleById(d.key);
+          showArticleDetails(article);
 
-        })
-        .on("mouseover", function(d){
+      })
+      .on("mouseover", function(d){
 
 
-            var article = nd._findArticleById(d.key);
-            panMapToArticle(nd,article);
-        });
+          var article = nd._findArticleById(d.key);
+          panMapToArticle(nd,article);
+      });
 
-        grid_list.exit().remove();
+      grid_list.exit().remove();
     };
 
     this.filter = function(d, e){
@@ -393,21 +393,24 @@ Pyk.newsDiscovery = function(){
       HELPERS
     --------------------*/
 
+    this._showArticleDetails = function(article){
+
+
+    }
+
     // Generates the HTML content of the card representation of the articles on the grid
     this._renderArticleCardHtml = function(article){
 
-      console.log(article);
-
       var container = $("<div/>").addClass("card col-xs-2");
 
-      var thumbnail = $("<div/>").addClass("thumbnail");
-      container.append(thumbnail);
-      container.append("<br/>" + "<b>" + article["name"] + "</b>");
-      article["image"] = this._getProfileImageUrl(article,thumbnail);
+      var profileimg = $("<div/>").addClass("profile_image");
+      profileimg.append("<img src=\"res/img/avatar.png\"/>");
 
-      var back_content = "";
-      back_content += $("<div/>").addClass("organisation").html(article["workLocation"]["company"]).get(0).outerHTML;
-      back_content += $("<div/>").addClass("city").html(article["address"]["city"] + ", " + article["address"]["country"]).get(0).outerHTML;
+      var profileexcerpt = $("<div/>").addClass("profile_excerpt");
+      profileexcerpt.append("<br/>" + "<b>" + article["name"] + "</b>");
+      article["image"] = this._getProfileImageUrl(article,profileimg);
+      profileexcerpt.append($("<div/>").addClass("organisation").html(article["workLocation"]["company"]));
+      profileexcerpt.append($("<div/>").addClass("city").html(article["address"]["city"] + ", " + article["address"]["country"]).get(0));
 
       //PGP
       // if (article.pgpkey && article.pgpurl){
@@ -423,7 +426,7 @@ Pyk.newsDiscovery = function(){
 
       // WEBSITE
       if (article["website"]){
-        back_content += $("<div/>").addClass("website").html('<a href="' + article["website"] + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>').get(0).outerHTML;
+        profileexcerpt.append($("<div/>").addClass("website").html('<a href="' + article["website"] + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>'));
       }
 
       // // TWITTER
@@ -446,7 +449,8 @@ Pyk.newsDiscovery = function(){
       //  back_content += $("<div/>").addClass("github").html('<a href="' + article.github + '" target="_blank"><i class="fa fa-github fa-lg"></i></a>').get(0).outerHTML;
       // }
 
-      container.append(back_content);
+      container.append(profileimg);
+      container.append(profileexcerpt);
       return container.get(0).outerHTML;
 
     }
@@ -565,11 +569,6 @@ Pyk.newsDiscovery = function(){
       }else if (!article["image"] && article["contactPoint"]["twitter"]){
 
         this._getTwitterProfileImageUrl(article);
-
-      }else{
-
-        article["image"] = 'res/img/noimage.png';
-        thumbnail_holder.html("<img src=\""+article["image"]+"\"></img>");
 
       }
 

@@ -1,18 +1,44 @@
 body, html{
-    background-image: url('res/img/bg.png');
+    /*background-image: url('res/img/bg.png');*/
+    background:#fff;
     height: 100%;
 }
 
+.h1,h2,h3,h4,h5{
+  color: #fff;
+  text-decoration:capitalize;
+}
+
 #left{
-  background: #fff;
+  padding-top: 15px;
+  background: #0a90f6;
+  height:100%;
 }
 
 #middle{
-  background: #666;
+  background: #fff;
+  padding-top: 15px;
 }
 
 #right{
   background: #fff;
+}
+
+.left{
+  float:left;
+}
+
+.right{
+  float:right;
+}
+
+.logo h4{
+  text-align:center;
+  color: #fff;
+}
+
+.slogan{
+  padding:10px;
 }
 
 .fullheight{
@@ -27,6 +53,7 @@ body, html{
   margin      : 0;
   padding     : 0;
   text-indent : 0;
+  padding-top : 15px;
 }
 
 .pyk-news-discovery #grid li{
@@ -41,8 +68,8 @@ body, html{
   position:     : relative;
 }
 
-.pyk-news-discovery .thumbnail{
-  height: 48px;
+.pyk-news-discovery .profile_image{
+  height: 92px;
   /*width: 48px;
   margin: 0 auto;
   border: 1px #333333 solid;*/
@@ -89,6 +116,11 @@ body, html{
   transition: all 0.3s ease;
 }
 
+.pyk-news-discovery .tag-holder{
+  height:100%;
+  background:DDFF99;
+}
+
 .pyk-news-discovery .tag-holder > div{
     max-height:200px;
 }
@@ -97,12 +129,9 @@ body, html{
     max-height:200px;
 }
 
-.pyk-news-discovery .tag-holder > div h4{
-    text-transform: uppercase;
-    padding-left: 10px;
-    font-size: 10px;
-    border-bottom: 1px solid #aaa;
-    padding-bottom: 10px;
+.pyk-news-discovery .tag-holder > div h5{
+    text-decoration:capitalize;
+    font-size: 12px;    
 }
 
 .pyk-news-discovery .tag-list{
@@ -113,7 +142,7 @@ body, html{
 }
 
 .pyk-news-discovery .tag-list li{
-    font-size: 10px;
+    font-size: 12px;
     padding: 6px;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
@@ -125,17 +154,20 @@ body, html{
 .pyk-news-discovery .tag-list li:hover{
     background: #0a90f6;
     transition: all 0.3s ease;
+    color: #fff;
 }
 
 
 .pyk-news-discovery .tag-list li.active{
     background: #0a90f6;
     transition: all 0.3s ease;
+    color: #fff;
 }
 
 
 .pyk-news-discovery .tag-list li a{
     color: #666;
+    display:block;
 }
 
 .pyk-news-discovery .tag-list li a:hover{
@@ -152,7 +184,15 @@ body, html{
     background: transparent;
     font-weight: 300;
     color: #999;
-    font-size: 11px;
+    font-size: 12px;
+    float: right;
+}
+
+.pyk-news-discovery .tag-list :active a span.badge{
+    background: transparent;
+    font-weight: 300;
+    color: #fff;
+    font-size: 12px;
     float: right;
 }
 
@@ -161,8 +201,22 @@ body, html{
   background: #fff;
 }
 
-.thumbnail {
+.card:hover{
+  border: 1px solid #CCC;
+  border-radius: 10px;
+}
 
+.card.active{
+  border: 1px solid 0a90f6;
+  border-radius: 10px;
+}
+
+.profileimage{
+  text-align:center;
+}
+
+.profileexcerpt{
+  text-align:center;
 }
 
 /* Search styling */
@@ -206,6 +260,7 @@ form.form-search:before {
 }
 
 #map {
+  margin:15px;
   height: 340px;
 }
 

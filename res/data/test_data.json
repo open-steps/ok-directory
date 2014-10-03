@@ -34,7 +34,7 @@
             }
         ],
         "member": [],
-        "interest": []
+        "interest": ["Open Data", "Open Source"]
       }
     },
     {
@@ -53,7 +53,40 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
+          "workLocation": {
+              "company": "JLee",
+              "jobtitle": "",
+              "street": "",
+              "code": "",
+              "city": ""
+          },
+          "contactPoint": [
+              {
+                  "id": "johny@lee.com"
+              }
+          ],
+          "member": [],
+          "interest": ["Open Gov", "Open Science"]
+      }
+    },
+    {
+      "about" :{
+          "name": "Johny lee",
+          "additionalname": "",
+          "description": "Designer",
+          "birthDate": "12/02/1965",
+          "nationality": "Agorian",
+          "address": {
+              "street": "loop street",
+              "code": "",
+              "city": "Phnom Penh",
+              "country": "Cambodia"
+          },
+          "telephone": "",
+          "faxNumber": "",
+          "website": "http://www.agoracollective.org",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -86,7 +119,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -119,7 +152,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -152,7 +185,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -185,7 +218,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -218,7 +251,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -251,7 +284,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -284,7 +317,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -317,7 +350,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -350,7 +383,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -383,7 +416,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -416,7 +449,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -449,7 +482,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -482,7 +515,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -515,7 +548,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -548,7 +581,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -581,7 +614,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -614,7 +647,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -647,7 +680,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
@@ -680,40 +713,7 @@
           "telephone": "",
           "faxNumber": "",
           "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
-          "workLocation": {
-              "company": "JLee",
-              "jobtitle": "",
-              "street": "",
-              "code": "",
-              "city": ""
-          },
-          "contactPoint": [
-              {
-                  "id": "johny@lee.com"
-              }
-          ],
-          "member": [],
-          "interest": []
-      }
-    },
-    {
-      "about" :{
-          "name": "Johny lee",
-          "additionalname": "",
-          "description": "Designer",
-          "birthDate": "12/02/1965",
-          "nationality": "Agorian",
-          "address": {
-              "street": "loop street",
-              "code": "",
-              "city": "Phnom Penh",
-              "country": "Cambodia"
-          },
-          "telephone": "",
-          "faxNumber": "",
-          "website": "http://www.agoracollective.org",
-          "image": "file:///Users/alexcorbi/Developing/Open%20Steps/ok-directory-public/browser_impl/res/img/avatar_placeholder.png",
+          "image": "",
           "workLocation": {
               "company": "JLee",
               "jobtitle": "",
