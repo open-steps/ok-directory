@@ -1,154 +1,75 @@
 $(function(){
 
-	// EDITOR
-
 	// Set default options
 	JSONEditor.defaults.options.theme = 'bootstrap3';
 	JSONEditor.defaults.options.disable_collapse = true;
 	JSONEditor.defaults.options.disable_edit_json = true;
 	JSONEditor.defaults.options.disable_properties = true;
 
-
 	var editor;
+	var profileType = 'Person';
 
 	//Initialize the editor
-	function initEditor(){
+	function initEditor(type){
 
-		  editor = new JSONEditor(document.getElementById('editor_holder'),{
+		profileType = type;
 
-			schema: {
-				title: "Person",
-				type: "object",
-				properties: {
-					name: { "type": "string" , "title": "Name"},
-					additionalname: { "type": "string" , "title": "Additional Name"},
-					description: { "type": "string", "title": "About yourself"},
-					birthDate:  { "type": "string" , "title": "Birth date"},
-					nationality : { "type" : "string", "title": "Nationality"},
-					telephone: { "type" : "string" , "title": "Phone number"},
-					faxNumber: { "type" : "string", "title": "Fax number"},
-					website:  { "type" : "string", "title": "Homepagge"},
-					image: { "type": "string" , "title": "Image URL"},
-					address: {
-						type: "array",
-						uniqueItems: true,
-						title: "Locations",
-						items: {
-							type: "object",
-							title: "Location",
-								properties: {
-								street: { "type": "string", "title": "Street"},
-								code: { "type": "string", "title": "Zip code"},
-								city: { "type" : "string", "title": "City"},
-								country: { "type" : "string", "title": "Country"}
-							}
-						}
-					},
-					member: {
-						type: "array",
-						uniqueItems: true,
-						title: "Your companies, groups or organisations",
-						items: {
-							type: "object",
-							properties: {
-									company: { "type" : "string", "title": "Organiastion name"},
-									jobtitle: { "type" : "string", "title": "Position"},
-									street: { "type" : "string", "title": "Street"},
-									code: { "type" : "string", "title": "Zip code"},
-									city:  { "type" : "string", "title": "City"},
-									country: { "type" : "string", "title": "Country"}
-								}
-						}
-					},
-					contactPoint: {
-						type: "array",
-						uniqueItems: true,
-						title: "Contact information (email, social networks, etc)",
-						items: {
-							type: "object",
-							title: "Contact",
-							properties: {
-								type: {
-									title: "Type",
-									type: "string",
-									enum: [
-										"Email",
-										"Facebook",
-										"Twitter",
-										"Github",
-										"LinkedIn",
-										"Website"
-									]
-								},
-								id: {
-									title: "URL",
-									type: "string"
-								}
-							}
-						}
-					},
-					// member: {
-					//   type: "array",
-					//   uniqueItems: true,
-					//   items: {
-					//     type: "object",
-					//     title: "Membership",
-					//     properties: {
-					//       id: {
-					//         title: "website",
-					//         type: "string"
-					//       },
-					//       name: { title: "name", type: "string" }
-					//     }
-					//   }
-					// },
-					interest: {
-						type: "array",
-						uniqueItems: true,
-						title: "Areas of interest",
-						items: {
-							type: "object",
-							title: "Interest",
-							properties: {
-								name: {
-									title: "name",
-									type: "string"
-								}
-							}
-						}
-					}
+		$.getJSON('res/js/schemas/'+profileType+'.json', function(json){
+
+			document.getElementById('editor_holder').innerHTML = "";
+			editor = new JSONEditor(document.getElementById('editor_holder'),json);
+
+			editor.on('change',function() {
+
+				var errors = editor.validate();
+				if(errors.length) {
+
+					$('#validator').removeClass('ok');
+					$('#validator').text('Not valid');
+					$('#validator').addClass('error');
+					$('#generate_btn').addClass('disabled');
+
+				}else{
+
+					$('#validator').removeClass('error');
+					$('#validator').text('Valid');
+					$('#validator').addClass('ok');
+					$('#generate_btn').removeClass('disabled');
+
 				}
-			}
-		});
 
-
-		editor.on('change',function() {
-
-			var errors = editor.validate();
-			if(errors.length) {
-
-				$('#validator').removeClass('ok');
-				$('#validator').text('Not valid');
-				$('#validator').addClass('error');
-				$('#generate_btn').addClass('disabled');
-
-			}else{
-
-				$('#validator').removeClass('error');
-				$('#validator').text('Valid');
-				$('#validator').addClass('ok');
-				$('#generate_btn').removeClass('disabled');
-
-			}
+			});
 
 		});
 
 	}
 
-  initEditor();
+	initEditor('Person');
+
+	// TABS
+	$("#tabPerson").on('click',function() {
+		initEditor('Person');
+		$("#tabPerson").addClass('active');
+		$("#tabOrganisation").removeClass('active');
+		$("#tabPlace").removeClass('active');
+	});
+
+	$("#tabOrganisation").on('click',function() {
+		initEditor('Organization');
+		$("#tabPerson").removeClass('active');
+		$("#tabOrganisation").addClass('active');
+		$("#tabPlace").removeClass('active');
+	});
+
+	$("#tabPlace").on('click',function() {
+		initEditor('Place');
+		$("#tabPerson").removeClass('active');
+		$("#tabOrganisation").removeClass('active');
+		$("#tabPlace").addClass('active');
+	});
 
 	// STEP 2
-	$('#toStep3Generate').on('click',function() {
+	$('#generateBtn').on('click',function() {
 
 		// Validate
 		var errors = editor.validate();
@@ -167,10 +88,9 @@ $(function(){
 
 	function saveProfile(){
 
-
 		var data = editor.getValue();
 		data["@context"] = window.plp.config.context;
-		data["@type"] = "Person";
+		data["@type"] = profileType;
 
 		console.log(data);
 

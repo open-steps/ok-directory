@@ -93,20 +93,25 @@
             <div id="joinPage" class="col-md-12 slidePage">
 
               <div class="row">
-                <a id="closeJoinPageBtn" class="btn btn-default btn-md" role="button">X</a>
+                <div class="col-md-1 right">
+                  <a id="closeJoinPageBtn" class="btn btn-default btn-md" role="button">X</a>
+                </div>
               </div>
+
+              <hr>
 
               <div class="row">
 
-								<div class="col-md-2"> <!-- Instructions -->
+								<div class="col-md-3"> <!-- Instructions -->
 
-									<h4>How to use it</h4>
-									<p>Quite easy: Fill out the fields you want.</br></br>Once you are ready, press the button below and get to the final step where you will decide where you store your PLP profile.</p>
+									<h3>Join the Open Knowledge Directory</h3>
+									<p>Do you work actively with Open Source? Are you a researcher supporting Open Science? Are you a Journalist using data visualisation for telling your stories? Do you belong to any group making use of Open Data for public good?</p>
+                  <p> These are only a few examples of the individuals and organisations already listed on this directory. In general, if you are working actively with Open Knowledge, we would be glad to list you or your organization on our directory. For that, just select the corresponding tab (Person, Organization, Place) and fill out the fields you want to share with others. Remember, all the information you specify will be made publicly available.</p>
 
 									<hr>
 
 									<span>
-										<a id="toStep3Generate" class="btn btn-primary btn-md">Generate your profile</a>
+										<a id="generateBtn" class="btn btn-primary btn-md">Generate your profile</a>
 										<a id="validator"></a>
 									</span>
 
@@ -114,7 +119,13 @@
 
 								</div> <!-- Instructions -->
 
-								<div class="col-md-10"> <!-- Editor -->
+								<div class="col-md-9"> <!-- Editor -->
+
+									<ul class="nav nav-tabs" role="tablist">
+									  <li id="tabPerson" class="active"><a >Person</a></li>
+									  <li id="tabOrganisation"><a>Organization</a></li>
+									  <li id="tabPlace"><a>Place</a></li>
+									</ul>
 
 									<div id="editor_holder"></div>
 
@@ -127,56 +138,54 @@
             <div id="infoPage" class="col-md-12 slidePage">
 
               <div class="row">
-                <a id="closeInfoPageBtn" class="btn btn-default btn-md" role="button">X</a>
+                <div class="col-md-1 right">
+                  <a id="closeInfoPageBtn" class="btn btn-default btn-md" role="button">X</a>
+                </div>
               </div>
+
+              <hr>
 
               <div class="row">
 
-                <h4>About Open Steps</h4>
+                <div class="col-md-6">
+                  <img src="res/img/logo.png"></img>
+                  <h3>About Open Steps</h3>
+                  <p><a href="http://www.open-steps.org" target="_blank">Open Steps</a> is an independent blog aggregating worldwide information around Open Cultures in form of articles, videos and other resources. Its aim is to document Open Knowledge (OK) related projects and organisations either using Open Data, promoting Open Source technologies, launching Open Government initiatives, following the principles behind Open Science, supporting the release of information or practising Data Journalism. In this way, this site seeks to continue, this time virtually, the <a href="http://www.open-steps.org/how-it-started/" target="_blank">globetrotter project realised between July 2013 to July 2014</a> and discover further OK projects all around the world. Subscribe to our newsletter to be part of this amazing journey!</p>
+                  <h3>Portable Linked Profiles</h3>
+                  <p>PLP proposes a pattern for the creation, storage, listing and representation of public profile data for people, groups, organizations, venues and a large etcetera. Based on Open Web Standards, Common Vocabularies and Open Source technologies, it offers users the possibility to own the their data diverging from current mainstream and centralized profile platforms.</p>
+                  <p>This directory implements the PLP Browser pattern. To discover more about PLP, <a href="https://github.com/hackers4peace/plp-docs" target="_blank">read the docs</a></p>
+                </div>
 
-                <p><a href="http://www.open-steps.org">Open Steps</a> is an independent blog aggregating worldwide information around Open Cultures in form of articles, videos and other resources. Its aim is to document Open Knowledge (OK) related projects and organisations either using Open Data, promoting Open Source technologies, launching Open Government initiatives, following the principles behind Open Science, supporting the release of information or practising Data Journalism. In this way, this site seeks to continue, this time virtually, the globetrotter project realised between July 2013 to July 2014 and discover further OK projects all around the world. Subscribe to our newsletter to be part of this amazing journey!</p>
-
-                <h4>About this directory</h4>
-
-                <p>During those 12 months, Alex and Margo met numerous enthusiastic activists sharing the same ideas and approaches worldwide. What it began as a simple contact list evolved soon in this directory which has following goals:</p>
-
-                <ul>
-                  <li>Increase the visibility of Open Knowledge projects worldwide</li>
-                  <li>Facilitate the communication and cooperation across borders</li>
-                </ul>
-
-                <h4>This directory is Open Source</h4>
-
-                <p>While thinking about how to improve our directory, we experienced about the work done by <a href=
-                "http://www.jplusplus.org" target="_blank">Journalism++</a>, a network of datajournalism agencies across Europe which were working on a similar idea but focused on Data Journalists. Since their code was available under open licenses, we were able to reuse it and adapt it for our needs, thanks to them.</p>
-
-                <h4>Contribute</h4>
-
-                <p>Please help us with this initiative by:</p>
-
-                <ul>
-
-                  <li>Joining it by filling out <a href="http://bit.ly/1ydQY2B" target="_blank">this form</a>. It takes 2 minutes.</li>
-
-                  <li>
-                    <p>Spreading the word <a href="https://twitter.com/intent/tweet?button_hashtag=okdirectory&amp;text=Join+the+%40opensteps+%23okdirectory+and+help+mapping+%23openknowledge+around+the+world.+http://bit.ly/1ydQY2B" target="_blank" class="twitter-hashtag-button">#okdirectory on twitter</a>
-                    <script type="text/javascript">
-                    //<![CDATA[
-                    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-                    //]]>
-                    </script>
-                    </p>
-                  </li>
-
-                  <li>
-                    <p>Cloning, improving, reusing its code on <a href="https://github.com/acorbi/ok-directory-public" target="_blank">Github</a></p>
-                  </li>
-
-                </ul>
-
-                <iframe src="http://ghbtns.com/github-btn.html?user=acorbi&amp;repo=ok-directory-public&amp;type=fork&amp;count=true"allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
+                <div class="col-md-6">
+                  <h3>About this directory</h3>
+                  <p>During those 12 months, Alex and Margo met numerous enthusiastic activists sharing the same ideas and approaches worldwide. What it began as a simple contact list evolved soon in this directory which has following goals:</p>
+                  <ul>
+                    <li>Increase the visibility of Open Knowledge projects worldwide.</li>
+                    <li>Facilitate the communication and cooperation between activists across borders.</li>
+                  </ul>
+                  <h3>This directory is Open Source</h3>
+                  <p>While thinking about how to improve our directory, we experienced about the work done by <a href=
+                  "http://www.jplusplus.org" target="_blank">Journalism++</a>, a network of datajournalism agencies across Europe which were working on a similar idea but focused on Data Journalists. Since their code was available under open licenses, we were able to reuse it and adapt it for our needs, thanks to them.</p>
+                  <h3>Contribute</h3>
+                  <p>Please help us with this initiative by:</p>
+                  <ul>
+                    <li>Joining it by filling out information about yourself and your organisation.</li>
+                    <li>Spreading the word</li>
+                    <li>Cloning, improving, reusing its code on <a href="https://github.com/acorbi/ok-directory-public" target="_blank">Github</a></p></li>
+                    <li>Follow Open Steps on <a href="http://facebook.com/openstepsorg" target="_blank">Facebook</a>, <a href="https://twitter.com/opensteps" target="_blank">Twitter</a>, <a href="https://www.youtube.com/channel/UCq-SDOsULzM3W-bPLARU3zg" target="_blank">Youtube</a> and other social networks.</li>
+                  </ul>
+                  <a href="https://twitter.com/intent/tweet?button_hashtag=okdirectory&amp;text=Join+the+%40opensteps+%23okdirectory+and+help+mapping+%23openknowledge+around+the+world.+http://bit.ly/1ydQY2B" target="_blank" class="twitter-hashtag-button">#okdirectory on twitter</a>
+                  <script type="text/javascript">
+                  //<![CDATA[
+                  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+                  //]]>
+                  </script>
+                  <iframe src="http://ghbtns.com/github-btn.html?user=acorbi&amp;repo=ok-directory-public&amp;type=fork&amp;count=true"allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
+                </div>
 
               </div>
+
+              <hr>
 
             </div> <!-- infoPage -->
 
@@ -197,6 +206,8 @@
               </div>
 
             </div>
+
+            <hr>
 
             <div id="map" class="row">
 
@@ -240,104 +251,3 @@
   </body>
 
 </html>
-
-<!-- <div class="navbar navbar-default navbar-static-top" role="navigation">
-
-  <div class="container">
-
-    <div class="navbar-header">
-
-      <a class="navbar-brand" href="index.html">
-
-        <img src="res/img/world_white.png" height="32"/>
-        <b>Open Knowledge Directory</b>
-
-      </a>
-
-    </div>
-
-    <div class="navbar-collapse collapse">
-
-      <ul class="nav navbar-nav navbar-right">
-
-        <li><input id="searchField" autocomplete="off" type="text" class="search-query span2 form-control" placeholder="Search directory" /></li>
-
-        <li><a id="searchClearBtn" class="btn btn-default btn-md" role="button">Clear</a></li>
-
-        <li><a id="joinDirectoryBtn" class="btn btn-success btn-md" role="button">Join the directory</a></li>
-
-        <li><a id="feedbackBtn" class="btn btn-success btn-md" role="button">Feedback</a></li>
-
-        <li><a id="infoBtn" class="btn btn-success btn-md" role="button">Info</a></li>
-
-      </ul>
-
-    </div>
-
-  </div>
-
-</div> -->
-
-<!-- <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-  <div class="modal-dialog modal-content">
-
-    <div class="modal-header">
-
-      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&#215;</button>
-
-      <h4 class="modal-title">About</h4>
-
-    </div>
-
-    <div class="modal-body">
-
-      <h4>About Open Steps</h4>
-
-      <p><a href="http://www.open-steps.org">Open Steps</a> is an initiative from two young berliners Alex Corbi (spanish, software developer) and Margo Thierry (french, european politics) who decided to leave their daily lives in July 2013 and travel around the world for one year. The purpose of this journey was to meet people and organisations actively working in Open Knowledge related projects while divulging the principles behind this topic.</p>
-
-      <h4>About this directory</h4>
-
-      <p>During those 12 months, Alex and Margo met numerous enthusiastic activists sharing the same ideas and approaches worldwide. What it began as a simple contact list evolved soon in this directory which has following goals:</p>
-
-      <ul>
-        <li>Increase the visibility of Open Knowledge projects worldwide</li>
-        <li>Facilitate the communication and cooperation across borders</li>
-      </ul>
-
-      <h4>This directory is Open Source</h4>
-
-      <p>While thinking about how to improve our directory, we experienced about the work done by <a href=
-      "http://www.jplusplus.org" target="_blank">Journalism++</a>, a network of datajournalism agencies across Europe which were working on a similar idea but focused on Data Journalists. Since their code was available under open licenses, we were able to reuse it and adapt it for our needs, thanks to them.</p>
-
-      <h4>Contribute</h4>
-
-      <p>Please help us with this initiative by:</p>
-
-      <ul>
-
-        <li>Joining it by filling out <a href="http://bit.ly/1ydQY2B" target="_blank">this form</a>. It takes 2 minutes.</li>
-
-        <li>
-          <p>Spreading the word <a href="https://twitter.com/intent/tweet?button_hashtag=okdirectory&amp;text=Join+the+%40opensteps+%23okdirectory+and+help+mapping+%23openknowledge+around+the+world.+http://bit.ly/1ydQY2B" target="_blank" class="twitter-hashtag-button">#okdirectory on twitter</a>
-          <script type="text/javascript">
-          //<![CDATA[
-          !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-          //]]>
-          </script>
-          </p>
-        </li>
-
-        <li>
-          <p>Cloning, improving, reusing its code on <a href="https://github.com/acorbi/ok-directory-public" target="_blank">Github</a></p>
-        </li>
-
-      </ul>
-
-      <iframe src="http://ghbtns.com/github-btn.html?user=acorbi&amp;repo=ok-directory-public&amp;type=fork&amp;count=true"allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
-
-    </div>
-
-  </div>
-
-</div> -->

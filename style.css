@@ -12,6 +12,16 @@ h3{
   font-size:16px;
 }
 
+.error{
+
+	color: red;
+}
+
+.ok{
+
+	color: green;
+}
+
 #left{
   z-index: 10;
 }
@@ -32,6 +42,10 @@ h3{
 
 #infoPage{
 
+}
+
+#infoPage img{
+  width:100%;
 }
 
 .slidePage{
@@ -66,7 +80,7 @@ h3{
 }
 
 .slogan{
-  padding:10px 0px 10px 30px;
+  padding:0px 0px 0px 30px;
 }
 
 .buttons{
@@ -223,10 +237,4 @@ h3{
   position: absolute;
   width: 256px;
   height: 256px;
-}
-
-.info {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
 }

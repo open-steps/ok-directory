@@ -26,7 +26,6 @@ Pyk.newsDiscovery = function(){
 
           //Load Data, Create Crossfilter & Render
           $.getJSON("res/data/test_data.json", function(json){
-            console.log(json);
             nd.data = json["@graph"];
             nd.initCrossfilter();
             nd.initMap();
@@ -359,7 +358,7 @@ Pyk.newsDiscovery = function(){
 
     });
 
-    $("#openJoinPageBtn").on('click',function(){
+    $("#openJoinPageBtn").on('click',function(){      
       $("#header").hide();
       $("#map").hide();
       $("#grid").hide();

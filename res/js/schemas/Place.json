@@ -1,0 +1,29 @@
+{
+  "schema" : {
+    "title": "Place",
+    "type": "object",
+    "properties": {
+      "name": { "type": "string" , "title": "Name"},
+      "description": { "type": "string", "title": "About yourself"},
+      "birthDate":  { "type": "string" , "title": "Birth date"},
+      "telephone": { "type" : "string" , "title": "Phone number"},
+      "url":  { "type" : "string", "title": "Homepagge"},
+      "image": { "type": "string" , "title": "Image URL"},
+      "address": {
+        "type": "array",
+        "uniqueItems": true,
+        "title": "Locations",
+        "items": {
+          "type": "object",
+          "title": "Location",
+            "properties": {
+            "street": { "type": "string", "title": "Street"},
+            "code": { "type": "string", "title": "Zip code"},
+            "city": { "type" : "string", "title": "City"},
+            "country": { "type" : "string", "title": "Country"}
+          }
+        }
+      }
+    }
+  }
+}
