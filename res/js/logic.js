@@ -9,6 +9,7 @@ var Pyk = {};
 var id_tags;
 var mapViewOn = false;
 var articles = new Object();
+var activeArticle;
 var DEBUG = true;
 
 Pyk.newsDiscovery = function(){
@@ -63,7 +64,7 @@ Pyk.newsDiscovery = function(){
 
 
     this.renderColHeadings = function(){
-        var h5s = $(".tag-holder h5"); // Capture all the required <h4> tags
+        var h5s = $(".tag-holder h5"); // Capture all the required <h5> tags
         var f = this.facet.children;  // Get the data nd corresponds to it
         for(var i in f) $(h5s[i]).html(f[i].label);
     };
@@ -225,14 +226,10 @@ Pyk.newsDiscovery = function(){
 
       })
       .on("click", function(d){
-
-          var article = nd._findArticleById(d.key);
-          showArticleDetails(article);
-
+        var article = nd._findArticleById(d.key);
+        nd._showArticleDetails(article);
       })
       .on("mouseover", function(d){
-
-
           var article = nd._findArticleById(d.key);
           panMapToArticle(nd,article);
       });
@@ -358,35 +355,56 @@ Pyk.newsDiscovery = function(){
 
       nd.initCrossfilter();
       nd.renderTags();
-      $("#search").val("");
+      $("#searchField").val("");
 
     });
 
-    $("#joinBtn").on('click',function(){
-
-      $("#middle").hide();
-      $("#right").hide();
-      $("#joinPage").fadeIn();
-      $("#joinPage").removeClass('hidden');
-
+    $("#openJoinPageBtn").on('click',function(){
+      $("#header").hide();
+      $("#map").hide();
+      $("#grid").hide();
+      $("#joinPage").fadeIn("slow");
+      $(".leftmenu").fadeOut();
     });
 
-    $("#feedbackBtn").on('click',function(){
-
-      $("#middle").hide();
-      $("#right").hide();
-      $("#feedbackPage").fadeIn();
-      $("#feedbackPage").removeClass('hidden');
-
+    $("#closeJoinPageBtn").on('click',function(){
+      $("#header").show();
+      $("#map").show();
+      $("#grid").show();
+      $("#joinPage").hide();
+      $(".leftmenu").fadeIn();
     });
 
-    $("#infoBtn").on('click',function(){
+    // $("#openFeedbackPageBtn").on('click',function(){
+    //   $("#header").hide();
+    //   $("#map").hide();
+    //   $("#grid").hide();
+    //   $("#feedbackPage").fadeIn("slow");
+    //   $(".leftmenu").fadeOut();
+    // });
+    //
+    // $("#closeFeedbackPageBtn").on('click',function(){
+    //   $("#header").show();
+    //   $("#map").show();
+    //   $("#grid").show();
+    //   $("#feedbackPage").hide();
+    //   $(".leftmenu").fadeIn();
+    // });
 
-      $("#middle").hide();
-      $("#right").hide();
-      $("#infoPage").fadeIn();
-      $("#infoPage").removeClass('hidden');
+    $("#openInfoPageBtn").on('click',function(){
+      $("#header").hide();
+      $("#map").hide();
+      $("#grid").hide();
+      $("#infoPage").fadeIn("slow");
+      $(".leftmenu").fadeOut();
+    });
 
+    $("#closeInfoPageBtn").on('click',function(){
+      $("#header").show();
+      $("#map").show();
+      $("#grid").show();
+      $("#infoPage").hide();
+      $(".leftmenu").fadeIn();
     });
 
     /*--------------------
@@ -403,11 +421,11 @@ Pyk.newsDiscovery = function(){
 
       var container = $("<div/>").addClass("card col-xs-2");
 
-      var profileimg = $("<div/>").addClass("profile_image");
+      var profileimg = $("<div/>").addClass("profileimage");
       profileimg.append("<img src=\"res/img/avatar.png\"/>");
 
-      var profileexcerpt = $("<div/>").addClass("profile_excerpt");
-      profileexcerpt.append("<br/>" + "<b>" + article["name"] + "</b>");
+      var profileexcerpt = $("<div/>").addClass("profileexcerpt");
+      profileexcerpt.append("<b>" + article["name"] + "</b>");
       article["image"] = this._getProfileImageUrl(article,profileimg);
       profileexcerpt.append($("<div/>").addClass("organisation").html(article["workLocation"]["company"]));
       profileexcerpt.append($("<div/>").addClass("city").html(article["address"]["city"] + ", " + article["address"]["country"]).get(0));

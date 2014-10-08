@@ -19,7 +19,7 @@
 
   <body>
 
-    <div class="container pyk-news-discovery">
+    <div class="container-fluid pyk-news-discovery">
 
       <div class="row">
 
@@ -27,126 +27,194 @@
 
           <div class="logo">
 
-            <img src="res/img/world_white.png" width="100%"></img>
-            <h4>Open Knowledge Directory</h4>
+            <a href="http://directory.open-steps.org">
+              <img src="res/img/world_white.png" width="100%"></img>
+              <h4>Open Knowledge Directory</h4>
+            </a>
 
           </div>
 
-          <hr>
+          <div class="leftmenu">
 
-          <h5>Search</h5>
+            <h5>Search</h5>
 
-          <div class="input-group">
+            <div class="input-group">
 
-            <input id="searchField" type="text" class="form-control" placeholder="Name, Location, skills...">
+              <input id="searchField" type="text" class="form-control" placeholder="Name, Location, skills...">
 
-            <span class="input-group-btn">
+              <span class="input-group-btn">
 
-              <button id="clearBtn" class="btn btn-default btn-md" type="button">X</button>
+                <button id="clearBtn" class="btn btn-default btn-md" type="button">X</button>
 
-            </span>
-
-          </div>
-
-          <hr>
-
-          <div class="tag-holder">
-
-            <div>
-
-              <h5 id="tb1"></h4>
-              <div>
-                <ul id="table1" class="tag-list"></ul>
-              </div>
-
-            </div><!--city -->
-
-            <div>
-
-              <h5 id="tb6"></h4>
-              <div>
-                <ul id="table6" class="tag-list"></ul>
-              </div>
-
-            </div><!--institution -->
-
-            <div>
-
-              <h5 id="tb2"></h4>
-              <div>
-                <ul id="table2" class="tag-list"></ul>
-              </div>
-
-            </div><!--skills -->
-
-            <div>
-
-              <h5 id="tb3"></h4>
-              <div>
-                <ul id="table3" class="tag-list"></ul>
-              </div>
+              </span>
 
             </div>
 
-          </div>
+            <div class="tag-holder">
 
-        </div><!-- end of tag-holder -->
+              <div>
+                <h5 id="tb1"></h4>
+                <div>
+                  <ul id="table1" class="tag-list"></ul>
+                </div>
+              </div><!--city -->
 
-        <div id="joinPage" class="fullheight hidden col-md-10">Join</div>
-        <div id="infoPage" class="fullheight hidden col-md-10">Info</div>
-        <div id="feedbackPage" class="fullheight hidden col-md-10">Feedback</div>
+              <div>
+                <h5 id="tb6"></h4>
+                <div>
+                  <ul id="table6" class="tag-list"></ul>
+                </div>
+              </div><!--institution -->
 
-        <div id="middle" class="col-md-10">
+              <div>
+                <h5 id="tb2"></h4>
+                <div>
+                  <ul id="table2" class="tag-list"></ul>
+                </div>
+              </div><!--skills -->
 
-          <div class="row">
+              <div>
+                <h5 id="tb3"></h4>
+                <div>
+                  <ul id="table3" class="tag-list"></ul>
+                </div>
+              </div>
 
-            <div class="slogan col-md-8">
-              <i>Mapping Open Knowledge individuals and organisations worldwide</i>
-            </div>
-
-            <div class="buttons right col-md-4">
-              <a id="joinBtn" class="btn btn-default btn-md" role="button">Join the directory</a>
-              <a id="feedbackBtn" class="btn btn-default btn-md" role="button">Feedback</a>
-              <a id="infoBtn" class="btn btn-default btn-md" role="button">Info</a>
-            </div>
-
-          </div>
-
-          <div class="row">
-
-            <div id="map"></div>
-
-          </div>
-
-          <div class="row gridster">
-
-            <div id="grid">
-
-            </div>
+            </div><!-- end of tag-holder -->
 
           </div>
 
         </div>
 
-        <!-- <div id="right" class="col-md-10">
+        <div id="middle" class=" col-md-10">
 
-          <div id="details">
+          <div id="containter">
 
-            <img src="res/img/avatar_placeholder.png" />
+            <div id="joinPage" class="col-md-12 slidePage">
+
+              <div class="row">
+                <a id="closeJoinPageBtn" class="btn btn-default btn-md" role="button">X</a>
+              </div>
+
+              <div class="row">
+
+								<div class="col-md-2"> <!-- Instructions -->
+
+									<h4>How to use it</h4>
+									<p>Quite easy: Fill out the fields you want.</br></br>Once you are ready, press the button below and get to the final step where you will decide where you store your PLP profile.</p>
+
+									<hr>
+
+									<span>
+										<a id="toStep3Generate" class="btn btn-primary btn-md">Generate your profile</a>
+										<a id="validator"></a>
+									</span>
+
+									<hr>
+
+								</div> <!-- Instructions -->
+
+								<div class="col-md-10"> <!-- Editor -->
+
+									<div id="editor_holder"></div>
+
+								</div> <!-- Editor -->
+
+              </div>
+
+            </div> <!-- joinPage -->
+
+            <div id="infoPage" class="col-md-12 slidePage">
+
+              <div class="row">
+                <a id="closeInfoPageBtn" class="btn btn-default btn-md" role="button">X</a>
+              </div>
+
+              <div class="row">
+
+                <h4>About Open Steps</h4>
+
+                <p><a href="http://www.open-steps.org">Open Steps</a> is an independent blog aggregating worldwide information around Open Cultures in form of articles, videos and other resources. Its aim is to document Open Knowledge (OK) related projects and organisations either using Open Data, promoting Open Source technologies, launching Open Government initiatives, following the principles behind Open Science, supporting the release of information or practising Data Journalism. In this way, this site seeks to continue, this time virtually, the globetrotter project realised between July 2013 to July 2014 and discover further OK projects all around the world. Subscribe to our newsletter to be part of this amazing journey!</p>
+
+                <h4>About this directory</h4>
+
+                <p>During those 12 months, Alex and Margo met numerous enthusiastic activists sharing the same ideas and approaches worldwide. What it began as a simple contact list evolved soon in this directory which has following goals:</p>
+
+                <ul>
+                  <li>Increase the visibility of Open Knowledge projects worldwide</li>
+                  <li>Facilitate the communication and cooperation across borders</li>
+                </ul>
+
+                <h4>This directory is Open Source</h4>
+
+                <p>While thinking about how to improve our directory, we experienced about the work done by <a href=
+                "http://www.jplusplus.org" target="_blank">Journalism++</a>, a network of datajournalism agencies across Europe which were working on a similar idea but focused on Data Journalists. Since their code was available under open licenses, we were able to reuse it and adapt it for our needs, thanks to them.</p>
+
+                <h4>Contribute</h4>
+
+                <p>Please help us with this initiative by:</p>
+
+                <ul>
+
+                  <li>Joining it by filling out <a href="http://bit.ly/1ydQY2B" target="_blank">this form</a>. It takes 2 minutes.</li>
+
+                  <li>
+                    <p>Spreading the word <a href="https://twitter.com/intent/tweet?button_hashtag=okdirectory&amp;text=Join+the+%40opensteps+%23okdirectory+and+help+mapping+%23openknowledge+around+the+world.+http://bit.ly/1ydQY2B" target="_blank" class="twitter-hashtag-button">#okdirectory on twitter</a>
+                    <script type="text/javascript">
+                    //<![CDATA[
+                    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+                    //]]>
+                    </script>
+                    </p>
+                  </li>
+
+                  <li>
+                    <p>Cloning, improving, reusing its code on <a href="https://github.com/acorbi/ok-directory-public" target="_blank">Github</a></p>
+                  </li>
+
+                </ul>
+
+                <iframe src="http://ghbtns.com/github-btn.html?user=acorbi&amp;repo=ok-directory-public&amp;type=fork&amp;count=true"allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
+
+              </div>
+
+            </div> <!-- infoPage -->
+
+            <div id="feedbackPage" class="fullheight col-md-12 slidePage">
+              Feedback
+            </div> <!-- feedbackPage -->
+
+            <div id="header" class="row">
+
+              <div class="slogan col-md-6">
+                <p>Mapping Open Knowledge individuals and organisations worldwide</p>
+              </div>
+
+              <div class="buttons right col-md-6">
+                <a id="openJoinPageBtn" class="btn btn-primary btn-md" role="button"><span class="glyphicon glyphicon-plus"></span>  Join the directory</a>
+                <a id="openInfoPageBtn" class="btn btn-default btn-md" role="button"><span class="glyphicon glyphicon-info-sign"></span>  Info</a>
+                <a href="mailto:contact@open-steps.org" id="openFeedbackPageBtn" class="btn btn-default btn-md" role="button"><span class="glyphicon glyphicon-envelope"></span>  Feedback</a>
+              </div>
+
+            </div>
+
+            <div id="map" class="row">
+
+            </div>
+
+            <div id="grid" class="row">
+
+            </div>
+
+            <hr>
+
+            <div id="footer" class="footer-fluid footer-static-bottom">
+
+              <p class="text-muted">The Open Knowledge Directory is an initiative of <a href="http://www.open-steps.org">Open Steps</a> and is based on Open Web Standards and Open Source technologies. <a href="https://github.com/opensteps/ok-directory">Discover more</a> . <a href="http://creativecommons.org/about/cc0"> CCO - No rights reserved</a> </p>
+
+            </div>
 
           </div>
-
-        </div> -->
-
-      </div>
-
-      <hr>
-
-      <div class="footer footer-static-bottom">
-
-        <div class="container">
-
-          <p class="text-muted">The Open Knowledge Directory is an initiative of <a href="http://www.open-steps.org">Open Steps</a> and is based on Open Web Standards and Open Source technologies. <a href="https://github.com/opensteps/ok-directory">Discover more</a> . <a href="http://creativecommons.org/about/cc0"> CCO - No rights reserved</a> </p>
 
         </div>
 
@@ -164,6 +232,8 @@
     <script src="bower_components/node-uuid/uuid.js" type="text/javascript" charset="utf-8"></script>
     <script src="bower_components/superagent/superagent.js" type="text/javascript" charset="utf-8"></script>
     <script src="config.js" type="text/javascript" charset="utf-8"></script>
+    <script src="res/js/jsoneditor.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="res/js/app.js" type="text/javascript" charset="utf-8"></script>
     <script src="res/js/logic.js" type="text/javascript" charset="utf-8"></script>
     <script src="res/js/mapview.js" type="text/javascript" charset="utf-8"></script>
 
