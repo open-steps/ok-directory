@@ -1,0 +1,84 @@
+{
+  "schema" : {
+    "title": "Organization",
+    "type": "object",
+    "properties": {
+      "name": { "type": "string" , "title": "Name"},
+      "description": { "type": "string", "title": "About the organization"},
+      "telephone": { "type" : "string" , "title": "Phone number"},
+      "website":  { "type" : "string", "title": "Homepage"},
+      "logo": { "type": "string" , "title": "Logo URL"},
+      "address": {
+        "type": "array",
+        "uniqueItems": true,
+        "title": "Locations",
+        "items": {
+          "type": "object",
+          "title": "Location",
+            "properties": {
+            "street": { "type": "string", "title": "Street"},
+            "code": { "type": "string", "title": "Zip code"},
+            "city": { "type" : "string", "title": "City"},
+            "country": { "type" : "string", "title": "Country"}
+          }
+        }
+      },
+      "member": {
+        "type": "array",
+        "uniqueItems": true,
+        "title": "Members of the organization",
+        "items": {
+          "type": "object",
+          "title": "Member",
+          "properties": {
+              "name": { "type" : "string", "title": "Name"},
+              "jobtitle": { "type" : "string", "title": "Position"},
+              "description": { "type" : "string", "title": "Description"}
+            }
+        }
+      },
+      "contactPoint": {
+        "type": "array",
+        "uniqueItems": true,
+        "title": "Contact information (email, social networks, etc)",
+        "items": {
+          "type": "object",
+          "title": "Contact",
+          "properties": {
+            "type": {
+              "title": "Type",
+              "type": "string",
+              "enum": [
+                "Email",
+                "Facebook",
+                "Twitter",
+                "Github",
+                "LinkedIn",
+                "Website"
+              ]
+            },
+            "id": {
+              "title": "URL",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "interest": {
+        "type": "array",
+        "uniqueItems": true,
+        "title": "Areas of interest",
+        "items": {
+          "type": "object",
+          "title": "Interest",
+          "properties": {
+            "name": {
+              "title": "name",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
