@@ -41,6 +41,6 @@ Cloned initially from https://github.com/jplusplus/global-directory
 
 Implementing Portable Linled Profiles https://github.com/hackers4peace/plp-docs
 
-## License
+## CC0 — No Rights Reserved
 
-CC BY-SA 4.0
+[![CC0](http://i.creativecommons.org/p/zero/1.0/88x31.png)](http://creativecommons.org/about/cc0)
