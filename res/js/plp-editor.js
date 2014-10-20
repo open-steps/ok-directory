@@ -47,18 +47,18 @@ $(function(){
 	initEditor('Person');
 
 	// TABS
-	// $("#tabPerson").on('click',function() {
-	// 	initEditor('Person');
-	// 	selectProfileType("Person");
-	// });
-	// $("#tabOrganization").on('click',function() {
-	// 	initEditor('Organization');
-	// 	selectProfileType("Organization");
-	// });
-	// $("#tabPlace").on('click',function() {
-	// 	initEditor('Place');
-	// 	selectProfileType("Place");
-	// });
+	$("#tabPerson").on('click',function() {
+		initEditor('Person');
+		selectProfileType("Person");
+	});
+	$("#tabOrganization").on('click',function() {
+		initEditor('Organization');
+		selectProfileType("Organization");
+	});
+	$("#tabPlace").on('click',function() {
+		initEditor('Place');
+		selectProfileType("Place");
+	});
 
 	// STEP 2
 	$('#generateBtn').on('click',function() {
@@ -68,6 +68,8 @@ $(function(){
 		if(!errors.length) {
 
       saveProfile();
+
+			var uriInProvider ="";
 
 			superagent.post(window.plp.config.provider)
       .type('application/ld+json')
@@ -84,6 +86,8 @@ $(function(){
 					if(provRes.ok) {
 
 						console.log('Profile successfully pushed to provider ' + provRes.text);
+						uriInProvider = JSON.parse(provRes.text)["@id"];
+
             // FIXME: handle errors
             var profile = JSON.parse(provRes.text);
 
@@ -104,7 +108,7 @@ $(function(){
 									if (dirRes.ok){
 
 										console.log('Profile succesfully listed in directory ' + dirRes.text);
-										showProfilePublishedOk(JSON.parse(dirRes.text)["@id"]);
+										showProfilePublishedOk(uriInProvider);
 									}
 
 							});

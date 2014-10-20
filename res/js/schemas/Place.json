@@ -4,10 +4,9 @@
     "type": "object",
     "properties": {
       "name": { "type": "string" , "title": "Name"},
-      "description": { "type": "string", "title": "About yourself"},
-      "birthDate":  { "type": "string" , "title": "Birth date"},
+      "description": { "type": "string", "title": "About"},
       "telephone": { "type" : "string" , "title": "Phone number"},
-      "url":  { "type" : "string", "title": "Homepagge"},
+      "url":  { "type" : "string", "title": "Homepage"},
       "image": { "type": "string" , "title": "Image URL"},
       "address": {
         "type": "array",
@@ -19,6 +18,24 @@
             "properties": {
             "street": { "type": "string", "title": "Street"},
             "code": { "type": "string", "title": "Zip code"},
+            "city": { "type" : "string", "title": "City"},
+            "country": { "type" : "string", "title": "Country"}
+          }
+        }
+      },
+      "event": {
+        "type": "array",
+        "uniqueItems": true,
+        "title": "Events",
+        "items": {
+          "type": "object",
+          "title": "Event",
+            "properties": {
+            "name": { "type": "string", "title": "Name"},
+            "description": { "type": "string", "title": "Description"},
+            "url": { "type": "string", "title": "Website"},
+            "startDate": { "type": "string", "title": "Start Date"},
+            "endDate": { "type": "string", "title": "End date"},
             "city": { "type" : "string", "title": "City"},
             "country": { "type" : "string", "title": "Country"}
           }

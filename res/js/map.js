@@ -8,7 +8,7 @@ var layerGroup;
 var markers;
 var fetchedAddresses = new Object();
 var mapQuestApiKey = window.plp.config.mapQuestApiKey; // Open Steps APIKey, change please
-var geocodeApiURL="http://www.mapquestapi.com/geocoding/v1/address?key="+mapQuestApiKey+"&country=#country#&city=#city#&postalCode=#postalCode#&street=#street#";
+var geocodeApiURL="http://www.mapquestapi.com/geocoding/v1/address?key="+mapQuestApiKey+"&country=#country#&city=#city#";
 var currentArticle = undefined;
 
 var initializeMap = function() {
@@ -37,7 +37,7 @@ var codeAddressFromArticle = function(context,article,last) {
 
   if (!article["about"]["address"][0]) return;
 
-	var addressToGeocode = article["about"]["address"][0]["country"]+', '+article["about"]["address"][0]["city"]+', '+article["about"]["address"][0]["code"]+', '+article["about"]["address"][0]["street"];
+	var addressToGeocode = article["about"]["address"][0]["country"]+', '+article["about"]["address"][0]["city"];
 
 	// Setup marker icon
 	var imgIcon = L.icon({
@@ -57,8 +57,6 @@ var codeAddressFromArticle = function(context,article,last) {
 		// replace placeholders in the url
 		var finalGeocodeApiURL = geocodeApiURL.replace('#city#',article["about"]["address"][0]["city"]);
 		finalGeocodeApiURL = finalGeocodeApiURL.replace('#country#',article["about"]["address"][0]["country"]);
-    finalGeocodeApiURL = finalGeocodeApiURL.replace('#postalCode#',article["about"]["address"][0]["code"]);
-    finalGeocodeApiURL = finalGeocodeApiURL.replace('#street#',article["about"]["address"][0]["street"]);
 
 		//console.log("Fetching address on: "+finalGeocodeApiURL);
 
@@ -92,7 +90,7 @@ var panMapToArticle = function(context,article){
 
   if (!article["about"]["address"][0]) return;
 
-	var addressToGeocode = article["about"]["address"][0]["country"]+', '+article["about"]["address"][0]["city"]+', '+article["about"]["address"][0]["code"]+', '+article["about"]["address"][0]["street"];
+	var addressToGeocode = article["about"]["address"][0]["country"]+', '+article["about"]["address"][0]["city"];
 
 	// If the address was not already fetched, do it
 	if (!fetchedAddresses[addressToGeocode]){
@@ -100,8 +98,6 @@ var panMapToArticle = function(context,article){
 		// replace placeholders in the url
     var finalGeocodeApiURL = geocodeApiURL.replace('#city#',article["about"]["address"][0]["city"]);
     finalGeocodeApiURL = finalGeocodeApiURL.replace('#country#',article["about"]["address"][0]["country"]);
-    finalGeocodeApiURL = finalGeocodeApiURL.replace('#postalCode#',article["about"]["address"][0]["code"]);
-    finalGeocodeApiURL = finalGeocodeApiURL.replace('#street#',article["about"]["address"][0]["street"]);
 
 		//console.log("Fetching address on: "+finalGeocodeApiURL);
 

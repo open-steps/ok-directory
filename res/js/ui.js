@@ -78,9 +78,17 @@ Pyk.newsDiscovery = function(){
       });
 
       this.cf.ff_dimension = this.cf.data.dimension(function(d){
-        if (!d["about"]["memberOf"][0])
-          return "N/A";
-        return d["about"]["memberOf"][0]["name"];
+
+        if (d["about"]["@type"] == "Organization"){
+          if (!d["about"]["name"])
+            return "N/A";
+          return d["about"]["name"];
+        }else if(d["about"]["@type"] == "Person"){
+          if (!d["about"]["memberOf"][0])
+            return "N/A";
+          return d["about"]["memberOf"][0]["name"];
+        }
+
       });
 
       // We need 2 identical dimensions for the numbers to update
@@ -294,8 +302,6 @@ Pyk.newsDiscovery = function(){
       var nd = this;
       var searchFilterArray = this._buildSearchFilterArray();
 
-      console.log(searchFilterArray);
-
       $('#searchField').typeahead({
 
         source: function (query, process) {
@@ -398,19 +404,30 @@ Pyk.newsDiscovery = function(){
       $(".leftmenu").fadeIn();
     }
 
-    this._showArticleDetails = function(article){
+    this._renderArticleCardPreview = function(article){
 
-       $('#article-card').modal('show');
-       this._renderArticleCardDetails(article);
+      if (article["about"]["@type"] == "Person"){
+
+        return nd._renderArticleCardPreviewPerson(article);
+
+      }else if (article["about"]["@type"] == "Organization"){
+
+        return nd._renderArticleCardPreviewOrganization(article);
+
+      }else if (article["about"]["@type"] == "Place"){
+
+        return nd._renderArticleCardPreviewPlace(article);
+
+      }
 
     }
 
-    this._renderArticleCardPreview = function(article){
+    this._renderArticleCardPreviewPerson = function(article){
 
       var container = $("<div/>").addClass("card col-xs-2");
 
       var profileimg = $("<div/>").addClass("profileimage");
-      this._setProfileImageUrl(article,profileimg);
+      this._setProfileImageUrlPerson(article,profileimg);
 
       var profileexcerpt = $("<div/>").addClass("profileexcerpt");
       profileexcerpt.append("<b>" + article["about"]["name"] + "</b>");
@@ -427,32 +444,88 @@ Pyk.newsDiscovery = function(){
 
     }
 
-    // Generates the HTML content of the card representation of the articles on the grid
-    this._renderArticleCardDetails = function(article){
+    this._renderArticleCardPreviewOrganization = function(article){
 
-      console.log(article);
+      var container = $("<div/>").addClass("card col-xs-2");
+
+      var profileimg = $("<div/>").addClass("profileimage");
+      this._setProfileImageUrlOrganization(article,profileimg);
+
+      var profileexcerpt = $("<div/>").addClass("profileexcerpt");
+      profileexcerpt.append("<b>" + article["about"]["name"] + "</b>");
+
+      if (article["about"]["address"][0])
+        profileexcerpt.append($("<div/>").addClass("city").html(article["about"]["address"][0]["city"] + ", " + article["about"]["address"][0]["country"]).get(0));
+
+      container.append(profileimg);
+      container.append(profileexcerpt);
+      return container.get(0).outerHTML;
+
+    }
+
+    this._renderArticleCardPreviewPlace = function(article){
+
+      var container = $("<div/>").addClass("card col-xs-2");
+
+      var profileimg = $("<div/>").addClass("profileimage");
+      this._setProfileImageUrlPlace(article,profileimg);
+
+      var profileexcerpt = $("<div/>").addClass("profileexcerpt");
+      profileexcerpt.append("<b>" + article["about"]["name"] + "</b>");
+
+      if (article["about"]["address"][0])
+        profileexcerpt.append($("<div/>").addClass("city").html(article["about"]["address"][0]["city"] + ", " + article["about"]["address"][0]["country"]).get(0));
+
+      container.append(profileimg);
+      container.append(profileexcerpt);
+      return container.get(0).outerHTML;
+
+    }
+
+    this._showArticleDetails = function(article){
+
+       $('#article-card').modal('show');
+
+       if (article["about"]["@type"] == "Person"){
+
+         return nd._renderArticleCardDetailsPerson(article);
+
+       }else if (article["about"]["@type"] == "Organization"){
+
+         return nd._renderArticleCardDetailsOrganization(article);
+
+       }else if (article["about"]["@type"] == "Place"){
+
+         return nd._renderArticleCardDetailsPlace(article);
+
+       }
+
+    }
+
+    // Generates the HTML content of the card representation of the articles on the grid
+    this._renderArticleCardDetailsPerson = function(article){
 
       $("#article-card-left").empty();
       $("#article-card-right").empty();
 
       var profileimg = $("<div/>").addClass("profileimage");
       $("#article-card-left").append(profileimg);
-      this._setProfileImageUrl(article,profileimg);
+      this._setProfileImageUrlPerson(article,profileimg);
 
       $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
       if (article["about"]["memberOf"][0])
         $("#article-card-left").append($("<div/>").addClass("organisation").html(article["about"]["memberOf"][0]["name"]));
       $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"][0]["city"]+", "+article["about"]["address"][0]["country"]+'</p>');
 
-      // WEBSITE
-      if (article["website"]){
-        $("#article-card-left").append($("<div/>").addClass("website contact-point").html('<a href="' + article["website"] + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>'));
-      }
-
       // EMAIL
       var email = nd._getValueForKey(article["about"]["contactPoint"],"Email");
       if (email){
        $("#article-card-left").append($("<div/>").addClass("email contact-point").html('</br><a href="' + "mailto:" + email + '"><i class="fa fa-envelope fa-lg"></i></a>'));
+      }
+
+      // WEBSITE
+      if (article["about"]["website"]){
+        $("#article-card-left").append($("<div/>").addClass("website contact-point").html('<a href="' + article["about"]["website"] + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>'));
       }
 
       // TWITTER
@@ -493,6 +566,94 @@ Pyk.newsDiscovery = function(){
         }
         $("#article-card-right").append(skills);
       }
+
+      $("#profile-published-uri").html("<p>PLP Profile stored under: <b></br>"+article["about"]["@id"]+"</b></p>");
+    }
+
+    // Generates the HTML content of the card representation of the articles on the grid
+    this._renderArticleCardDetailsOrganization = function(article){
+
+      $("#article-card-left").empty();
+      $("#article-card-right").empty();
+
+      var profileimg = $("<div/>").addClass("profileimage");
+      $("#article-card-left").append(profileimg);
+      this._setProfileImageUrlOrganization(article,profileimg);
+
+      $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
+      $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"][0]["city"]+", "+article["about"]["address"][0]["country"]+'</p>');
+
+      // EMAIL
+      var email = nd._getValueForKey(article["about"]["contactPoint"],"Email");
+      if (email){
+       $("#article-card-left").append($("<div/>").addClass("email contact-point").html('</br><a href="' + "mailto:" + email + '"><i class="fa fa-envelope fa-lg"></i></a>'));
+      }
+
+      // WEBSITE
+      if (article["about"]["website"]){
+        $("#article-card-left").append($("<div/>").addClass("website contact-point").html('<a href="' + article["about"]["website"] + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>'));
+      }
+
+      // TWITTER
+      var twitter = nd._getValueForKey(article["about"]["contactPoint"],"Twitter");
+      if (twitter){
+        $("#article-card-left").append($("<div/>").addClass("twitter contact-point").html('<a href="https://www.twitter.com/' + nd._cleanTwitterHandle(twitter) + '" target="_blank"><i class="fa fa-twitter fa-lg"></i></a>'));
+      }
+
+      // FACEBOOK
+      var facebook = nd._getValueForKey(article["about"]["contactPoint"],"Facebook");
+      if (facebook){
+        $("#article-card-left").append($("<div/>").addClass("facebook contact-point").html('<a href="' + facebook + '" target="_blank"><i class="fa fa-facebook fa-lg"></i></a>'));
+      }
+
+      // LINKEDIN
+      var linkedin = nd._getValueForKey(article["about"]["contactPoint"],"Linkedin");
+      if (linkedin){
+        $("#article-card-left").append($("<div/>").addClass("linkedin contact-point").html('<a href="' + linkedin + '" target="_blank"><i class="fa fa-linkedin fa-lg"></i></a>'));
+      }
+
+      // GITHUB
+      var github = nd._getValueForKey(article["about"]["contactPoint"],"Github");
+      if (github){
+        $("#article-card-left").append($("<div/>").addClass("github contact-point").html('<a href="' + github + '" target="_blank"><i class="fa fa-github fa-lg"></i></a>'));
+      }
+
+      // Description
+      $("#article-card-right").append("<h2>About "+article["about"]["name"]+"</h2>");
+      $("#article-card-right").append('<p id="article-card-description">'+article["about"]["description"]+'</p>');
+
+      // Interests
+      $("#article-card-right").append("<h2>Areas of interest</h2>");
+      if (article["about"]["interest"]){
+        var skills = $("<div/>").addClass("skill-list");
+        skills.append($("<ul/>"));
+        for (key in article["about"]["interest"]){
+            skills.append('<li>'+article["about"]["interest"][key]["name"]+'</li>');
+        }
+        $("#article-card-right").append(skills);
+      }
+
+      $("#profile-published-uri").html("<p>PLP Profile stored under: <b></br>"+article["about"]["@id"]+"</b></p>");
+    }
+
+    // Generates the HTML content of the card representation of the articles on the grid
+    this._renderArticleCardDetailsPlace = function(article){
+
+      $("#article-card-left").empty();
+      $("#article-card-right").empty();
+
+      var profileimg = $("<div/>").addClass("profileimage");
+      $("#article-card-left").append(profileimg);
+      this._setProfileImageUrlPlace(article,profileimg);
+
+      $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
+      $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"][0]["city"]+", "+article["about"]["address"][0]["country"]+'</p>');
+
+      // Description
+      $("#article-card-right").append("<h2>About "+article["about"]["name"]+"</h2>");
+      $("#article-card-right").append('<p id="article-card-description">'+article["about"]["description"]+'</p>');
+
+      $("#profile-published-uri").html("<p>PLP Profile stored under: <b></br>"+article["about"]["@id"]+"</b></p>");
     }
 
     this._isActiveFilter = function(d,e){
@@ -595,9 +756,45 @@ Pyk.newsDiscovery = function(){
         return a;
     };
 
-    this._setProfileImageUrl = function(article,profile_image_holder){
+    this._setProfileImageUrlPerson = function(article,profile_image_holder){
 
-      pathToImage = "res/img/avatar.png"
+      pathToImage = "res/img/Person.png"
+      profile_image_holder.append("<img src=\""+pathToImage+"\"></img>")
+
+      if (article["about"]["image"]){
+
+        pathToImage = article["about"]["image"];
+        profile_image_holder.html("<img src=\""+pathToImage+"\"></img>")
+
+      }else if (!article["about"]["image"] && nd._getValueForKey(article["about"]["contactPoint"],"Twitter")){
+
+        nd._getTwitterProfileImageUrl(article,profile_image_holder);
+
+      }
+
+    }
+
+    this._setProfileImageUrlOrganization = function(article,profile_image_holder){
+
+      pathToImage = "res/img/Organization.png"
+      profile_image_holder.append("<img src=\""+pathToImage+"\"></img>")
+
+      if (article["about"]["logo"]){
+
+        pathToImage = article["about"]["logo"];
+        profile_image_holder.html("<img src=\""+pathToImage+"\"></img>")
+
+      }else if (!article["about"]["logo"] && nd._getValueForKey(article["about"]["contactPoint"],"Twitter")){
+
+        nd._getTwitterProfileImageUrl(article,profile_image_holder);
+
+      }
+
+    }
+
+    this._setProfileImageUrlPlace = function(article,profile_image_holder){
+
+      pathToImage = "res/img/Place.png"
       profile_image_holder.append("<img src=\""+pathToImage+"\"></img>")
 
       if (article["about"]["image"]){
@@ -659,6 +856,7 @@ Reduce functions for the arrays
 of AA.
 ------------------------------*/
 function reduceAdd(p, v) {
+  if (!v["about"]["interest"]) return p;
   v["about"]["interest"].forEach (function(val, idx) {
      p[val["name"]] = (p[val["name"]] || 0) + 1; //increment counts
   });
@@ -666,6 +864,7 @@ function reduceAdd(p, v) {
 }
 
 function reduceRemove(p, v) {
+  if (!v["about"]["interest"]) return p;
   v["about"]["interest"].forEach (function(val, idx) {
      p[val["name"]] = (p[val["name"]] || 0) - 1; //decrement counts
   });

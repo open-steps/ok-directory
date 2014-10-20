@@ -74,7 +74,24 @@
           "properties": {
             "name": {
               "title": "name",
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "Open Data",
+                "Open Government",
+                "Open Source",
+                "Open Science",
+                "Data Journalism",
+                "Human Rights",
+                "Research",
+                "Software Development",
+                "Graphic Design",
+                "GIS",
+                "Creative Commons",
+                "Data Visualisation",
+                "Open Hardware",
+                "Open Access",
+                "Open GLAM"
+              ]
             }
           }
         }

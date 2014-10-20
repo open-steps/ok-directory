@@ -60,6 +60,10 @@ h3{
   max-width:100px;
 }
 
+#profile-published-uri{
+  text-align:left;
+}
+
 .slidePage{
   background:#fff;
   z-index: 5;
@@ -76,6 +80,7 @@ h3{
 
 .contact-point{
   margin:10px;
+  float:left;
 }
 
 .logo{
