@@ -23,6 +23,7 @@
     "leaflet.markercluster": "~0.4.0",
     "leaflet": "~0.7.3",
     "superagent": "~0.18.2",
-    "node-uuid": "~1.4.1"
+    "node-uuid": "~1.4.1",
+    "font-awesome": "~4.2.0"
   }
 }

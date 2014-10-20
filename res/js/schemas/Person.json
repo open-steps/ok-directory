@@ -8,7 +8,7 @@
       "description": { "type": "string", "title": "About yourself"},
       "birthDate":  { "type": "string" , "title": "Birth date"},
       "nationality" : { "type" : "string", "title": "Nationality"},
-      "website":  { "type" : "string", "title": "Homepagge"},
+      "website":  { "type" : "string", "title": "Homepage"},
       "image": { "type": "string" , "title": "Image URL"},
       "address": {
         "type": "array",
@@ -69,7 +69,8 @@
                 "Twitter",
                 "Github",
                 "LinkedIn",
-                "Website"
+                "Website",
+                "PGP URL"
               ]
             },
             "id": {
@@ -89,7 +90,24 @@
           "properties": {
             "name": {
               "title": "name",
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "Open Data",
+                "Open Government",
+                "Open Source",
+                "Open Science",
+                "Data Journalism",
+                "Human Rights",
+                "Research",
+                "Software Development",
+                "Graphic Design",
+                "GIS",
+                "Creative Commons",
+                "Data Visualisation",
+                "Open Hardware",
+                "Open Access",
+                "Open GLAM"
+              ]
             }
           }
         }

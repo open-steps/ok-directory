@@ -11,13 +11,53 @@
     <meta name="publisher" content="Open Steps" />
     <meta name="language" content="en_GB" />
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
     <link href="bower_components/leaflet/dist/leaflet.css" rel="stylesheet" type="text/css" />
-    <link href="bower_components/leaflet.markercluster/dist/MarkerCluster.css" rel="stylesheet" type="text/css" />
+    <link href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css" rel="stylesheet" type="text/css" />
+    <link href="bower_components/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
     <link href="style.css" rel="stylesheet" type="text/css" />
 
   </head>
 
   <body>
+
+    <div class="modal fade" id="article-card" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3 class="modal-title">Open Knowledge Directory</h3>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <div class="row">
+                <!-- Content is inserted in _renderArticleCardDetails function ui.js -->
+                <div id="article-card-left" class="center col-md-4"></div>
+                <div id="article-card-right" class="col-md-8"></div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="profile-published" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3 class="modal-title">Open Knowledge Directory</h3>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <div class="row">
+                <div id="profile-published-body" class="center col-md-12"></div>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <div class="container-fluid pyk-news-discovery">
 
@@ -29,7 +69,7 @@
 
             <a href="http://directory.open-steps.org">
               <img src="res/img/world_white.png" width="100%"></img>
-              <h4>Open Knowledge Directory</h4>
+              <h4 id="logo-text">Open Knowledge Directory</h4>
             </a>
 
           </div>
@@ -86,7 +126,7 @@
 
         </div>
 
-        <div id="middle" class=" col-md-10">
+        <div id="middle" class="col-md-10">
 
           <div id="containter">
 
@@ -110,22 +150,22 @@
 
 									<hr>
 
-									<span>
-										<a id="generateBtn" class="btn btn-primary btn-md">Generate your profile</a>
-										<a id="validator"></a>
-									</span>
+                  <a id="generateBtn" class="btn btn-primary btn-md">Generate your profile</a>
 
 									<hr>
+
+                  <a id="validator"></a>
 
 								</div> <!-- Instructions -->
 
 								<div class="col-md-9"> <!-- Editor -->
 
-									<ul class="nav nav-tabs" role="tablist">
-									  <li id="tabPerson" class="active"><a >Person</a></li>
-									  <li id="tabOrganisation"><a>Organization</a></li>
-									  <li id="tabPlace"><a>Place</a></li>
-									</ul>
+									<!--<h4>Select profile type: </h4>
+									<div class="btn-group btn-group-lg">
+									   <button id="tabPerson" type="button" class="btn btn-primary active">Person</button>
+									  <button id="tabOrganization" type="button" class="btn btn-primary">Organization</button>
+									  <button id="tabPlace" type="button" class="btn btn-primary">Place</button>
+									</div>-->
 
 									<div id="editor_holder"></div>
 
@@ -147,26 +187,27 @@
 
               <div class="row">
 
-                <div class="col-md-6">
-                  <img src="res/img/logo.png"></img>
-                  <h3>About Open Steps</h3>
+                <div class="col-md-12">
+                  
+                  <h2>About Open Steps</h2>
                   <p><a href="http://www.open-steps.org" target="_blank">Open Steps</a> is an independent blog aggregating worldwide information around Open Cultures in form of articles, videos and other resources. Its aim is to document Open Knowledge (OK) related projects and organisations either using Open Data, promoting Open Source technologies, launching Open Government initiatives, following the principles behind Open Science, supporting the release of information or practising Data Journalism. In this way, this site seeks to continue, this time virtually, the <a href="http://www.open-steps.org/how-it-started/" target="_blank">globetrotter project realised between July 2013 to July 2014</a> and discover further OK projects all around the world. Subscribe to our newsletter to be part of this amazing journey!</p>
-                  <h3>Portable Linked Profiles</h3>
-                  <p>PLP proposes a pattern for the creation, storage, listing and representation of public profile data for people, groups, organizations, venues and a large etcetera. Based on Open Web Standards, Common Vocabularies and Open Source technologies, it offers users the possibility to own the their data diverging from current mainstream and centralized profile platforms.</p>
-                  <p>This directory implements the PLP Browser pattern. To discover more about PLP, <a href="https://github.com/hackers4peace/plp-docs" target="_blank">read the docs</a></p>
-                </div>
 
-                <div class="col-md-6">
-                  <h3>About this directory</h3>
+                  <h2>About this directory</h2>
                   <p>During those 12 months, Alex and Margo met numerous enthusiastic activists sharing the same ideas and approaches worldwide. What it began as a simple contact list evolved soon in this directory which has following goals:</p>
                   <ul>
                     <li>Increase the visibility of Open Knowledge projects worldwide.</li>
                     <li>Facilitate the communication and cooperation between activists across borders.</li>
                   </ul>
-                  <h3>This directory is Open Source</h3>
+
+                  <h2>Portable Linked Profiles</h2>
+                  <p>PLP proposes a pattern for the creation, storage, listing and representation of public profile data for people, groups, organizations, venues and a large etcetera. Based on Open Web Standards, Common Vocabularies and Open Source technologies, it offers users the possibility to own the their data diverging from current mainstream and centralized profile platforms.</p>
+                  <p>This directory implements the PLP Browser pattern. To discover more about PLP, <a href="https://github.com/hackers4peace/plp-docs" target="_blank">read the docs</a></p>
+
+                  <h2>This directory is Open Source</h2>
                   <p>While thinking about how to improve our directory, we experienced about the work done by <a href=
                   "http://www.jplusplus.org" target="_blank">Journalism++</a>, a network of datajournalism agencies across Europe which were working on a similar idea but focused on Data Journalists. Since their code was available under open licenses, we were able to reuse it and adapt it for our needs, thanks to them.</p>
-                  <h3>Contribute</h3>
+
+                  <h2>Contribute</h2>
                   <p>Please help us with this initiative by:</p>
                   <ul>
                     <li>Joining it by filling out information about yourself and your organisation.</li>
@@ -236,7 +277,7 @@
     <script src="bower_components/d3/d3.min.js" type="text/javascript"></script>
     <script src="bower_components/leaflet/dist/leaflet.js" type="text/javascript"></script>
     <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster.js" type="text/javascript"></script>
-    <script src="bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="bower_components/bootstrap3-typeahead/bootstrap3-typeahead.min.js" type="text/javascript"></script>
     <script src="bower_components/crossfilter/crossfilter.min.js" type="text/javascript" charset="utf-8"></script>
@@ -244,9 +285,9 @@
     <script src="bower_components/superagent/superagent.js" type="text/javascript" charset="utf-8"></script>
     <script src="config.js" type="text/javascript" charset="utf-8"></script>
     <script src="res/js/jsoneditor.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="res/js/app.js" type="text/javascript" charset="utf-8"></script>
-    <script src="res/js/logic.js" type="text/javascript" charset="utf-8"></script>
-    <script src="res/js/mapview.js" type="text/javascript" charset="utf-8"></script>
+    <script src="res/js/plp-editor.js" type="text/javascript" charset="utf-8"></script>
+    <script src="res/js/ui.js" type="text/javascript" charset="utf-8"></script>
+    <script src="res/js/map.js" type="text/javascript" charset="utf-8"></script>
 
   </body>
 

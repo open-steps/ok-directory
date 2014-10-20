@@ -6,7 +6,7 @@
       "name": { "type": "string" , "title": "Name"},
       "description": { "type": "string", "title": "About the organization"},
       "telephone": { "type" : "string" , "title": "Phone number"},
-      "website":  { "type" : "string", "title": "Homepagge"},
+      "website":  { "type" : "string", "title": "Homepage"},
       "logo": { "type": "string" , "title": "Logo URL"},
       "address": {
         "type": "array",

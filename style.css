@@ -3,8 +3,13 @@ body, html{
   height: 100%;
 }
 
-h1,h2,h4,h5{
+h1,h4,h5{
   color: #fff;
+}
+
+h2{
+  color:#000;
+  font-size:20px;
 }
 
 h3{
@@ -20,6 +25,10 @@ h3{
 .ok{
 
 	color: green;
+}
+
+.large-icon{
+    font-size: 6em;
 }
 
 #left{
@@ -47,6 +56,9 @@ h3{
 #infoPage img{
   width:100%;
 }
+#article-card-left img{
+  max-width:100px;
+}
 
 .slidePage{
   background:#fff;
@@ -60,6 +72,10 @@ h3{
 
 .right{
   float:right;
+}
+
+.contact-point{
+  margin:10px;
 }
 
 .logo{
@@ -107,11 +123,13 @@ h3{
 }
 
 .pyk-news-discovery .tag-holder > div{
-  max-height:200px;
+  max-height: 300px;
+  overflow: hidden;
 }
 
 .pyk-news-discovery .tag-holder > div div{
-  max-height:200px;
+  max-height: 250px;
+  overflow-y: auto;
 }
 
 .pyk-news-discovery .tag-holder > div h5{
@@ -125,9 +143,9 @@ h3{
   text-indent: 0;
   list-style: none;
   background:#fff;
-  border-top-right-radius: 6px;
+  border-top-right-radius: 0px;
   border-top-left-radius: 6px;
-  border-bottom-right-radius: 6px;
+  border-bottom-right-radius: 0px;
   border-bottom-left-radius: 6px;
 }
 
@@ -205,6 +223,10 @@ h3{
   background: #eee;
 }
 
+.center{
+  text-align: center;
+}
+
 .active{
   border: 1px solid 0a90f6;
   border-radius: 10px;
@@ -216,6 +238,7 @@ h3{
 
 .profileimage > img{
   max-width:80px;
+  max-height:80px;
 }
 
 .profileexcerpt{
@@ -238,3 +261,60 @@ h3{
   width: 256px;
   height: 256px;
 }
+
+.skill-list{
+
+}
+
+.skill-list li{
+  list-style-type:none;
+  background: #EEE;
+  float:left;
+  padding: 4px 10px;
+  border-radius: 2px;
+  margin: 0px 10px 10px 0px;
+}
+
+.skill-list li a {
+  text-decoration: none;
+  color: #000;
+  display: block;
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+}
+
+/*.modal-dialog {
+  position:absolute;
+  top:50% !important;
+  transform: translate(0, -50%) !important;
+  -ms-transform: translate(0, -50%) !important;
+  -webkit-transform: translate(0, -50%) !important;
+  margin:auto 5%;
+  width:60%;
+  height:80%;
+}
+.modal-content {
+  min-height:100%;
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+}
+.modal-body {
+  position:absolute;
+  top:45px; // height of header
+  bottom:45px;  // height of footer
+  left:0;
+  right:0;
+  overflow-y:auto;
+}
+.modal-footer {
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+}*/

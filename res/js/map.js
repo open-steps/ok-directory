@@ -8,7 +8,7 @@ var layerGroup;
 var markers;
 var fetchedAddresses = new Object();
 var mapQuestApiKey = window.plp.config.mapQuestApiKey; // Open Steps APIKey, change please
-var geocodeApiURL="http://www.mapquestapi.com/geocoding/v1/address?key="+mapQuestApiKey+"&country=#country#&city=#city#";
+var geocodeApiURL="http://www.mapquestapi.com/geocoding/v1/address?key="+mapQuestApiKey+"&country=#country#&city=#city#&postalCode=#postalCode#&street=#street#";
 var currentArticle = undefined;
 
 var initializeMap = function() {
@@ -35,7 +35,9 @@ var initializeMap = function() {
 // Calls the geocoding webservice for an article and adds the marker on the map when found. If it is the last one, set the map bounds so all markers are visible.
 var codeAddressFromArticle = function(context,article,last) {
 
-	var addressToGeocode = article["address"]["country"]+', '+article["address"]["city"];
+  if (!article["about"]["address"][0]) return;
+
+	var addressToGeocode = article["about"]["address"][0]["country"]+', '+article["about"]["address"][0]["city"]+', '+article["about"]["address"][0]["code"]+', '+article["about"]["address"][0]["street"];
 
 	// Setup marker icon
 	var imgIcon = L.icon({
@@ -53,14 +55,16 @@ var codeAddressFromArticle = function(context,article,last) {
 	if (!fetchedAddresses[addressToGeocode]){
 
 		// replace placeholders in the url
-		var finalGeocodeApiURL = geocodeApiURL.replace('#city#',article["address"]["city"]);
-		finalGeocodeApiURL = finalGeocodeApiURL.replace('#country#',article["address"]["country"]);
+		var finalGeocodeApiURL = geocodeApiURL.replace('#city#',article["about"]["address"][0]["city"]);
+		finalGeocodeApiURL = finalGeocodeApiURL.replace('#country#',article["about"]["address"][0]["country"]);
+    finalGeocodeApiURL = finalGeocodeApiURL.replace('#postalCode#',article["about"]["address"][0]["code"]);
+    finalGeocodeApiURL = finalGeocodeApiURL.replace('#street#',article["about"]["address"][0]["street"]);
 
 		//console.log("Fetching address on: "+finalGeocodeApiURL);
 
 		$.getJSON( finalGeocodeApiURL, function( data ) {
 
-			if (data.info.statuscode == 0) {
+			if (data.info.statuscode == 0 && data.results[0].locations[0]) {
 
 				// Store fetched address
 				fetchedAddresses[addressToGeocode] = data.results[0].locations[0].latLng.lat+","+data.results[0].locations[0].latLng.lng;
@@ -86,20 +90,24 @@ var codeAddressFromArticle = function(context,article,last) {
 // Moves the centre of the map to the position of an article
 var panMapToArticle = function(context,article){
 
-	var addressToGeocode = article["address"]["country"]+', '+article["address"]["city"];
+  if (!article["about"]["address"][0]) return;
+
+	var addressToGeocode = article["about"]["address"][0]["country"]+', '+article["about"]["address"][0]["city"]+', '+article["about"]["address"][0]["code"]+', '+article["about"]["address"][0]["street"];
 
 	// If the address was not already fetched, do it
 	if (!fetchedAddresses[addressToGeocode]){
 
 		// replace placeholders in the url
-		var finalGeocodeApiURL = geocodeApiURL.replace('#city#',article["address"]["city"]);
-		finalGeocodeApiURL = finalGeocodeApiURL.replace('#country#',article["address"]["country"]);
+    var finalGeocodeApiURL = geocodeApiURL.replace('#city#',article["about"]["address"][0]["city"]);
+    finalGeocodeApiURL = finalGeocodeApiURL.replace('#country#',article["about"]["address"][0]["country"]);
+    finalGeocodeApiURL = finalGeocodeApiURL.replace('#postalCode#',article["about"]["address"][0]["code"]);
+    finalGeocodeApiURL = finalGeocodeApiURL.replace('#street#',article["about"]["address"][0]["street"]);
 
 		//console.log("Fetching address on: "+finalGeocodeApiURL);
 
 		$.getJSON( finalGeocodeApiURL, function( data ) {
 
-			if (data.info.statuscode == 0) {
+			if (data.info.statuscode == 0 && data.results[0].locations[0]) {
 
 				// Store fetched address
 				fetchedAddresses[addressToGeocode] = data.results[0].locations[0].latLng.lat+","+data.results[0].locations[0].latLng.lng;
@@ -125,24 +133,12 @@ var panMapToArticle = function(context,article){
 // Utility method to bind the popup of the marker and add it to the layer.
 var setupMarkerWithArticle = function(context,marker,article,last){
 
-	//marker.bindPopup(context._renderArticlePopupHtml(article));
+ 	marker.on('click', function (a) {
 
-	marker.on('mouseover', function (a) {
-
-    	$('#details').html(context._renderArticlePopupHtml(article));
+    currentArticle = article;
+    nd._showArticleDetails(currentArticle);
 
  	});
-
- 	/*marker.on('click', function (a) {
-
-    	if (currentArticle){
-    		currentArticle = undefined;
-    	}else{
-    		currentArticle = article;
-    	}
-
-    	refreshDetails();
- 	});*/
 
  	marker.on('mouseout', function (a) {
 

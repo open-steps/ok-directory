@@ -47,26 +47,18 @@ $(function(){
 	initEditor('Person');
 
 	// TABS
-	$("#tabPerson").on('click',function() {
-		initEditor('Person');
-		$("#tabPerson").addClass('active');
-		$("#tabOrganisation").removeClass('active');
-		$("#tabPlace").removeClass('active');
-	});
-
-	$("#tabOrganisation").on('click',function() {
-		initEditor('Organization');
-		$("#tabPerson").removeClass('active');
-		$("#tabOrganisation").addClass('active');
-		$("#tabPlace").removeClass('active');
-	});
-
-	$("#tabPlace").on('click',function() {
-		initEditor('Place');
-		$("#tabPerson").removeClass('active');
-		$("#tabOrganisation").removeClass('active');
-		$("#tabPlace").addClass('active');
-	});
+	// $("#tabPerson").on('click',function() {
+	// 	initEditor('Person');
+	// 	selectProfileType("Person");
+	// });
+	// $("#tabOrganization").on('click',function() {
+	// 	initEditor('Organization');
+	// 	selectProfileType("Organization");
+	// });
+	// $("#tabPlace").on('click',function() {
+	// 	initEditor('Place');
+	// 	selectProfileType("Place");
+	// });
 
 	// STEP 2
 	$('#generateBtn').on('click',function() {
@@ -77,11 +69,88 @@ $(function(){
 
       saveProfile();
 
+			superagent.post(window.plp.config.provider)
+      .type('application/ld+json')
+      .accept('application/ld+json')
+      .send(localStorage.profile)
+			.end(function(err,provRes){
+
+				if (err){
+
+					console.log('Error ' + err);
+
+				}else{
+
+					if(provRes.ok) {
+
+						console.log('Profile successfully pushed to provider ' + provRes.text);
+            // FIXME: handle errors
+            var profile = JSON.parse(provRes.text);
+
+						if (window.plp.config.directory){
+
+							superagent.post(window.plp.config.directory)
+								.type('application/ld+json')
+								.accept('application/ld+json')
+								.send(JSON.stringify(profile))
+								.end(function(err,dirRes){
+
+									if (err){
+
+										console.log('Error ' + err);
+										showProfilePublishedError();
+									}
+
+									if (dirRes.ok){
+
+										console.log('Profile succesfully listed in directory ' + dirRes.text);
+										showProfilePublishedOk(JSON.parse(dirRes.text)["@id"]);
+									}
+
+							});
+
+						}
+
+					}
+
+				}
+
+			});
+
 		}
 
 	});
 
 	// UTILITY FUNCTIONS
+
+	function showProfilePublishedOk(profile_url){
+
+		$('#profile-published').modal('show');
+		$('#profile-published-body').append("<span class=\"glyphicon glyphicon-ok large-icon ok\"></span>");
+		$('#profile-published-body').append("<h2>Profile successfully created</h2>");
+		$('#profile-published-body').append("<p>Thanks for registering on our directory. You have just created a PLP Profile which can be found under the following URL:</br><h2>"+profile_url+"<h2></p>");
+		$('#profile-published-body').append("<hr>");
+		$('#profile-published-body').append("<p>Do you know PLP Profiles already? if not, you can experience more about them <a href=\"http://profiles.allmende.io/\">here</a></p>");
+	}
+
+	function showProfilePublishedError(){
+
+		$('#profile-published').modal('show');
+		$('#profile-published-body').append("<span class=\"glyphicon glyphicon-remove large-icon error\"></span>");
+		$('#profile-published-body').append("<h2>Problem creating your profile</h2>");
+		$('#profile-published-body').append("<p>Something went wrong while creating you profile. Please contact us at contact [at] open-steps.org</p>");
+
+	}
+
+	function selectProfileType(profile){
+
+		$("#tabPerson").removeClass('active');
+		$("#tabOrganization").removeClass('active');
+		$("#tabPlace").removeClass('active');
+		$("#tab"+profile).addClass('active');
+
+	}
+
 	function profileWithoutId(profile){
 		return delete profile['@id'];
 	}
@@ -91,9 +160,6 @@ $(function(){
 		var data = editor.getValue();
 		data["@context"] = window.plp.config.context;
 		data["@type"] = profileType;
-
-		console.log(data);
-
 		window.localStorage.setItem('profile',JSON.stringify(editor.getValue()));
 
 	}

@@ -10,7 +10,6 @@ var id_tags;
 var mapViewOn = false;
 var articles = new Object();
 var activeArticle;
-var DEBUG = true;
 
 Pyk.newsDiscovery = function(){
 
@@ -22,42 +21,27 @@ Pyk.newsDiscovery = function(){
             nd.renderColHeadings();
         });
 
-        if (DEBUG){
+        //Get the data from directory
+        superagent.get(window.plp.config.directory)
+          .set('Accept', 'application/json')
+          .end(function(res){
 
-          //Load Data, Create Crossfilter & Render
-          $.getJSON("res/data/test_data.json", function(json){
-            nd.data = json["@graph"];
-            nd.initCrossfilter();
-            nd.initMap();
-            nd.renderTags();
-            nd.initSearch();
-          });
+            if (res.ok) {
 
-        }else{
+              var graph = res.body["@graph"];
+              nd.data = graph;
+              nd.initCrossfilter();
+              nd.initMap();
+              nd.renderTags();
+              nd.initSearch();
 
-          //Get the data from directory
-          superagent.get(window.plp.config.directory)
-            .set('Accept', 'application/json')
-            .end(function(res){
+            } else {
 
-              if (res.ok) {
+              alert('Oh no! error ' + res.text);
 
-                var graph = res.body["@graph"];
-                nd.data = graph;
-                nd.initCrossfilter();
-                nd.initMap();
-                nd.renderTags();
-                nd.initSearch();
+            }
 
-              } else {
-
-                alert('Oh no! error ' + res.text);
-
-              }
-
-          });
-
-        }
+        });
 
     };
 
@@ -77,31 +61,40 @@ Pyk.newsDiscovery = function(){
 
       this.cf.id_dimension = this.cf.data.dimension(function(d){
         var id = uuid.v4();
-        articles[id] = d;
-        return id;
+        articles[d["about"]["name"]] = d;
+        return d["about"]["name"];
       });
 
       this.cf.dd_dimension = this.cf.data.dimension(function(d){
-        return d["about"]["address"]["country"];
+        if (!d["about"]["address"][0])
+          return "N/A";
+        return d["about"]["address"][0]["country"];
       });
 
       this.cf.ee_dimension = this.cf.data.dimension(function(d){
-        return d["about"]["address"]["city"];
+        if (!d["about"]["address"][0])
+          return "N/A";
+        return d["about"]["address"][0]["city"];
       });
 
       this.cf.ff_dimension = this.cf.data.dimension(function(d){
-        return d["about"]["workLocation"]["company"];
+        if (!d["about"]["memberOf"][0])
+          return "N/A";
+        return d["about"]["memberOf"][0]["name"];
       });
 
-      // --  -- //
       // We need 2 identical dimensions for the numbers to update
       // See http://git.io/_IvVUw for details
       this.cf.aa_dimension = this.cf.data.dimension(function(d){
+        if (!d["about"]["interest"])
+          return "N/A";
         return d["about"]["interest"];
       });
 
       // This is the dimension nd we'll use for rendering
       this.cf.aar_dimension = this.cf.data.dimension(function(d){
+        if (!d["about"]["interest"])
+          return "N/A";
         return d["about"]["interest"];
       });
 
@@ -197,7 +190,7 @@ Pyk.newsDiscovery = function(){
       var id_list = d3.select("#table4").selectAll("li").data(id_tags);
       id_list.enter().append("li").html(function(d){
             var article = nd._findArticleById(d.key);
-            var link = "<a href='#'>" + article["name"];
+            var link = "<a href='#'>" + article["about"]["name"];
             link += "<span class='badge'>" + d.value + "</span>";
             link += "</a>";
 
@@ -218,7 +211,7 @@ Pyk.newsDiscovery = function(){
 
         var article = nd._findArticleById(d.key);
         var lastOne = i==grid_list[0].length-1 ? true : false;
-        var cardHtml = nd._renderArticleCardHtml(article);
+        var cardHtml = nd._renderArticleCardPreview(article);
         codeAddressFromArticle(nd,article,lastOne);
 
         return cardHtml;
@@ -301,6 +294,8 @@ Pyk.newsDiscovery = function(){
       var nd = this;
       var searchFilterArray = this._buildSearchFilterArray();
 
+      console.log(searchFilterArray);
+
       $('#searchField').typeahead({
 
         source: function (query, process) {
@@ -314,6 +309,7 @@ Pyk.newsDiscovery = function(){
           var searchTerm = item;
           var article = searchFilterArray[searchTerm];
           if(article.filter){
+              console.log(article);
               nd.filter(article.filter,article["id"]);
           }
 
@@ -321,6 +317,8 @@ Pyk.newsDiscovery = function(){
 
         },
         matcher: function (item) {
+
+          if (!item) return false;
 
           if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
             return true;
@@ -351,125 +349,150 @@ Pyk.newsDiscovery = function(){
     }
 
     $("#clearBtn").on('click',function(){
-
       nd.initCrossfilter();
       nd.renderTags();
       $("#searchField").val("");
-
     });
 
-    $("#openJoinPageBtn").on('click',function(){      
-      $("#header").hide();
-      $("#map").hide();
-      $("#grid").hide();
+    $("#openJoinPageBtn").on('click',function(){
+      nd._closeSidebar();
       $("#joinPage").fadeIn("slow");
-      $(".leftmenu").fadeOut();
     });
 
     $("#closeJoinPageBtn").on('click',function(){
-      $("#header").show();
-      $("#map").show();
-      $("#grid").show();
+      nd._openSidebar();
       $("#joinPage").hide();
-      $(".leftmenu").fadeIn();
     });
 
-    // $("#openFeedbackPageBtn").on('click',function(){
-    //   $("#header").hide();
-    //   $("#map").hide();
-    //   $("#grid").hide();
-    //   $("#feedbackPage").fadeIn("slow");
-    //   $(".leftmenu").fadeOut();
-    // });
-    //
-    // $("#closeFeedbackPageBtn").on('click',function(){
-    //   $("#header").show();
-    //   $("#map").show();
-    //   $("#grid").show();
-    //   $("#feedbackPage").hide();
-    //   $(".leftmenu").fadeIn();
-    // });
-
     $("#openInfoPageBtn").on('click',function(){
-      $("#header").hide();
-      $("#map").hide();
-      $("#grid").hide();
+      nd._closeSidebar();
       $("#infoPage").fadeIn("slow");
-      $(".leftmenu").fadeOut();
     });
 
     $("#closeInfoPageBtn").on('click',function(){
-      $("#header").show();
-      $("#map").show();
-      $("#grid").show();
+      nd._openSidebar();
       $("#infoPage").hide();
-      $(".leftmenu").fadeIn();
     });
 
     /*--------------------
       HELPERS
     --------------------*/
 
+    this._closeSidebar = function(){
+      $("#left").removeClass("col-md-2").addClass("col-md-1");
+      $("#middle").removeClass("col-md-10").addClass("col-md-11");
+      $("#logo-text").hide();
+      $("#header").hide();
+      $("#map").hide();
+      $("#grid").hide();
+      $(".leftmenu").hide();
+    }
+
+    this._openSidebar = function(){
+      $("#left").removeClass("col-md-1").addClass("col-md-2");
+      $("#middle").removeClass("col-md-11").addClass("col-md-10");
+      $("#logo-text").show();
+      $("#header").show();
+      $("#map").show();
+      $("#grid").show();
+      $(".leftmenu").fadeIn();
+    }
+
     this._showArticleDetails = function(article){
 
+       $('#article-card').modal('show');
+       this._renderArticleCardDetails(article);
 
     }
 
-    // Generates the HTML content of the card representation of the articles on the grid
-    this._renderArticleCardHtml = function(article){
+    this._renderArticleCardPreview = function(article){
 
       var container = $("<div/>").addClass("card col-xs-2");
 
       var profileimg = $("<div/>").addClass("profileimage");
-      profileimg.append("<img src=\"res/img/avatar.png\"/>");
+      this._setProfileImageUrl(article,profileimg);
 
       var profileexcerpt = $("<div/>").addClass("profileexcerpt");
-      profileexcerpt.append("<b>" + article["name"] + "</b>");
-      article["image"] = this._getProfileImageUrl(article,profileimg);
-      profileexcerpt.append($("<div/>").addClass("organisation").html(article["workLocation"]["company"]));
-      profileexcerpt.append($("<div/>").addClass("city").html(article["address"]["city"] + ", " + article["address"]["country"]).get(0));
+      profileexcerpt.append("<b>" + article["about"]["name"] + "</b>");
 
-      //PGP
-      // if (article.pgpkey && article.pgpurl){
-      //  back_content += $("<div/>").addClass("pgp_key").html("PGP: " + '<a href="' + article.pgpurl + '" target="_self">' + article.pgpkey + "</a>").get(0).outerHTML;
-      // }else if (article.pgpkey && !article.pgpurl){
-      //  back_content += $("<div/>").addClass("pgp_key").html("PGP: " + article.pgpkey).get(0).outerHTML;
-      // }
+      if (article["about"]["memberOf"][0])
+        profileexcerpt.append($("<div/>").addClass("organisation").html(article["about"]["memberOf"][0]["name"]));
 
-      // // EMAIL
-      // if (article["contactPoint"]["city"]){
-      //  back_content += $("<div/>").addClass("email").html('</br><a href="' + "mailto:" + article.email + '"><i class="fa fa-envelope fa-lg"></i></a>').get(0).outerHTML;
-      // }
-
-      // WEBSITE
-      if (article["website"]){
-        profileexcerpt.append($("<div/>").addClass("website").html('<a href="' + article["website"] + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>'));
-      }
-
-      // // TWITTER
-      // if (article["contactPoint"]["twitter"]){
-      //  back_content += $("<div/>").addClass("twitter").html('<a href="https://www.twitter.com/' + article["contactPoint"]["twitter"] + '" target="_blank"><i class="fa fa-twitter fa-lg"></i></a>').get(0).outerHTML;
-      // }
-
-      // // FACEBOOK
-      // if (article.facebook){
-      //  back_content += $("<div/>").addClass("twitter").html('<a href="' + article.facebook + '" target="_blank"><i class="fa fa-facebook fa-lg"></i></a>').get(0).outerHTML;
-      // }
-
-      // // LINKEDIN
-      // if (article.linkedin){
-      //  back_content += $("<div/>").addClass("twitter").html('<a href="' + article.linkedin + '" target="_blank"><i class="fa fa-linkedin fa-lg"></i></a>').get(0).outerHTML;
-      // }
-
-      // // GITHUB
-      // if (article.github){
-      //  back_content += $("<div/>").addClass("github").html('<a href="' + article.github + '" target="_blank"><i class="fa fa-github fa-lg"></i></a>').get(0).outerHTML;
-      // }
+      if (article["about"]["address"][0])
+        profileexcerpt.append($("<div/>").addClass("city").html(article["about"]["address"][0]["city"] + ", " + article["about"]["address"][0]["country"]).get(0));
 
       container.append(profileimg);
       container.append(profileexcerpt);
       return container.get(0).outerHTML;
 
+    }
+
+    // Generates the HTML content of the card representation of the articles on the grid
+    this._renderArticleCardDetails = function(article){
+
+      console.log(article);
+
+      $("#article-card-left").empty();
+      $("#article-card-right").empty();
+
+      var profileimg = $("<div/>").addClass("profileimage");
+      $("#article-card-left").append(profileimg);
+      this._setProfileImageUrl(article,profileimg);
+
+      $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
+      if (article["about"]["memberOf"][0])
+        $("#article-card-left").append($("<div/>").addClass("organisation").html(article["about"]["memberOf"][0]["name"]));
+      $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"][0]["city"]+", "+article["about"]["address"][0]["country"]+'</p>');
+
+      // WEBSITE
+      if (article["website"]){
+        $("#article-card-left").append($("<div/>").addClass("website contact-point").html('<a href="' + article["website"] + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>'));
+      }
+
+      // EMAIL
+      var email = nd._getValueForKey(article["about"]["contactPoint"],"Email");
+      if (email){
+       $("#article-card-left").append($("<div/>").addClass("email contact-point").html('</br><a href="' + "mailto:" + email + '"><i class="fa fa-envelope fa-lg"></i></a>'));
+      }
+
+      // TWITTER
+      var twitter = nd._getValueForKey(article["about"]["contactPoint"],"Twitter");
+      if (twitter){
+        $("#article-card-left").append($("<div/>").addClass("twitter contact-point").html('<a href="https://www.twitter.com/' + nd._cleanTwitterHandle(twitter) + '" target="_blank"><i class="fa fa-twitter fa-lg"></i></a>'));
+      }
+
+      // FACEBOOK
+      var facebook = nd._getValueForKey(article["about"]["contactPoint"],"Facebook");
+      if (facebook){
+        $("#article-card-left").append($("<div/>").addClass("facebook contact-point").html('<a href="' + facebook + '" target="_blank"><i class="fa fa-facebook fa-lg"></i></a>'));
+      }
+
+      // LINKEDIN
+      var linkedin = nd._getValueForKey(article["about"]["contactPoint"],"Linkedin");
+      if (linkedin){
+        $("#article-card-left").append($("<div/>").addClass("linkedin contact-point").html('<a href="' + linkedin + '" target="_blank"><i class="fa fa-linkedin fa-lg"></i></a>'));
+      }
+
+      // GITHUB
+      var github = nd._getValueForKey(article["about"]["contactPoint"],"Github");
+      if (github){
+        $("#article-card-left").append($("<div/>").addClass("github contact-point").html('<a href="' + github + '" target="_blank"><i class="fa fa-github fa-lg"></i></a>'));
+      }
+
+      // Description
+      $("#article-card-right").append("<h2>About "+article["about"]["name"]+"</h2>");
+      $("#article-card-right").append('<p id="article-card-description">'+article["about"]["description"]+'</p>');
+
+      // Interests
+      $("#article-card-right").append("<h2>Areas of interest</h2>");
+      if (article["about"]["interest"]){
+        var skills = $("<div/>").addClass("skill-list");
+        skills.append($("<ul/>"));
+        for (key in article["about"]["interest"]){
+            skills.append('<li>'+article["about"]["interest"][key]["name"]+'</li>');
+        }
+        $("#article-card-right").append(skills);
+      }
     }
 
     this._isActiveFilter = function(d,e){
@@ -480,7 +503,7 @@ Pyk.newsDiscovery = function(){
     // TODO Optimize this function, use Array.filter/reduce
     // Or create a hashmap of ids and their index in the array on init
     this._findArticleById = function(id){
-        return articles[id]["about"];
+        return articles[id];
     };
 
     // Gets the list of titles from the articles
@@ -492,7 +515,6 @@ Pyk.newsDiscovery = function(){
 
       // Skills
       var aa_tags = this._aaReduce(this.cf.aar_dimension.groupAll().reduce(reduceAdd, reduceRemove, reduceInitial).value());
-
       $.each(aa_tags, function( index, value ) {
         articleSearchFilter[value["key"]] = new Object;
         articleSearchFilter[value["key"]].filter = "aa";
@@ -502,7 +524,6 @@ Pyk.newsDiscovery = function(){
 
       // Country
       var dd_tags = this._removeEmptyKeys(this.cf.dd_dimension.group().all(), "dd");
-
       $.each(dd_tags, function( index, value ) {
         articleSearchFilter[value["key"]] = new Object;
         articleSearchFilter[value["key"]].filter = "dd";
@@ -512,7 +533,6 @@ Pyk.newsDiscovery = function(){
 
       // City
       var ee_tags = this._removeEmptyKeys(this.cf.ee_dimension.group().all(), "ee");
-
       $.each(ee_tags, function( index, value ) {
         articleSearchFilter[value["key"]] = new Object;
         articleSearchFilter[value["key"]].filter = "ee";
@@ -522,7 +542,6 @@ Pyk.newsDiscovery = function(){
 
       // organisation
       var ff_tags = this._removeEmptyKeys(this.cf.ff_dimension.group().all(), "ff");
-
       $.each(ff_tags, function( index, value ) {
         articleSearchFilter[value["key"]] = new Object;
         articleSearchFilter[value["key"]].filter = "ff";
@@ -533,10 +552,11 @@ Pyk.newsDiscovery = function(){
       // add to search filter
       $.each(id_tags, function( index, value ) {
         var a = nd._findArticleById(value["key"]);
-        articleSearchFilter[a.name] = new Object;
-        articleSearchFilter[a.name].filter = "id";
-        articleSearchFilter[a.name].id = a.id;
-        articleSearchFilter.articleTitles.push(a.name);
+        var name = a["about"]["name"];
+        articleSearchFilter[name] = new Object;
+        articleSearchFilter[name].filter = "id";
+        articleSearchFilter[name].id = name;
+        articleSearchFilter.articleTitles.push(name);
       });
 
       return articleSearchFilter;
@@ -575,47 +595,61 @@ Pyk.newsDiscovery = function(){
         return a;
     };
 
-    // retrieves the profile image url of the user specified as parameter
-    this._getProfileImageUrl = function(article,thumbnail_holder){
+    this._setProfileImageUrl = function(article,profile_image_holder){
 
-      // Check for image_url
-      if(article["image"]){
+      pathToImage = "res/img/avatar.png"
+      profile_image_holder.append("<img src=\""+pathToImage+"\"></img>")
 
-        thumbnail_holder.html("<img src=\""+article["image"]+"\"></img>");
+      if (article["about"]["image"]){
 
-      }else if (!article["image"] && article["contactPoint"]["twitter"]){
+        pathToImage = article["about"]["image"];
+        profile_image_holder.html("<img src=\""+pathToImage+"\"></img>")
 
-        this._getTwitterProfileImageUrl(article);
+      }else if (!article["about"]["image"] && nd._getValueForKey(article["about"]["contactPoint"],"Twitter")){
+
+        nd._getTwitterProfileImageUrl(article,profile_image_holder);
 
       }
 
     }
 
-    // Looks for the profile image url on twitter
-    this._getTwitterProfileImageUrl = function(article){
+    this._getTwitterProfileImageUrl = function(article,profile_image_holder){
 
-      // Clean possible inconsistences in data input
-      article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "@", "" );
-      article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "http://www.twitter.com/", "" );
-      article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "https://www.twitter.com/", "" );
-      article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "https://twitter.com/", "" );
-      article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "http://twitter.com/", "" );
-      article["contactPoint"]["twitter"] = article["contactPoint"]["twitter"].replace( "twitter.com/", "" );
+      var twitterHandle = nd._getValueForKey(article["about"]["contactPoint"],"Twitter")
+      twitterHandle = nd._cleanTwitterHandle(twitterHandle);
 
-      $.get( "ext/twitter/twitter_profile_retriever.php?screen_name="+article["contactPoint"]["twitter"], function( data ) {
+      $.get( "http://directory.open-steps.org/ext/twitter/twitter_profile_retriever.php?screen_name="+twitterHandle, function( data ) {
         data = data.replace("\n","");
-        article["image"] = data;
-        $(".thumbnail_holder_"+article["id"]).html("<img src=\""+article["image"]+"\"></img>");
+        profile_image_holder.html("<img src=\""+data+"\"></img>")
       });
 
     };
 
-    // retrieves the profile_url of the user specified as parameter
+    this._cleanTwitterHandle= function(twitterHandle){
+
+      twitterHandle = twitterHandle.replace( "@", "" );
+      twitterHandle = twitterHandle.replace( "http://www.twitter.com/", "" );
+      twitterHandle = twitterHandle.replace( "https://www.twitter.com/", "" );
+      twitterHandle = twitterHandle.replace( "https://twitter.com/", "" );
+      twitterHandle = twitterHandle.replace( "http://twitter.com/", "" );
+      twitterHandle = twitterHandle.replace( "twitter.com/", "" );
+
+      return twitterHandle;
+
+    }
+
     this._getFacebookProfileUrl = function(username){
 
       console.log('_getFacebookProfileUrl');
 
     };
+
+    this._getValueForKey = function(element,value){
+      for (key in element){
+        if (element[key]["type"] == value)
+          return element[key]["id"];
+      }
+    }
 
 };
 
@@ -626,14 +660,14 @@ of AA.
 ------------------------------*/
 function reduceAdd(p, v) {
   v["about"]["interest"].forEach (function(val, idx) {
-     p[val] = (p[val] || 0) + 1; //increment counts
+     p[val["name"]] = (p[val["name"]] || 0) + 1; //increment counts
   });
   return p;
 }
 
 function reduceRemove(p, v) {
   v["about"]["interest"].forEach (function(val, idx) {
-     p[val] = (p[val] || 0) - 1; //decrement counts
+     p[val["name"]] = (p[val["name"]] || 0) - 1; //decrement counts
   });
   return p;
 
