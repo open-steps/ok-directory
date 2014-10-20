@@ -32,6 +32,7 @@ Pyk.newsDiscovery = function(){
               nd.data = graph;
               nd.initCrossfilter();
               nd.initMap();
+              nd.countArticles();
               nd.renderTags();
               nd.initSearch();
 
@@ -44,6 +45,26 @@ Pyk.newsDiscovery = function(){
         });
 
     };
+
+    this.countArticles = function(){
+
+      var nPersons = 0;
+      var nOrganizations = 0;
+      var nPlaces = 0;
+
+      for (profile in this.data){
+        if (this.data[profile]["about"]["@type"]=="Person"){
+          nPersons++;
+        }else if (this.data[profile]["about"]["@type"]=="Organization"){
+          nOrganizations++;
+        }else if (this.data[profile]["about"]["@type"]=="Place"){
+          nPlaces++;
+        }
+      }
+
+      $(".slogan").html("<div ><h3 class=\"left\">"+nPersons+" Individuals</h3><h3 class=\"left\">"+nOrganizations+" Organizations</h3><h3 class=\"left\">"+nPlaces+" Places</h3>");
+
+    }
 
 
     this.renderColHeadings = function(){
@@ -87,6 +108,10 @@ Pyk.newsDiscovery = function(){
           if (!d["about"]["memberOf"][0])
             return "N/A";
           return d["about"]["memberOf"][0]["name"];
+        }else if(d["about"]["@type"] == "Place"){
+          if (!d["about"]["name"])
+            return "N/A";
+          return d["about"]["name"];
         }
 
       });
@@ -96,14 +121,14 @@ Pyk.newsDiscovery = function(){
       this.cf.aa_dimension = this.cf.data.dimension(function(d){
         if (!d["about"]["interest"])
           return "N/A";
-        return d["about"]["interest"];
+        return d["about"]["interest"][0]["name"];
       });
 
       // This is the dimension nd we'll use for rendering
       this.cf.aar_dimension = this.cf.data.dimension(function(d){
         if (!d["about"]["interest"])
           return "N/A";
-        return d["about"]["interest"];
+        return d["about"]["interest"][0]["name"];
       });
 
       // Create empty filter roster
@@ -306,7 +331,7 @@ Pyk.newsDiscovery = function(){
 
         source: function (query, process) {
 
-          var articleTitles = searchFilterArray.articleTitles
+          var articleTitles = searchFilterArray.articleTitles;
           process(articleTitles);
 
         },
@@ -315,8 +340,7 @@ Pyk.newsDiscovery = function(){
           var searchTerm = item;
           var article = searchFilterArray[searchTerm];
           if(article.filter){
-              console.log(article);
-              nd.filter(article.filter,article["id"]);
+              nd.filter(article.filter,article["about"]["name"]);
           }
 
           return item;
@@ -515,7 +539,8 @@ Pyk.newsDiscovery = function(){
       $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
       if (article["about"]["memberOf"][0])
         $("#article-card-left").append($("<div/>").addClass("organisation").html(article["about"]["memberOf"][0]["name"]));
-      $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"][0]["city"]+", "+article["about"]["address"][0]["country"]+'</p>');
+      if (article["about"]["address"][0])
+        $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"][0]["city"]+", "+article["about"]["address"][0]["country"]+'</p>');
 
       // EMAIL
       var email = nd._getValueForKey(article["about"]["contactPoint"],"Email");
@@ -567,7 +592,7 @@ Pyk.newsDiscovery = function(){
         $("#article-card-right").append(skills);
       }
 
-      $("#profile-published-uri").html("<p>PLP Profile stored under: <b></br>"+article["about"]["@id"]+"</b></p>");
+      $("#profile-published-uri").html("<p>PLP Profile stored under: <b></br><a href=\""+article["about"]["@id"]+"\">"+article["about"]["@id"]+"</a></b></p>");
     }
 
     // Generates the HTML content of the card representation of the articles on the grid
@@ -581,7 +606,8 @@ Pyk.newsDiscovery = function(){
       this._setProfileImageUrlOrganization(article,profileimg);
 
       $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
-      $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"][0]["city"]+", "+article["about"]["address"][0]["country"]+'</p>');
+      if (article["about"]["address"][0])
+        $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"][0]["city"]+", "+article["about"]["address"][0]["country"]+'</p>');
 
       // EMAIL
       var email = nd._getValueForKey(article["about"]["contactPoint"],"Email");
@@ -633,7 +659,7 @@ Pyk.newsDiscovery = function(){
         $("#article-card-right").append(skills);
       }
 
-      $("#profile-published-uri").html("<p>PLP Profile stored under: <b></br>"+article["about"]["@id"]+"</b></p>");
+      $("#profile-published-uri").html("<p>PLP Profile stored under: <b></br><a href=\""+article["about"]["@id"]+"\">"+article["about"]["@id"]+"</a></b></p>");
     }
 
     // Generates the HTML content of the card representation of the articles on the grid
@@ -647,13 +673,14 @@ Pyk.newsDiscovery = function(){
       this._setProfileImageUrlPlace(article,profileimg);
 
       $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
-      $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"][0]["city"]+", "+article["about"]["address"][0]["country"]+'</p>');
+      if (article["about"]["address"][0])
+        $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"][0]["city"]+", "+article["about"]["address"][0]["country"]+'</p>');
 
       // Description
       $("#article-card-right").append("<h2>About "+article["about"]["name"]+"</h2>");
       $("#article-card-right").append('<p id="article-card-description">'+article["about"]["description"]+'</p>');
 
-      $("#profile-published-uri").html("<p>PLP Profile stored under: <b></br>"+article["about"]["@id"]+"</b></p>");
+      $("#profile-published-uri").html("<p>PLP Profile stored under: <b></br><a href=\""+article["about"]["@id"]+"\">"+article["about"]["@id"]+"</a></b></p>");
     }
 
     this._isActiveFilter = function(d,e){

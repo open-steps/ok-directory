@@ -104,6 +104,11 @@ h3{
   padding:0px 0px 0px 30px;
 }
 
+.slogan h3{
+  margin-right:20px;
+}
+
+
 .buttons{
   text-align:right;
 }
