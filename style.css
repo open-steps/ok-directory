@@ -153,10 +153,6 @@ h3{
   text-indent: 0;
   list-style: none;
   background:#fff;
-  border-top-right-radius: 0px;
-  border-top-left-radius: 6px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 6px;
 }
 
 .pyk-news-discovery .tag-list li{
@@ -167,24 +163,16 @@ h3{
 
 
 .pyk-news-discovery .tag-list li:hover{
-  border-top-right-radius: 6px;
-  border-top-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-  border-bottom-left-radius: 6px;
   transition: all 0.3s ease;
   background: #eee;
 }
 
 
 .pyk-news-discovery .tag-list li.active{
-  border-top-right-radius: 6px;
-  border-top-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-  border-bottom-left-radius: 6px;
   transition: all 0.3s ease;
   background: #eee;
+  color: #0a90f6;
 }
-
 
 .pyk-news-discovery .tag-list li a{
   color: #333;
@@ -200,8 +188,8 @@ h3{
 
 .pyk-news-discovery .tag-list li:active a{
   text-decoration:none;
-  transition: all 0.3s ease;
   color: #0a90f6;
+  background:#eee;
 }
 
 .pyk-news-discovery .tag-list li a span.badge{
@@ -215,9 +203,10 @@ h3{
 .pyk-news-discovery .tag-list :active a span.badge{
   background: transparent;
   font-weight: 300;
-  color: #fff;
   font-size: 12px;
   float: right;
+  background:#eee;
+  color: #0a90f6;
 }
 
 .card{
@@ -235,11 +224,6 @@ h3{
 
 .center{
   text-align: center;
-}
-
-.active{
-  border: 1px solid 0a90f6;
-  border-radius: 10px;
 }
 
 .profileimage{

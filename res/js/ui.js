@@ -81,7 +81,8 @@ Pyk.newsDiscovery = function(){
       this.cf.data = crossfilter(this.data);
 
       this.cf.id_dimension = this.cf.data.dimension(function(d){
-        var id = uuid.v4();
+        if (!d["about"]["name"])
+          return "N/A";
         articles[d["about"]["name"]] = d;
         return d["about"]["name"];
       });
@@ -119,14 +120,14 @@ Pyk.newsDiscovery = function(){
       // We need 2 identical dimensions for the numbers to update
       // See http://git.io/_IvVUw for details
       this.cf.aa_dimension = this.cf.data.dimension(function(d){
-        if (!d["about"]["interest"])
+        if (!d["about"]["interest"][0])
           return "N/A";
         return d["about"]["interest"][0]["name"];
       });
 
       // This is the dimension nd we'll use for rendering
       this.cf.aar_dimension = this.cf.data.dimension(function(d){
-        if (!d["about"]["interest"])
+        if (!d["about"]["interest"][0])
           return "N/A";
         return d["about"]["interest"][0]["name"];
       });
@@ -134,121 +135,117 @@ Pyk.newsDiscovery = function(){
       // Create empty filter roster
       this.activeFilters = {
 
-          "ee": [],
-          "ff": [],
-          "dd": [],
-          "aa": [],
-          "id": []
+          "dd": [], // Country
+          "ee": [], // City
+          "ff": [], // Organization
+          "aa": [], // Skills
+          "id": []  // id
       };
 
     };
 
     this.renderTags = function(){
 
-      var nd = this;
-
-      // Skills
-      var aa_tags = this._aaReduce(this.cf.aar_dimension.groupAll().reduce(reduceAdd, reduceRemove, reduceInitial).value());
-      var aa_list = d3.select("#table3").selectAll("li").data(aa_tags);
-      aa_list.enter().append("li").html(function(d){
-              var link = "<a href='#'>" + d.key;
-              link += "<span class='badge'>" + d.value + "</span>";
-              link += "</a>";
-              return link;
-          })
-          .classed("active", function(d){
-              return nd._isActiveFilter("aa", d.key);
-          })
-          .on("click", function(d){
-              nd.filter("aa", d.key);
-          });
-      aa_list.exit().remove();
-
       // Country
-      var dd_tags = this._removeEmptyKeys(this.cf.dd_dimension.group().all(), "dd");
-      var dd_list = d3.select("#table1").selectAll("li").data(dd_tags);
+      var dd_tags = nd._removeEmptyKeys(nd.cf.dd_dimension.group().all(), "dd");
+      var dd_list = d3.select("#table1").selectAll("li").data(dd_tags,function(d){
+        return d.key;
+      });
       dd_list.enter().append("li").html(function(d){
-              var link = "<a href='#'>" + d.key;
-              link += "<span class='badge'>" + d.value + "</span>";
-              link += "</a>";
-              return link;
-          })
-          .classed("active", function(d){
-              return nd._isActiveFilter("dd", d.key);
+            var link = "<a href='#'>" + d.key;
+            link += "<span class='badge'>" + d.value + "</span>";
+            link += "</a>";
+            return link;
           })
           .on("click", function(d){
-              nd.filter("dd", d.key);
+            $(this).toggleClass("active");
+            nd.filter("dd", d.key);
           });
       dd_list.exit().remove();
 
       // City
-      var ee_tags = this._removeEmptyKeys(this.cf.ee_dimension.group().all(), "ee");
-      var ee_list = d3.select("#table6").selectAll("li").data(ee_tags);
+      var ee_tags = nd._removeEmptyKeys(nd.cf.ee_dimension.group().all(), "ee");
+      var ee_list = d3.select("#table2").selectAll("li").data(ee_tags,function(d){
+        return d.key;
+      });
       ee_list.enter().append("li").html(function(d){
-              var link = "<a href='#'>" + d.key;
-              link += "<span class='badge'>" + d.value + "</span>";
-              link += "</a>";
-              return link;
-          })
-          .classed("active", function(d){
-              return nd._isActiveFilter("ee", d.key);
+            var link = "<a href='#'>" + d.key;
+            link += "<span class='badge'>" + d.value + "</span>";
+            link += "</a>";
+            return link;
           })
           .on("click", function(d){
-              nd.filter("ee", d.key);
+            $(this).toggleClass("active");
+            nd.filter("ee", d.key);
           });
       ee_list.exit().remove();
 
-      // organisation
-      var ff_tags = this._removeEmptyKeys(this.cf.ff_dimension.group().all(), "ff");
-      var ff_list = d3.select("#table2").selectAll("li").data(ff_tags);
+      // Organization
+      var ff_tags = nd._removeEmptyKeys(nd.cf.ff_dimension.group().all(), "ff");
+      var ff_list = d3.select("#table3").selectAll("li").data(ff_tags,function(d){
+        return d.key;
+      });
       ff_list.enter().append("li").html(function(d){
-              var link = "<a href='#'>" + d.key;
-              link += "<span class='badge'>" + d.value + "</span>";
-              link += "</a>";
-              return link;
-          })
-          .classed("active", function(d){
-              return nd._isActiveFilter("ff", d.key);
+            var link = "<a href='#'>" + d.key;
+            link += "<span class='badge'>" + d.value + "</span>";
+            link += "</a>";
+            return link;
           })
           .on("click", function(d){
-              nd.filter("ff", d.key);
+            $(this).toggleClass("active");
+            nd.filter("ff", d.key);
           });
       ff_list.exit().remove();
+
+      // Skills
+      var aa_tags = nd._aaReduce(nd.cf.aar_dimension.groupAll().reduce(reduceAdd, reduceRemove, reduceInitial).value());
+      var aa_list = d3.select("#table4").selectAll("li").data(aa_tags,function(d){
+        return d.key;
+      });
+      aa_list.enter().append("li").html(function(d){
+            var link = "<a href='#'>" + d.key;
+            link += "<span class='badge'>" + d.value + "</span>";
+            link += "</a>";
+            return link;
+          })
+          .on("click", function(d){
+            $(this).toggleClass("active");
+            nd.filter("aa", d.key);
+          });
+      aa_list.exit().remove();
 
       // Before rendering the Grid, we have to clear the layerGroup in the map instance in order to display new markers
       clearLayers();
 
       // Title aka Full Name
-      id_tags = this._removeEmptyKeys(this.cf.id_dimension.group().all(), "id");
-      var id_list = d3.select("#table4").selectAll("li").data(id_tags);
-      id_list.enter().append("li").html(function(d){
-            var article = nd._findArticleById(d.key);
-            var link = "<a href='#'>" + article["about"]["name"];
-            link += "<span class='badge'>" + d.value + "</span>";
-            link += "</a>";
-
-            return link;
-        })
-        .classed("active", function(d){
-            return nd._isActiveFilter("id", d.key);
-        })
-        .on("click", function(d){
-            nd.filter("id", d.key);
-        });
-      id_list.exit().remove();
+      // id_tags = nd._removeEmptyKeys(nd.cf.id_dimension.group().all(), "id");
+      // var id_list = d3.select("#table4").selectAll("li").data(id_tags);
+      // id_list.enter().append("li").html(function(d){
+      //       var article = nd._findArticleById(d.key);
+      //       var link = "<a href='#'>" + article["about"]["name"];
+      //       link += "<span class='badge'>" + d.value + "</span>";
+      //       link += "</a>";
+      //
+      //       return link;
+      //   })
+      //   .classed("active", function(d){
+      //       return nd._isActiveFilter("id", d.key);
+      //   })
+      //   .on("click", function(d){
+      //       nd.filter("id", d.key);
+      //   });
+      // id_list.exit().remove();
 
       // Grid at the bottom
+      id_tags = nd._removeEmptyKeys(nd.cf.id_dimension.group().all(), "id");
       d3.select("#grid").selectAll("div").remove();
       var grid_list = d3.select("#grid").selectAll("div").data(id_tags);
       grid_list.enter().append("div").html(function(d,i){
-
         var article = nd._findArticleById(d.key);
         var lastOne = i==grid_list[0].length-1 ? true : false;
         var cardHtml = nd._renderArticleCardPreview(article);
         codeAddressFromArticle(nd,article,lastOne);
-
         return cardHtml;
-
       })
       .on("click", function(d){
         var article = nd._findArticleById(d.key);
@@ -264,47 +261,44 @@ Pyk.newsDiscovery = function(){
 
     this.filter = function(d, e){
 
-      var nd = this;
-
-      var i = this.activeFilters[d].indexOf(e);
+      var i = nd.activeFilters[d].indexOf(e);
       if(i < 0){
-          this.activeFilters[d].push(e);
+          nd.activeFilters[d].push(e);
       }else{
-          this.activeFilters[d].splice(i, 1);
+          nd.activeFilters[d].splice(i, 1);
       }
-      // RUN ALL THE FILTERS! :P
 
-      this.cf.ee_dimension.filterAll();
-      if(this.activeFilters["ee"].length > 0){
-          this.cf.ee_dimension.filter(function(d){
+      nd.cf.ee_dimension.filterAll();
+      if(nd.activeFilters["ee"].length > 0){
+          nd.cf.ee_dimension.filter(function(d){
               return nd.activeFilters["ee"].indexOf(d) > -1;
           });
       }
 
-      this.cf.dd_dimension.filterAll();
-      if(this.activeFilters["dd"].length > 0){
-          this.cf.dd_dimension.filter(function(d){
+      nd.cf.dd_dimension.filterAll();
+      if(nd.activeFilters["dd"].length > 0){
+          nd.cf.dd_dimension.filter(function(d){
               return nd.activeFilters["dd"].indexOf(d) > -1;
           });
       }
 
-      this.cf.ff_dimension.filterAll();
-      if(this.activeFilters["ff"].length > 0){
-          this.cf.ff_dimension.filter(function(d){
+      nd.cf.ff_dimension.filterAll();
+      if(nd.activeFilters["ff"].length > 0){
+          nd.cf.ff_dimension.filter(function(d){
               return nd.activeFilters["ff"].indexOf(d) > -1;
           });
       }
 
-      this.cf.id_dimension.filterAll();
-      if(this.activeFilters["id"].length > 0){
-          this.cf.id_dimension.filter(function(d){
+      nd.cf.id_dimension.filterAll();
+      if(nd.activeFilters["id"].length > 0){
+          nd.cf.id_dimension.filter(function(d){
               return nd.activeFilters["id"].indexOf(d) > -1;
           });
       }
 
-      this.cf.aa_dimension.filterAll();
-      if(this.activeFilters["aa"].length > 0){
-          this.cf.aa_dimension.filter(function(d){
+      nd.cf.aa_dimension.filterAll();
+      if(nd.activeFilters["aa"].length > 0){
+          nd.cf.aa_dimension.filter(function(d){
               // d is the data of the dataset
               // f is the filters nd are applied
               var f = nd.activeFilters["aa"];
@@ -318,53 +312,39 @@ Pyk.newsDiscovery = function(){
           });
       }
 
-      this.renderTags();
+      nd.renderTags();
     };
 
     // Defines method for search and typeahead.
     this.initSearch = function(){
 
-      var nd = this;
-      var searchFilterArray = this._buildSearchFilterArray();
+      var searchFilterArray = nd._buildSearchFilterArray();
 
       $('#searchField').typeahead({
 
         source: function (query, process) {
-
           var articleTitles = searchFilterArray.articleTitles;
           process(articleTitles);
-
         },
         updater: function (item) {
-
-          var searchTerm = item;
-          var article = searchFilterArray[searchTerm];
+          var article = searchFilterArray[item];
           if(article.filter){
-              nd.filter(article.filter,article["about"]["name"]);
+              nd.filter(article.filter,item);
           }
-
           return item;
-
         },
         matcher: function (item) {
-
           if (!item) return false;
-
           if (item.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
             return true;
           }
-
         },
         sorter: function (items) {
-
           return items.sort();
-
         },
         highlighter: function (item) {
-
          var regex = new RegExp( '(' + this.query + ')', 'gi' );
          return item.replace( regex, "<strong>$1</strong>" );
-
         },
 
       });
@@ -373,9 +353,7 @@ Pyk.newsDiscovery = function(){
 
     // Defines method for search and typeahead.
     this.initMap = function(){
-
       initializeMap();
-
     }
 
     $("#clearBtn").on('click',function(){
@@ -451,10 +429,12 @@ Pyk.newsDiscovery = function(){
       var container = $("<div/>").addClass("card col-xs-2");
 
       var profileimg = $("<div/>").addClass("profileimage");
-      this._setProfileImageUrlPerson(article,profileimg);
+      nd._setProfileImageUrlPerson(article,profileimg);
 
       var profileexcerpt = $("<div/>").addClass("profileexcerpt");
-      profileexcerpt.append("<b>" + article["about"]["name"] + "</b>");
+
+      if (article["about"]["name"])
+        profileexcerpt.append("<b>" + article["about"]["name"] + "</b>");
 
       if (article["about"]["memberOf"][0])
         profileexcerpt.append($("<div/>").addClass("organisation").html(article["about"]["memberOf"][0]["name"]));
@@ -473,10 +453,12 @@ Pyk.newsDiscovery = function(){
       var container = $("<div/>").addClass("card col-xs-2");
 
       var profileimg = $("<div/>").addClass("profileimage");
-      this._setProfileImageUrlOrganization(article,profileimg);
+      nd._setProfileImageUrlOrganization(article,profileimg);
 
       var profileexcerpt = $("<div/>").addClass("profileexcerpt");
-      profileexcerpt.append("<b>" + article["about"]["name"] + "</b>");
+
+      if (article["about"]["name"])
+        profileexcerpt.append("<b>" + article["about"]["name"] + "</b>");
 
       if (article["about"]["address"][0])
         profileexcerpt.append($("<div/>").addClass("city").html(article["about"]["address"][0]["city"] + ", " + article["about"]["address"][0]["country"]).get(0));
@@ -492,10 +474,12 @@ Pyk.newsDiscovery = function(){
       var container = $("<div/>").addClass("card col-xs-2");
 
       var profileimg = $("<div/>").addClass("profileimage");
-      this._setProfileImageUrlPlace(article,profileimg);
+      nd._setProfileImageUrlPlace(article,profileimg);
 
       var profileexcerpt = $("<div/>").addClass("profileexcerpt");
-      profileexcerpt.append("<b>" + article["about"]["name"] + "</b>");
+
+      if (article["about"]["name"])
+        profileexcerpt.append("<b>" + article["about"]["name"] + "</b>");
 
       if (article["about"]["address"][0])
         profileexcerpt.append($("<div/>").addClass("city").html(article["about"]["address"][0]["city"] + ", " + article["about"]["address"][0]["country"]).get(0));
@@ -534,9 +518,11 @@ Pyk.newsDiscovery = function(){
 
       var profileimg = $("<div/>").addClass("profileimage");
       $("#article-card-left").append(profileimg);
-      this._setProfileImageUrlPerson(article,profileimg);
+      nd._setProfileImageUrlPerson(article,profileimg);
 
-      $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
+      if (article["about"]["name"])
+        $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
+
       if (article["about"]["memberOf"][0])
         $("#article-card-left").append($("<div/>").addClass("organisation").html(article["about"]["memberOf"][0]["name"]));
       if (article["about"]["address"][0])
@@ -603,9 +589,11 @@ Pyk.newsDiscovery = function(){
 
       var profileimg = $("<div/>").addClass("profileimage");
       $("#article-card-left").append(profileimg);
-      this._setProfileImageUrlOrganization(article,profileimg);
+      nd._setProfileImageUrlOrganization(article,profileimg);
 
-      $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
+      if (article["about"]["name"])
+        $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
+
       if (article["about"]["address"][0])
         $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"][0]["city"]+", "+article["about"]["address"][0]["country"]+'</p>');
 
@@ -670,9 +658,11 @@ Pyk.newsDiscovery = function(){
 
       var profileimg = $("<div/>").addClass("profileimage");
       $("#article-card-left").append(profileimg);
-      this._setProfileImageUrlPlace(article,profileimg);
+      nd._setProfileImageUrlPlace(article,profileimg);
 
-      $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
+      if (article["about"]["name"])
+        $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
+
       if (article["about"]["address"][0])
         $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"][0]["city"]+", "+article["about"]["address"][0]["country"]+'</p>');
 
@@ -684,25 +674,21 @@ Pyk.newsDiscovery = function(){
     }
 
     this._isActiveFilter = function(d,e){
-        var i = this.activeFilters[d].indexOf(e);
+        var i = nd.activeFilters[d].indexOf(e);
         return i > -1;
     };
 
-    // TODO Optimize this function, use Array.filter/reduce
-    // Or create a hashmap of ids and their index in the array on init
     this._findArticleById = function(id){
         return articles[id];
     };
 
-    // Gets the list of titles from the articles
     this._buildSearchFilterArray = function(){
 
-      //Define metadata Object, containing an array of titles for the autocompletion
       var articleSearchFilter = new Object;
       articleSearchFilter.articleTitles = [];
 
       // Skills
-      var aa_tags = this._aaReduce(this.cf.aar_dimension.groupAll().reduce(reduceAdd, reduceRemove, reduceInitial).value());
+      var aa_tags = nd._aaReduce(nd.cf.aar_dimension.groupAll().reduce(reduceAdd, reduceRemove, reduceInitial).value());
       $.each(aa_tags, function( index, value ) {
         articleSearchFilter[value["key"]] = new Object;
         articleSearchFilter[value["key"]].filter = "aa";
@@ -711,7 +697,7 @@ Pyk.newsDiscovery = function(){
       });
 
       // Country
-      var dd_tags = this._removeEmptyKeys(this.cf.dd_dimension.group().all(), "dd");
+      var dd_tags = nd._removeEmptyKeys(nd.cf.dd_dimension.group().all(), "dd");
       $.each(dd_tags, function( index, value ) {
         articleSearchFilter[value["key"]] = new Object;
         articleSearchFilter[value["key"]].filter = "dd";
@@ -720,7 +706,7 @@ Pyk.newsDiscovery = function(){
       });
 
       // City
-      var ee_tags = this._removeEmptyKeys(this.cf.ee_dimension.group().all(), "ee");
+      var ee_tags = nd._removeEmptyKeys(nd.cf.ee_dimension.group().all(), "ee");
       $.each(ee_tags, function( index, value ) {
         articleSearchFilter[value["key"]] = new Object;
         articleSearchFilter[value["key"]].filter = "ee";
@@ -729,7 +715,7 @@ Pyk.newsDiscovery = function(){
       });
 
       // organisation
-      var ff_tags = this._removeEmptyKeys(this.cf.ff_dimension.group().all(), "ff");
+      var ff_tags = nd._removeEmptyKeys(nd.cf.ff_dimension.group().all(), "ff");
       $.each(ff_tags, function( index, value ) {
         articleSearchFilter[value["key"]] = new Object;
         articleSearchFilter[value["key"]].filter = "ff";
@@ -753,23 +739,28 @@ Pyk.newsDiscovery = function(){
 
     // This function does two things:
     //  1. Removes keys if their values are 0
-    //  2. Removes all the keys but one if a filter is
-    //     selected on ff, dd or id
+    //  2. Removes all the keys but one if a filter is selected on ff, dd or id
     this._removeEmptyKeys = function(d, dim){
         if(dim === "aa"){
             var a = [];
-            for(var i in d) if(d[i].value !== 0) a.push(d[i]);
+            for(var i in d){
+              if(d[i].value !== 0 && d[i].key!="N/A") a.push(d[i]);
+            }
             return a;
         }
 
-        var f = this.activeFilters[dim];
+        var f = nd.activeFilters[dim];
         if(f.length === 0){
             var a = [];
-            for(var i in d) if(d[i].value !== 0) a.push(d[i]);
+            for(var i in d){
+              if(d[i].value !== 0 && d[i].key!="N/A") a.push(d[i]);
+            }
             return a;
         }else{
             var a = [];
-            for(var i  in d) if(f.indexOf(d[i].key) > -1) a.push(d[i]);
+            for(var i  in d){
+              if(f.indexOf(d[i].key) > -1) a.push(d[i]);
+            }
             return a;
         }
     };

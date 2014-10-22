@@ -22,11 +22,6 @@
             "type": "nominal",
             "label": "skills",
             "name": "skills"
-        },
-        {
-            "type": "alphabetical",
-            "label": "name",
-            "name": "title"
         }
     ]
 }
