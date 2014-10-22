@@ -17,8 +17,7 @@ var initializeMap = function() {
   map = L.map('map').setView([13.4061, 52.5192], 1);
         mapLink =
             '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-        L.tileLayer(g
-            'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Map data &copy; ' + mapLink,
             maxZoom: 8,
             }).addTo(map);
