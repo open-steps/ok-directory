@@ -10,7 +10,7 @@ $(function(){
 	var profileType = 'Person';
 
 	//Initialize the editor
-	function initEditor(type){
+	function initEditor(type,profile){
 
 		profileType = type;
 
@@ -36,6 +36,10 @@ $(function(){
 					$('#validator').addClass('ok');
 					$('#generate_btn').removeClass('disabled');
 
+				}
+
+				if (profile){
+					editor.setValue(profile);
 				}
 
 			});
@@ -125,9 +129,64 @@ $(function(){
 
 	});
 
+	$('#editBtn').on('click',function() {
+
+		var url = $('#existing_profile_field').val();
+
+		if (validateURL(url)){
+
+			superagent.get(url)
+        .accept('application/ld+json')
+				.end(function(err,res){
+
+						if (err){
+
+							console.log('Error ' + err);
+
+							$('#existing_profile_field').val('Something went wrong');
+							$('#existing_profile_field').addClass('error');
+
+						}else{
+
+							if(res.ok) {
+
+								console.log('Profile correctly downloaded from provider ' + res.text);
+
+								var profile = JSON.parse(res.text);
+								var type = profile["@type"];
+								initEditor(type,profile);
+								selectProfileType(type);
+
+							}
+
+						}
+
+				 });
+
+		}else{
+
+			$('#toStep2Edit').addClass('disabled');
+
+		}
+
+	});
+
+	$('#existing_profile_field').on('input',function() {
+
+		var url = $('#existing_profile_field').val();
+		if (validateURL(url)){
+			$('#editBtn').removeClass('disabled');
+		}else{
+			$('#editBtn').addClass('disabled');
+		}
+
+	});
+
 	// UTILITY FUNCTIONS
 
 	function showProfilePublishedOk(profile_url){
+
+		nd._afterRegisteringNewUser();
 
 		$('#profile-published').modal('show');
 		$('#profile-published-body').append("<span class=\"glyphicon glyphicon-ok large-icon ok\"></span>");
@@ -138,6 +197,8 @@ $(function(){
 	}
 
 	function showProfilePublishedError(){
+
+		nd._afterRegisteringNewUser();
 
 		$('#profile-published').modal('show');
 		$('#profile-published-body').append("<span class=\"glyphicon glyphicon-remove large-icon error\"></span>");

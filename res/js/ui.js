@@ -386,6 +386,12 @@ Pyk.newsDiscovery = function(){
       HELPERS
     --------------------*/
 
+    this._afterRegisteringNewUser = function(){
+      $("#joinPage").hide();
+      nd._openSidebar();
+      nd.init();
+    }
+
     this._closeSidebar = function(){
       $("#left").removeClass("col-md-2").addClass("col-md-1");
       $("#middle").removeClass("col-md-10").addClass("col-md-11");
