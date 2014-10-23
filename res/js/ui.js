@@ -514,7 +514,7 @@ Pyk.newsDiscovery = function(){
       profileimg.append(img);
       $("#article-card-left").append(profileimg);
 
-      if (!nd._setProfileImageUrlPlace(article,img))
+      if (!nd._setProfileImageUrlPerson(article,img))
         nd._setTwitterProfileImageUrl(article,img);
 
       if (article["about"]["name"])
@@ -589,7 +589,7 @@ Pyk.newsDiscovery = function(){
       profileimg.append(img);
       $("#article-card-left").append(profileimg);
 
-      if (!nd._setProfileImageUrlPlace(article,img))
+      if (!nd._setProfileImageUrlOrganization(article,img))
         nd._setTwitterProfileImageUrl(article,img);
 
       if (article["about"]["name"])
