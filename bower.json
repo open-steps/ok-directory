@@ -24,6 +24,7 @@
     "leaflet": "~0.7.3",
     "superagent": "~0.18.2",
     "node-uuid": "~1.4.1",
-    "font-awesome": "~4.2.0"
+    "font-awesome": "~4.2.0",
+    "jquery-image-loader": "~1.2.2"
   }
 }

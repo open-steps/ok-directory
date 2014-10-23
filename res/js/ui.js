@@ -35,7 +35,6 @@ Pyk.newsDiscovery = function(){
               nd.countArticles();
               nd.renderTags();
               nd.initSearch();
-
             } else {
 
               alert('Oh no! error ' + res.text);
@@ -217,25 +216,6 @@ Pyk.newsDiscovery = function(){
       // Before rendering the Grid, we have to clear the layerGroup in the map instance in order to display new markers
       clearLayers();
 
-      // Title aka Full Name
-      // id_tags = nd._removeEmptyKeys(nd.cf.id_dimension.group().all(), "id");
-      // var id_list = d3.select("#table4").selectAll("li").data(id_tags);
-      // id_list.enter().append("li").html(function(d){
-      //       var article = nd._findArticleById(d.key);
-      //       var link = "<a href='#'>" + article["about"]["name"];
-      //       link += "<span class='badge'>" + d.value + "</span>";
-      //       link += "</a>";
-      //
-      //       return link;
-      //   })
-      //   .classed("active", function(d){
-      //       return nd._isActiveFilter("id", d.key);
-      //   })
-      //   .on("click", function(d){
-      //       nd.filter("id", d.key);
-      //   });
-      // id_list.exit().remove();
-
       // Grid at the bottom
       id_tags = nd._removeEmptyKeys(nd.cf.id_dimension.group().all(), "id");
       d3.select("#grid").selectAll("div").remove();
@@ -246,8 +226,7 @@ Pyk.newsDiscovery = function(){
         var cardHtml = nd._renderArticleCardPreview(article);
         codeAddressFromArticle(nd,article,lastOne);
         return cardHtml;
-      })
-      .on("click", function(d){
+      }).on("click", function(d){
         var article = nd._findArticleById(d.key);
         nd._showArticleDetails(article);
       })
@@ -257,6 +236,14 @@ Pyk.newsDiscovery = function(){
       });
 
       grid_list.exit().remove();
+
+      $(".card-photo").each(function (index){
+        var articleId = $(this).attr("data-article-id");
+        var article = nd._findArticleById(articleId);
+        if (!nd._setProfileImageUrlPlace(article,$(this)))
+          nd._setTwitterProfileImageUrl(article,$(this));
+      });
+
     };
 
     this.filter = function(d, e){
@@ -435,9 +422,11 @@ Pyk.newsDiscovery = function(){
       var container = $("<div/>").addClass("card col-xs-2");
 
       var profileimg = $("<div/>").addClass("profileimage");
+      container.append(profileimg);
       nd._setProfileImageUrlPerson(article,profileimg);
 
       var profileexcerpt = $("<div/>").addClass("profileexcerpt");
+      container.append(profileexcerpt);
 
       if (article["about"]["name"])
         profileexcerpt.append("<b>" + article["about"]["name"] + "</b>");
@@ -448,8 +437,6 @@ Pyk.newsDiscovery = function(){
       if (article["about"]["address"][0])
         profileexcerpt.append($("<div/>").addClass("city").html(article["about"]["address"][0]["city"] + ", " + article["about"]["address"][0]["country"]).get(0));
 
-      container.append(profileimg);
-      container.append(profileexcerpt);
       return container.get(0).outerHTML;
 
     }
@@ -459,9 +446,11 @@ Pyk.newsDiscovery = function(){
       var container = $("<div/>").addClass("card col-xs-2");
 
       var profileimg = $("<div/>").addClass("profileimage");
+      container.append(profileimg);
       nd._setProfileImageUrlOrganization(article,profileimg);
 
       var profileexcerpt = $("<div/>").addClass("profileexcerpt");
+      container.append(profileexcerpt);
 
       if (article["about"]["name"])
         profileexcerpt.append("<b>" + article["about"]["name"] + "</b>");
@@ -469,8 +458,6 @@ Pyk.newsDiscovery = function(){
       if (article["about"]["address"][0])
         profileexcerpt.append($("<div/>").addClass("city").html(article["about"]["address"][0]["city"] + ", " + article["about"]["address"][0]["country"]).get(0));
 
-      container.append(profileimg);
-      container.append(profileexcerpt);
       return container.get(0).outerHTML;
 
     }
@@ -480,9 +467,11 @@ Pyk.newsDiscovery = function(){
       var container = $("<div/>").addClass("card col-xs-2");
 
       var profileimg = $("<div/>").addClass("profileimage");
+      container.append(profileimg);
       nd._setProfileImageUrlPlace(article,profileimg);
 
       var profileexcerpt = $("<div/>").addClass("profileexcerpt");
+      container.append(profileexcerpt);
 
       if (article["about"]["name"])
         profileexcerpt.append("<b>" + article["about"]["name"] + "</b>");
@@ -490,8 +479,6 @@ Pyk.newsDiscovery = function(){
       if (article["about"]["address"][0])
         profileexcerpt.append($("<div/>").addClass("city").html(article["about"]["address"][0]["city"] + ", " + article["about"]["address"][0]["country"]).get(0));
 
-      container.append(profileimg);
-      container.append(profileexcerpt);
       return container.get(0).outerHTML;
 
     }
@@ -523,8 +510,12 @@ Pyk.newsDiscovery = function(){
       $("#article-card-right").empty();
 
       var profileimg = $("<div/>").addClass("profileimage");
+      var img = $("<img/>");
+      profileimg.append(img);
       $("#article-card-left").append(profileimg);
-      nd._setProfileImageUrlPerson(article,profileimg);
+
+      if (!nd._setProfileImageUrlPlace(article,img))
+        nd._setTwitterProfileImageUrl(article,img);
 
       if (article["about"]["name"])
         $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
@@ -594,8 +585,12 @@ Pyk.newsDiscovery = function(){
       $("#article-card-right").empty();
 
       var profileimg = $("<div/>").addClass("profileimage");
+      var img = $("<img/>");
+      profileimg.append(img);
       $("#article-card-left").append(profileimg);
-      nd._setProfileImageUrlOrganization(article,profileimg);
+
+      if (!nd._setProfileImageUrlPlace(article,img))
+        nd._setTwitterProfileImageUrl(article,img);
 
       if (article["about"]["name"])
         $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
@@ -663,8 +658,12 @@ Pyk.newsDiscovery = function(){
       $("#article-card-right").empty();
 
       var profileimg = $("<div/>").addClass("profileimage");
+      var img = $("<img/>");
+      profileimg.append(img);
       $("#article-card-left").append(profileimg);
-      nd._setProfileImageUrlPlace(article,profileimg);
+
+      if (!nd._setProfileImageUrlPlace(article,img))
+        nd._setTwitterProfileImageUrl(article,img);
 
       if (article["about"]["name"])
         $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
@@ -782,66 +781,74 @@ Pyk.newsDiscovery = function(){
 
     this._setProfileImageUrlPerson = function(article,profile_image_holder){
 
-      pathToImage = "res/img/Person.png"
-      profile_image_holder.append("<img src=\""+pathToImage+"\"></img>")
+      var pathToImage = "res/img/Person.png"
+      var img = $("<img class=\"card-photo\" src=\""+pathToImage+"\"></img>");
+      img.attr("data-article-id",article["about"]["name"]);
+      profile_image_holder.append(img);
 
       if (article["about"]["image"]){
 
         pathToImage = article["about"]["image"];
-        profile_image_holder.html("<img src=\""+pathToImage+"\"></img>")
-
-      }else if (!article["about"]["image"] && nd._getValueForKey(article["about"]["contactPoint"],"Twitter")){
-
-        nd._getTwitterProfileImageUrl(article,profile_image_holder);
-
+        img.attr("src",pathToImage);
+        return true;
       }
+
+      return false;
 
     }
 
     this._setProfileImageUrlOrganization = function(article,profile_image_holder){
 
       pathToImage = "res/img/Organization.png"
-      profile_image_holder.append("<img src=\""+pathToImage+"\"></img>")
+      profile_image_holder.html("<img src=\""+pathToImage+"\"></img>")
 
       if (article["about"]["logo"]){
 
         pathToImage = article["about"]["logo"];
         profile_image_holder.html("<img src=\""+pathToImage+"\"></img>")
-
-      }else if (!article["about"]["logo"] && nd._getValueForKey(article["about"]["contactPoint"],"Twitter")){
-
-        nd._getTwitterProfileImageUrl(article,profile_image_holder);
-
+        return true;
       }
+
+      return false;
 
     }
 
     this._setProfileImageUrlPlace = function(article,profile_image_holder){
 
       pathToImage = "res/img/Place.png"
-      profile_image_holder.append("<img src=\""+pathToImage+"\"></img>")
+      profile_image_holder.html("<img src=\""+pathToImage+"\"></img>")
 
       if (article["about"]["image"]){
 
         pathToImage = article["about"]["image"];
         profile_image_holder.html("<img src=\""+pathToImage+"\"></img>")
-
-      }else if (!article["about"]["image"] && nd._getValueForKey(article["about"]["contactPoint"],"Twitter")){
-
-        nd._getTwitterProfileImageUrl(article,profile_image_holder);
-
+        return true;
       }
+
+      return false;
 
     }
 
-    this._getTwitterProfileImageUrl = function(article,profile_image_holder){
+    this._setTwitterProfileImageUrl = function(article,img){
+
+      var twitter = nd._getValueForKey(article["about"]["contactPoint"],"Twitter");
+      if (!twitter) return;
 
       var twitterHandle = nd._getValueForKey(article["about"]["contactPoint"],"Twitter")
       twitterHandle = nd._cleanTwitterHandle(twitterHandle);
 
-      $.get( "http://directory.open-steps.org/ext/twitter/twitter_profile_retriever.php?screen_name="+twitterHandle, function( data ) {
-        data = data.replace("\n","");
-        profile_image_holder.html("<img src=\""+data+"\"></img>")
+      var imageGetterUrl = window.plp.config.twitterImageGetterUrl+"?screen_name="+twitterHandle;
+      superagent.get(imageGetterUrl)
+      .withCredentials()
+      .set('Accept', 'text/plain')
+      .end(function(err,res){
+
+        if (err){
+          console.log(err);
+        }else{
+          img.attr("src",res.text);
+        }
+
       });
 
     };
