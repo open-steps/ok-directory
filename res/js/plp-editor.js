@@ -106,13 +106,11 @@ $(function(){
 								.end(function(err,dirRes){
 
 									if (err){
-
 										console.log('Error ' + err);
 										showProfilePublishedError();
 									}
 
 									if (dirRes.ok){
-
 										console.log('Profile succesfully listed in directory ' + dirRes.text);
 										showProfilePublishedOk(uriInProvider);
 									}
