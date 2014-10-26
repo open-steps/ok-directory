@@ -38,11 +38,11 @@ $(function(){
 
 				}
 
-				if (profile){
-					editor.setValue(profile);
-				}
-
 			});
+
+			if (profile){
+				editor.setValue(profile);
+			}
 
 		});
 
@@ -71,14 +71,16 @@ $(function(){
 		var errors = editor.validate();
 		if(!errors.length) {
 
-      saveProfile();
+			saveProfile();
 
-			var uriInProvider ="";
+			var uriInProvider = "";
+
+			console.log('Posting profile to provider ' + localStorage.profile);
 
 			superagent.post(window.plp.config.provider)
-      .type('application/ld+json')
-      .accept('application/ld+json')
-      .send(localStorage.profile)
+			.type('application/ld+json')
+			.accept('application/ld+json')
+			.send(localStorage.profile)
 			.end(function(err,provRes){
 
 				if (err){
@@ -92,8 +94,8 @@ $(function(){
 						console.log('Profile successfully pushed to provider ' + provRes.text);
 						uriInProvider = JSON.parse(provRes.text)["@id"];
 
-            // FIXME: handle errors
-            var profile = JSON.parse(provRes.text);
+						// FIXME: handle errors
+						var profile = JSON.parse(provRes.text);
 
 						if (window.plp.config.directory){
 
@@ -136,7 +138,7 @@ $(function(){
 		if (validateURL(url)){
 
 			superagent.get(url)
-        .accept('application/ld+json')
+				.accept('application/ld+json')
 				.end(function(err,res){
 
 						if (err){
@@ -222,10 +224,13 @@ $(function(){
 
 	function saveProfile(){
 
-		var data = editor.getValue();
-		data["@context"] = window.plp.config.context;
-		data["@type"] = profileType;
-		window.localStorage.setItem('profile',JSON.stringify(editor.getValue()));
+		var editorValue = editor.getValue();
+		editorValue["@type"] = profileType;
+		editorValue["@context"] = window.plp.config.context;
+
+		var profile = JSON.stringify(editorValue);
+		window.localStorage.setItem('profile', profile);
+		console.log("Profile stored in localStorage " + profile);
 
 	}
 
