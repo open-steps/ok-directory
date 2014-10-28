@@ -16,7 +16,8 @@ $(function(){
 
     $.getJSON('res/js/schemas/'+profileType+'.json', function(json){
 
-      document.getElementById('editor_holder').innerHTML = "";
+      //document.getElementById('editor_holder').innerHTML = "";
+      if (editor) editor.destroy();
       editor = new JSONEditor(document.getElementById('editor_holder'),json);
 
       editor.on('change',function() {

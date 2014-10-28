@@ -3,7 +3,7 @@
     "title": "Place",
     "type": "object",
     "properties": {
-      "name": { "type": "string" , "title": "Name"},
+      "name": { "type": "string" , "title": "Name (Mandatory)" , "minLength": 4},
       "description": { "type": "string", "title": "About"},
       "telephone": { "type" : "string" , "title": "Phone number"},
       "url":  { "type" : "string", "title": "Homepage"},

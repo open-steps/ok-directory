@@ -3,7 +3,7 @@
     "title": "Person",
     "type": "object",
     "properties": {
-      "name": { "type": "string" , "title": "Name"},
+      "name": { "type": "string" , "title": "Name (Mandatory)" , "minLength": 4},
       "additionalname": { "type": "string" , "title": "Additional Name"},
       "description": { "type": "string", "title": "About yourself"},
       "birthDate":  { "type": "string" , "title": "Birth date"},
