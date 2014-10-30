@@ -32,7 +32,7 @@ h3{
 }
 
 #left{
-  z-index: 10;
+
 }
 
 #left h5{
@@ -42,20 +42,13 @@ h3{
 #middle{
   background: #fff;
   padding-top:15px;
-  z-index:0;
+  border-left: 10px solid #eee;
 }
 
 #footer{
   padding:10px;
 }
 
-#infoPage{
-
-}
-
-#infoPage img{
-  width:100%;
-}
 #article-card-left img{
   max-width:100px;
 }
@@ -90,6 +83,29 @@ h3{
 .logo h4{
   text-align:center;
   color: #fff;
+}
+
+#closePageBtn{
+  margin-top:40px;
+  width:100%;
+  display:none;
+  text-align:center;
+}
+
+#closePageBtn a{
+  border-radius: 10px;
+  padding:20px;
+  color:#000;
+  background:#eee;
+  display:block;
+}
+
+#closePageBtn a:hover{
+  border-radius: 10px;
+  padding:20px;
+  background:#fff;
+  color:#000;
+  display:block;
 }
 
 #searchField{
@@ -256,19 +272,15 @@ h3{
   height: 256px;
 }
 
-.skill-list{
-
-}
-
-.skill-list li{
+.linked-tag li{
   list-style-type:none;
   float:left;
   margin: 0px 10px 10px 0px;
 }
 
-.skill-list li a {
+.linked-tag li a {
   padding: 4px 10px;
-  border-radius: 2px;
+  border-radius: 6px;
   text-decoration: none;
   background: #EEE;
   color: #000;
@@ -280,9 +292,9 @@ h3{
   transition: color 0.3s ease, background-color 0.3s ease;
 }
 
-.skill-list li a:hover {
+.linked-tag li a:hover {
   padding: 4px 10px;
-  border-radius: 2px;
+  border-radius: 6px;
   text-decoration: none;
   background: #0a90f6;
   color: #FFF;
@@ -293,36 +305,3 @@ h3{
   -ms-transition: color 0.3s ease, background-color 0.3s ease;
   transition: color 0.3s ease, background-color 0.3s ease;
 }
-
-/*.modal-dialog {
-  position:absolute;
-  top:50% !important;
-  transform: translate(0, -50%) !important;
-  -ms-transform: translate(0, -50%) !important;
-  -webkit-transform: translate(0, -50%) !important;
-  margin:auto 5%;
-  width:60%;
-  height:80%;
-}
-.modal-content {
-  min-height:100%;
-  position:absolute;
-  top:0;
-  bottom:0;
-  left:0;
-  right:0;
-}
-.modal-body {
-  position:absolute;
-  top:45px; // height of header
-  bottom:45px;  // height of footer
-  left:0;
-  right:0;
-  overflow-y:auto;
-}
-.modal-footer {
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-}*/
