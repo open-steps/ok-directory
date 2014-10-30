@@ -19,12 +19,12 @@ h3{
 
 .error{
 
-	color: red;
+  color: red;
 }
 
 .ok{
 
-	color: green;
+  color: green;
 }
 
 .large-icon{
@@ -262,22 +262,36 @@ h3{
 
 .skill-list li{
   list-style-type:none;
-  background: #EEE;
   float:left;
-  padding: 4px 10px;
-  border-radius: 2px;
   margin: 0px 10px 10px 0px;
 }
 
 .skill-list li a {
+  padding: 4px 10px;
+  border-radius: 2px;
   text-decoration: none;
+  background: #EEE;
   color: #000;
   display: block;
-  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
-  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
-  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
-  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
-  transition: font-size 0.3s ease, background-color 0.3s ease;
+  -webkit-transition: color 0.3s ease, background-color 0.3s ease;
+  -moz-transition: color 0.3s ease, background-color 0.3s ease;
+  -o-transition: color 0.3s ease, background-color 0.3s ease;
+  -ms-transition: color 0.3s ease, background-color 0.3s ease;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.skill-list li a:hover {
+  padding: 4px 10px;
+  border-radius: 2px;
+  text-decoration: none;
+  background: #0a90f6;
+  color: #FFF;
+  display: block;
+  -webkit-transition: color 0.3s ease, background-color 0.3s ease;
+  -moz-transition: color 0.3s ease, background-color 0.3s ease;
+  -o-transition: color 0.3s ease, background-color 0.3s ease;
+  -ms-transition: color 0.3s ease, background-color 0.3s ease;
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 /*.modal-dialog {

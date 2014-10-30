@@ -35,6 +35,7 @@ Pyk.newsDiscovery = function(){
               nd.countArticles();
               nd.renderTags();
               nd.initSearch();
+
             } else {
 
               alert('Oh no! error ' + res.text);
@@ -302,23 +303,28 @@ Pyk.newsDiscovery = function(){
       nd.renderTags();
     };
 
+    this.filterSearch = function(query){
+      var article = nd.searchFilterArray[query];
+      if(article.filter){
+          nd.filter(article.filter,query);
+          $("#searchField").val(query)
+      }
+      return query;
+    }
+
     // Defines method for search and typeahead.
     this.initSearch = function(){
 
-      var searchFilterArray = nd._buildSearchFilterArray();
+      nd.searchFilterArray = nd._buildSearchFilterArray();
 
       $('#searchField').typeahead({
 
         source: function (query, process) {
-          var articleTitles = searchFilterArray.articleTitles;
+          var articleTitles = nd.searchFilterArray.articleTitles;
           process(articleTitles);
         },
         updater: function (item) {
-          var article = searchFilterArray[item];
-          if(article.filter){
-              nd.filter(article.filter,item);
-          }
-          return item;
+          return nd.filterSearch(item);
         },
         matcher: function (item) {
           if (!item) return false;
@@ -343,10 +349,14 @@ Pyk.newsDiscovery = function(){
       initializeMap();
     }
 
-    $("#clearBtn").on('click',function(){
+    this._clearSearch = function(){
       nd.initCrossfilter();
       nd.renderTags();
       $("#searchField").val("");
+    }
+
+    $("#clearBtn").on('click',function(){
+      nd._clearSearch();
     });
 
     $("#openJoinPageBtn").on('click',function(){
@@ -520,8 +530,26 @@ Pyk.newsDiscovery = function(){
       if (article["about"]["name"])
         $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
 
-      if (article["about"]["memberOf"][0])
-        $("#article-card-left").append($("<div/>").addClass("organisation").html(article["about"]["memberOf"][0]["name"]));
+      // if (article["about"]["memberOf"][0])
+      //   $("#article-card-left").append($("<div/>").addClass("organisation").html(article["about"]["memberOf"][0]["name"]));
+      if (article["about"]["memberOf"]){
+        var organizations = $("<div/>").addClass("skill-list");
+        var organizationsUl = $("<ul/>");
+        organizations.append(organizationsUl);
+        for (key in article["about"]["memberOf"]){
+          var organizationItem = $('<li/>');
+          var organizationLink = $('<a href="#" class="filter-link">'+article["about"]["memberOf"][key]["name"]+'</a>');
+          organizationLink.on("click",function(event){
+            nd._clearSearch();
+            nd.filterSearch($(this).text());
+            $('#article-card').modal('hide');
+          });
+          organizationItem.append(organizationLink);
+          organizationsUl.append(organizationItem);
+        }
+        $("#article-card-left").append(organizations);
+      }
+
       if (article["about"]["address"][0])
         $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"][0]["city"]+", "+article["about"]["address"][0]["country"]+'</p>');
 
@@ -568,9 +596,18 @@ Pyk.newsDiscovery = function(){
       $("#article-card-right").append("<h2>Areas of interest</h2>");
       if (article["about"]["interest"]){
         var skills = $("<div/>").addClass("skill-list");
-        skills.append($("<ul/>"));
+        var skillsUl = $("<ul/>");
+        skills.append(skillsUl);
         for (key in article["about"]["interest"]){
-            skills.append('<li>'+article["about"]["interest"][key]["name"]+'</li>');
+          var listItem = $('<li/>');
+          var skillLink = $('<a href="#" class="filter-link">'+article["about"]["interest"][key]["name"]+'</a>');
+          skillLink.on("click",function(event){
+            nd._clearSearch();
+            nd.filterSearch($(this).text());
+            $('#article-card').modal('hide');
+          });
+          listItem.append(skillLink);
+          skillsUl.append(listItem);
         }
         $("#article-card-right").append(skills);
       }
@@ -641,9 +678,18 @@ Pyk.newsDiscovery = function(){
       $("#article-card-right").append("<h2>Areas of interest</h2>");
       if (article["about"]["interest"]){
         var skills = $("<div/>").addClass("skill-list");
-        skills.append($("<ul/>"));
+        var skillsUl = $("<ul/>");
+        skills.append(skillsUl);
         for (key in article["about"]["interest"]){
-            skills.append('<li>'+article["about"]["interest"][key]["name"]+'</li>');
+          var listItem = $('<li/>');
+          var skillLink = $('<a href="#" class="filter-link">'+article["about"]["interest"][key]["name"]+'</a>');
+          skillLink.on("click",function(event){
+            nd._clearSearch();
+            nd.filterSearch($(this).text());
+            $('#article-card').modal('hide');
+          });
+          listItem.append(skillLink);
+          skillsUl.append(listItem);
         }
         $("#article-card-right").append(skills);
       }
@@ -886,6 +932,12 @@ Pyk.newsDiscovery = function(){
 Reduce functions for the arrays
 of AA.
 ------------------------------*/
+
+function getParameterByName(name) {
+  var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+  return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
 function reduceAdd(p, v) {
   if (!v["about"]["interest"]) return p;
   v["about"]["interest"].forEach (function(val, idx) {
@@ -900,7 +952,6 @@ function reduceRemove(p, v) {
      p[val["name"]] = (p[val["name"]] || 0) - 1; //decrement counts
   });
   return p;
-
 }
 
 function reduceInitial() {
