@@ -15,12 +15,10 @@ var initializeMap = function() {
 
   // Init Map
   map = L.map('map').setView([13.4061, 52.5192], 1);
-        mapLink =
-            '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: 'Map data &copy; ' + mapLink,
-            maxZoom: 8,
-            }).addTo(map);
+  L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpg', {
+      attribution: '<p>Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png"></p>',
+      maxZoom: 8,
+      }).addTo(map);
 
   markers = new L.MarkerClusterGroup({showCoverageOnHover: false});
 
@@ -36,51 +34,51 @@ var codeAddressFromArticle = function(context,article,last) {
 
   if (!article["about"]["address"][0]) return;
 
-	var addressToGeocode = article["about"]["address"][0]["country"]+', '+article["about"]["address"][0]["city"];
+  var addressToGeocode = article["about"]["address"][0]["country"]+', '+article["about"]["address"][0]["city"];
 
-	// Setup marker icon
-	var imgIcon = L.icon({
-	    iconUrl: 'res/img/dot.png',
-	    //shadowUrl: 'res/img/avatar_bg.png',
+  // Setup marker icon
+  var imgIcon = L.icon({
+      iconUrl: 'res/img/dot.png',
+      //shadowUrl: 'res/img/avatar_bg.png',
 
-	    iconSize:     [16, 16], // size of the icon
-	    //shadowSize:   [34, 34], // size of the shadow
-	    iconAnchor:   [8,8], // point of the icon which will correspond to marker's location
-	    //shadowAnchor: [1,1],  // the same for the shadow
-	    popupAnchor:  [16,0] // point from which the popup should open relative to the iconAnchor
-	});
+      iconSize:     [16, 16], // size of the icon
+      //shadowSize:   [34, 34], // size of the shadow
+      iconAnchor:   [8,8], // point of the icon which will correspond to marker's location
+      //shadowAnchor: [1,1],  // the same for the shadow
+      popupAnchor:  [16,0] // point from which the popup should open relative to the iconAnchor
+  });
 
-	// If the address was not already fetched, do it
-	if (!fetchedAddresses[addressToGeocode]){
+  // If the address was not already fetched, do it
+  if (!fetchedAddresses[addressToGeocode]){
 
-		// replace placeholders in the url
-		var finalGeocodeApiURL = geocodeApiURL.replace('#city#',article["about"]["address"][0]["city"]);
-		finalGeocodeApiURL = finalGeocodeApiURL.replace('#country#',article["about"]["address"][0]["country"]);
+    // replace placeholders in the url
+    var finalGeocodeApiURL = geocodeApiURL.replace('#city#',article["about"]["address"][0]["city"]);
+    finalGeocodeApiURL = finalGeocodeApiURL.replace('#country#',article["about"]["address"][0]["country"]);
 
-		//console.log("Fetching address on: "+finalGeocodeApiURL);
+    //console.log("Fetching address on: "+finalGeocodeApiURL);
 
-		$.getJSON( finalGeocodeApiURL, function( data ) {
+    $.getJSON( finalGeocodeApiURL, function( data ) {
 
-			if (data.info.statuscode == 0 && data.results[0].locations[0]) {
+      if (data.info.statuscode == 0 && data.results[0].locations[0]) {
 
-				// Store fetched address
-				fetchedAddresses[addressToGeocode] = data.results[0].locations[0].latLng.lat+","+data.results[0].locations[0].latLng.lng;
+        // Store fetched address
+        fetchedAddresses[addressToGeocode] = data.results[0].locations[0].latLng.lat+","+data.results[0].locations[0].latLng.lng;
 
-				// Add marker
-				var marker = new L.marker(new L.latLng(data.results[0].locations[0].latLng.lat,data.results[0].locations[0].latLng.lng),{icon: imgIcon});
-				setupMarkerWithArticle(context,marker,article,last);
-			}
+        // Add marker
+        var marker = new L.marker(new L.latLng(data.results[0].locations[0].latLng.lat,data.results[0].locations[0].latLng.lng),{icon: imgIcon});
+        setupMarkerWithArticle(context,marker,article,last);
+      }
 
-		});
+    });
 
-	}else{
+  }else{
 
-		// Extract coordinates from map
-		var latLng = fetchedAddresses[addressToGeocode].split(",");
-		var marker = new L.marker(new L.latLng(latLng[0],latLng[1]),{icon: imgIcon});
-		setupMarkerWithArticle(context,marker,article,last);
+    // Extract coordinates from map
+    var latLng = fetchedAddresses[addressToGeocode].split(",");
+    var marker = new L.marker(new L.latLng(latLng[0],latLng[1]),{icon: imgIcon});
+    setupMarkerWithArticle(context,marker,article,last);
 
-	}
+  }
 
 }
 
@@ -89,69 +87,69 @@ var panMapToArticle = function(context,article){
 
   if (!article["about"]["address"][0]) return;
 
-	var addressToGeocode = article["about"]["address"][0]["country"]+', '+article["about"]["address"][0]["city"];
+  var addressToGeocode = article["about"]["address"][0]["country"]+', '+article["about"]["address"][0]["city"];
 
-	// If the address was not already fetched, do it
-	if (!fetchedAddresses[addressToGeocode]){
+  // If the address was not already fetched, do it
+  if (!fetchedAddresses[addressToGeocode]){
 
-		// replace placeholders in the url
+    // replace placeholders in the url
     var finalGeocodeApiURL = geocodeApiURL.replace('#city#',article["about"]["address"][0]["city"]);
     finalGeocodeApiURL = finalGeocodeApiURL.replace('#country#',article["about"]["address"][0]["country"]);
 
-		//console.log("Fetching address on: "+finalGeocodeApiURL);
+    //console.log("Fetching address on: "+finalGeocodeApiURL);
 
-		$.getJSON( finalGeocodeApiURL, function( data ) {
+    $.getJSON( finalGeocodeApiURL, function( data ) {
 
-			if (data.info.statuscode == 0 && data.results[0].locations[0]) {
+      if (data.info.statuscode == 0 && data.results[0].locations[0]) {
 
-				// Store fetched address
-				fetchedAddresses[addressToGeocode] = data.results[0].locations[0].latLng.lat+","+data.results[0].locations[0].latLng.lng;
+        // Store fetched address
+        fetchedAddresses[addressToGeocode] = data.results[0].locations[0].latLng.lat+","+data.results[0].locations[0].latLng.lng;
 
-				map.panTo(new L.latLng(data.results[0].locations[0].latLng.lat,data.results[0].locations[0].latLng.lng));
-				//map.setZoom(6);
-			}
+        map.panTo(new L.latLng(data.results[0].locations[0].latLng.lat,data.results[0].locations[0].latLng.lng));
+        //map.setZoom(6);
+      }
 
-		});
+    });
 
-	}else{
+  }else{
 
-		// Extract coordinates from map
-		var latLng = fetchedAddresses[addressToGeocode].split(",");
+    // Extract coordinates from map
+    var latLng = fetchedAddresses[addressToGeocode].split(",");
 
-		map.panTo(new L.latLng(latLng[0],latLng[1]));
-		//map.setZoom(6);
+    map.panTo(new L.latLng(latLng[0],latLng[1]));
+    //map.setZoom(6);
 
-	}
+  }
 
 }
 
 // Utility method to bind the popup of the marker and add it to the layer.
 var setupMarkerWithArticle = function(context,marker,article,last){
 
- 	marker.on('click', function (a) {
+   marker.on('click', function (a) {
 
     currentArticle = article;
     nd._showArticleDetails(currentArticle);
 
- 	});
+   });
 
- 	marker.on('mouseout', function (a) {
+   marker.on('mouseout', function (a) {
 
-    	//$('#details').html("<img src=\"res/img/avatar_placeholder.png\"/>");
+      //$('#details').html("<img src=\"res/img/avatar_placeholder.png\"/>");
 
- 	});
+   });
 
- 	markers.addLayer(marker);
+   markers.addLayer(marker);
 
- 	if (last){
- 		mapFitBounds();
- 	}
+   if (last){
+     mapFitBounds();
+   }
 
 }
 
 var mapFitBounds = function(){
 
-	map.fitBounds(markers.getBounds(),{padding: [50,50]});
+  map.fitBounds(markers.getBounds(),{padding: [50,50]});
 
 }
 
