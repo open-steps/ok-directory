@@ -634,7 +634,7 @@ Pyk.newsDiscovery = function(){
       // EMAIL
       var email = nd._getValueForKey(article["about"]["contactPoint"],"Email");
       if (email){
-       $("#article-card-left").append($("<div/>").addClass("email contact-point").html('</br><a href="' + "mailto:" + email + '"><i class="fa fa-envelope fa-lg"></i></a>'));
+       $("#article-card-left").append($("<div/>").addClass("email contact-point").html('<a href="' + "mailto:" + email + '"><i class="fa fa-envelope fa-lg"></i></a>'));
       }
 
       // WEBSITE
