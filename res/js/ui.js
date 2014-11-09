@@ -674,8 +674,8 @@ Pyk.newsDiscovery = function(){
       $("#article-card-right").append("<h2>Areas of interest</h2>");
       if (article["about"]["interest"]){
         var skills = $("<div/>").addClass("linked-tag");
-        var skillsUl = $("<ul/>");
-        skills.append(skillsUl);
+        var skillsUI = $("<ul/>");
+        skills.append(skillsUI);
         for (key in article["about"]["interest"]){
           var listItem = $('<li/>');
           var skillLink = $('<a href="#">'+article["about"]["interest"][key]["name"]+'</a>');
@@ -685,9 +685,31 @@ Pyk.newsDiscovery = function(){
             $('#article-card').modal('hide');
           });
           listItem.append(skillLink);
-          skillsUl.append(listItem);
+          skillsUI.append(listItem);
         }
         $("#article-card-right").append(skills);
+
+      }
+
+      // Members
+      $("#article-card-right").append("<h2>Members</h2>");
+      if (article["about"]["member"]){
+        var members = $("<div/>").addClass("linked-tag");
+        var membersUI = $("<ul/>");
+        members.append(membersUI);
+        for (key in article["about"]["member"]){
+          var listItem = $('<li/>');
+          var memberLink = $('<a href="#">'+article["about"]["member"][key]["name"]+'</a>');
+          memberLink.on("click",function(event){
+            nd._clearSearch();
+            nd.filterSearch($(this).text());
+            $('#article-card').modal('hide');
+          });
+          listItem.append(memberLink);
+          membersUI.append(listItem);
+        }
+        $("#article-card-right").append(members);
+        
       }
 
       $("#profile-published-uri").html("<p>PLP Profile stored under: <b></br><a href=\""+article["about"]["@id"]+"\">"+article["about"]["@id"]+"</a></b></p>");
