@@ -74,19 +74,20 @@ $(function(){
 
       saveProfile();
 
-      if (profileHasId(JSON.parse(localStorage.profile))){
+      var profile = JSON.parse(localStorage.profile);
 
-        superagent.put(window.plp.config.provider)
+      if (profileHasId(profile)){
+
+        superagent.put(profile["@id"])
         .type('application/ld+json')
         .accept('application/ld+json')
         .send(localStorage.profile)
         .end(function(err,provRes){
 
           if (err){
-            $('#result-uri').html('<p class="error">Something went wrong: '+err+'</p>');
-            console.log('Error ' + err);
-          }else if(provRes.ok) {
-            postProfileToDirectory(JSON.parse(provRes.text));
+            showProfilePublishedError();
+          }else if (provRes.ok){
+            showProfilePublishedOk(profile["@id"]);
           }
 
         });
@@ -100,9 +101,8 @@ $(function(){
         .end(function(err,provRes){
 
           if (err){
-            $('#result-uri').html('<p class="error">Something went wrong: '+err+'</p>');
-            console.log('Error ' + err);
-          }else if(provRes.ok) {
+            showProfilePublishedError();
+          }else if (provRes.ok){
             postProfileToDirectory(JSON.parse(provRes.text));
           }
 
@@ -185,21 +185,21 @@ $(function(){
     if (window.plp.config.directory){
 
       superagent.post(window.plp.config.directory)
-        .type('application/ld+json')
-        .accept('application/ld+json')
-        .send(JSON.stringify(profile))
-        .end(function(err,dirRes){
+      .type('application/ld+json')
+      .accept('application/ld+json')
+      .send(JSON.stringify(profile))
+      .end(function(err,dirRes){
 
-          if (err){
-            console.log('Error ' + err);
-          }else{
-            if (dirRes.status == 409){
-              console.log('Profile was already listed in directory ' + dirRes.text);
-            }else if (dirRes.ok){
-              console.log('Profile succesfully listed in directory ' + dirRes.text);
-            }
-            $('#result-uri').html('<h1>Your profile lives here:</h1><h3>'+profile['@id']+'</h3><p>You can use this URI for listing it in the different <a href="https://github.com/hackers4peace/plp-docs">directories supporting PLP</a></p>');
+        if (err){
+          console.log('Error ' + err);
+        }else{
+          if (dirRes.status == 409){
+            console.log('Profile was already listed in directory ' + dirRes.text);
+          }else if (dirRes.ok){
+            console.log('Profile succesfully listed in directory ' + dirRes.text);
           }
+          showProfilePublishedOk(profile["@id"]);
+        }
 
       });
 
