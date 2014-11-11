@@ -28,7 +28,8 @@ Pyk.newsDiscovery = function(){
 
             if (res.ok) {
 
-              var graph = res.body["@graph"];
+              var graphObject = JSON.parse(res.text);
+              var graph = graphObject["@graph"];
               nd.data = graph;
               nd.initCrossfilter();
               nd.initMap();
@@ -37,9 +38,7 @@ Pyk.newsDiscovery = function(){
               nd.initSearch();
 
             } else {
-
               alert('Oh no! error ' + res.text);
-
             }
 
         });
@@ -709,7 +708,7 @@ Pyk.newsDiscovery = function(){
           membersUI.append(listItem);
         }
         $("#article-card-right").append(members);
-        
+
       }
 
       $("#profile-published-uri").html("<p>PLP Profile stored under: <b></br><a href=\""+article["about"]["@id"]+"\">"+article["about"]["@id"]+"</a></b></p>");

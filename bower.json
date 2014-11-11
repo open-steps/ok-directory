@@ -25,6 +25,7 @@
     "superagent": "~0.18.2",
     "node-uuid": "~1.4.1",
     "font-awesome": "~4.2.0",
-    "jquery-image-loader": "~1.2.2"
+    "jquery-image-loader": "~1.2.2",
+    "lodash": "~2.4.1"
   }
 }

@@ -28,14 +28,14 @@ $(function(){
           $('#validator').removeClass('ok');
           $('#validator').text('Not valid');
           $('#validator').addClass('error');
-          $('#generate_btn').addClass('disabled');
+          $('#generateBtn').addClass('disabled');
 
         }else{
 
           $('#validator').removeClass('error');
           $('#validator').text('Valid');
           $('#validator').addClass('ok');
-          $('#generate_btn').removeClass('disabled');
+          $('#generateBtn').removeClass('disabled');
 
         }
 
@@ -74,57 +74,41 @@ $(function(){
 
       saveProfile();
 
-      var uriInProvider = "";
+      if (profileHasId(JSON.parse(localStorage.profile))){
 
-      console.log('Posting profile to provider ' + localStorage.profile);
+        superagent.put(window.plp.config.provider)
+        .type('application/ld+json')
+        .accept('application/ld+json')
+        .send(localStorage.profile)
+        .end(function(err,provRes){
 
-      superagent.post(window.plp.config.provider)
-      .type('application/ld+json')
-      .accept('application/ld+json')
-      .send(localStorage.profile)
-      .end(function(err,provRes){
-
-        if (err){
-
-          console.log('Error ' + err);
-
-        }else{
-
-          if(provRes.ok) {
-
-            console.log('Profile successfully pushed to provider ' + provRes.text);
-            uriInProvider = JSON.parse(provRes.text)["@id"];
-
-            // FIXME: handle errors
-            var profile = JSON.parse(provRes.text);
-
-            if (window.plp.config.directory){
-
-              superagent.post(window.plp.config.directory)
-                .type('application/ld+json')
-                .accept('application/ld+json')
-                .send(JSON.stringify(profile))
-                .end(function(err,dirRes){
-
-                  if (err){
-                    console.log('Error ' + err);
-                    showProfilePublishedError();
-                  }
-
-                  if (dirRes.ok){
-                    console.log('Profile succesfully listed in directory ' + dirRes.text);
-                    showProfilePublishedOk(uriInProvider);
-                  }
-
-              });
-
-            }
-
+          if (err){
+            $('#result-uri').html('<p class="error">Something went wrong: '+err+'</p>');
+            console.log('Error ' + err);
+          }else if(provRes.ok) {
+            postProfileToDirectory(JSON.parse(provRes.text));
           }
 
-        }
+        });
 
-      });
+      }else{
+
+        superagent.post(window.plp.config.provider)
+        .type('application/ld+json')
+        .accept('application/ld+json')
+        .send(localStorage.profile)
+        .end(function(err,provRes){
+
+          if (err){
+            $('#result-uri').html('<p class="error">Something went wrong: '+err+'</p>');
+            console.log('Error ' + err);
+          }else if(provRes.ok) {
+            postProfileToDirectory(JSON.parse(provRes.text));
+          }
+
+        });
+
+      }
 
     }
 
@@ -184,6 +168,44 @@ $(function(){
   });
 
   // UTILITY FUNCTIONS
+
+  function downloadLocallyStoredProfile(){
+    var profile = localStorage.profile;
+    var filename = "urn:uuid"+uuid.v4();
+    var blob = new Blob([profile], {type: "application/ld+json;charset=utf-8"});
+    saveAs(blob, filename+".json");
+  }
+
+  function profileHasId(profile){
+    return _.has(profile,"@id");
+  }
+
+  function postProfileToDirectory(profile){
+
+    if (window.plp.config.directory){
+
+      superagent.post(window.plp.config.directory)
+        .type('application/ld+json')
+        .accept('application/ld+json')
+        .send(JSON.stringify(profile))
+        .end(function(err,dirRes){
+
+          if (err){
+            console.log('Error ' + err);
+          }else{
+            if (dirRes.status == 409){
+              console.log('Profile was already listed in directory ' + dirRes.text);
+            }else if (dirRes.ok){
+              console.log('Profile succesfully listed in directory ' + dirRes.text);
+            }
+            $('#result-uri').html('<h1>Your profile lives here:</h1><h3>'+profile['@id']+'</h3><p>You can use this URI for listing it in the different <a href="https://github.com/hackers4peace/plp-docs">directories supporting PLP</a></p>');
+          }
+
+      });
+
+    }
+
+  }
 
   function showProfilePublishedOk(profile_url){
 
