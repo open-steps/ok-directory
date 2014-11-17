@@ -35,7 +35,8 @@ Deploy on the webserver of your choice
 
 ## References
 
-Calls https://github.com/acorbi/twitter-image-getter
+Uses https://github.com/acorbi/twitter-image-cacher
+Uses https://github.com/acorbi/geocoder-cacher
 
 Cloned initially from https://github.com/jplusplus/global-directory
 
