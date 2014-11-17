@@ -572,7 +572,7 @@ Pyk.newsDiscovery = function(){
       }
 
       // LINKEDIN
-      var linkedin = nd._getValueForKey(article["about"]["contactPoint"],"Linkedin");
+      var linkedin = nd._getValueForKey(article["about"]["contactPoint"],"LinkedIn");
       if (linkedin){
         $("#article-card-left").append($("<div/>").addClass("linkedin contact-point").html('<a href="' + linkedin + '" target="_blank"><i class="fa fa-linkedin fa-lg"></i></a>'));
       }
@@ -654,7 +654,7 @@ Pyk.newsDiscovery = function(){
       }
 
       // LINKEDIN
-      var linkedin = nd._getValueForKey(article["about"]["contactPoint"],"Linkedin");
+      var linkedin = nd._getValueForKey(article["about"]["contactPoint"],"LinkedIn");
       if (linkedin){
         $("#article-card-left").append($("<div/>").addClass("linkedin contact-point").html('<a href="' + linkedin + '" target="_blank"><i class="fa fa-linkedin fa-lg"></i></a>'));
       }
