@@ -908,7 +908,7 @@ Pyk.newsDiscovery = function(){
 
         if (err){
           console.log(err);
-        }else{
+        }else if(res.status != 400){        
           img.attr("src",res.text);
         }
 
