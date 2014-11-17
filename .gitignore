@@ -2,3 +2,4 @@ ext/twitter/twitter_config.php
 bower_components
 config.js
 libs
+deployment-config.json

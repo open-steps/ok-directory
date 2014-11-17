@@ -47,7 +47,7 @@ var codeAddressFromArticle = function(context,article,last) {
 
       if (err){
         console.log(err);
-      }else{
+      }else if(res.status != 400){        
         fetchedAddresses[addressToGeocode] = res.text;
         var latLng = fetchedAddresses[addressToGeocode].split(",");
         var marker = new L.marker(new L.latLng(latLng[0],latLng[1]),{icon: imgIcon});
@@ -80,7 +80,7 @@ var panMapToArticle = function(context,article){
 
       if (err){
         console.log(err);
-      }else{
+      }else if(res.status != 400){
         fetchedAddresses[addressToGeocode] = res.text;
         var latLng = fetchedAddresses[addressToGeocode].split(",");
         map.panTo(new L.latLng(latLng[0],latLng[1]));
