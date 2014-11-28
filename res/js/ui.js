@@ -361,6 +361,7 @@ Pyk.newsDiscovery = function(){
     $("#openJoinPageBtn").on('click',function(){
       nd._closeSidebar();
       $("#joinPage").fadeIn("slow");
+      $('#addOrEdit').show();
     });
 
     $("#openInfoPageBtn").on('click',function(){
@@ -908,7 +909,7 @@ Pyk.newsDiscovery = function(){
 
         if (err){
           console.log(err);
-        }else if(res.status != 400){        
+        }else if(res.status != 400){
           img.attr("src",res.text);
         }
 

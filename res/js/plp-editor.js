@@ -114,7 +114,7 @@ $(function(){
 
   });
 
-  $('#editBtn').on('click',function() {
+  $('#editFromUrlBtn').on('click',function() {
 
     var url = $('#existing_profile_field').val();
 
@@ -141,7 +141,7 @@ $(function(){
                 var type = profile["@type"];
                 initEditor(type,profile);
                 selectProfileType(type);
-
+                $('#addOrEdit').hide();
               }
 
             }
@@ -156,13 +156,46 @@ $(function(){
 
   });
 
+  $('#addFromUrlBtn').on('click',function() {
+
+    var url = $('#existing_profile_field').val();
+
+    superagent.get(url)
+    .accept('application/ld+json')
+    .end(function(err,res){
+
+      if (err){
+
+        console.log('Error ' + err);
+
+        $('#existing_profile_field').val('Something went wrong');
+        $('#existing_profile_field').addClass('error');
+
+      }else{
+
+        if(res.ok) {
+
+          console.log('Profile correctly downloaded from provider ' + res.text);
+          var profile = JSON.parse(res.text);
+          postProfileToDirectory(profile);
+
+        }
+
+      }
+
+    });
+
+  });
+
   $('#existing_profile_field').on('input',function() {
 
     var url = $('#existing_profile_field').val();
     if (validateURL(url)){
-      $('#editBtn').removeClass('disabled');
+      $('#editFromUrlBtn').removeClass('disabled');
+      $('#addFromUrlBtn').removeClass('disabled');
     }else{
-      $('#editBtn').addClass('disabled');
+      $('#editFromUrlBtn').addClass('disabled');
+      $('#addFromUrlBtn').removeClass('disabled');
     }
 
   });
