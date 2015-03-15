@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "title": "License",
+  "properties": {    
+    "name": { "type": "string", "title": "Name"},
+    "id": { "type": "string", "title": "URL"}
+  }
+}

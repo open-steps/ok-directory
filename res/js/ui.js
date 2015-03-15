@@ -52,11 +52,11 @@ Pyk.newsDiscovery = function(){
       var nPlaces = 0;
 
       for (profile in this.data){
-        if (this.data[profile]["about"]["@type"]=="Person"){
+        if (this.data[profile]["about"]["type"]=="Person"){
           nPersons++;
-        }else if (this.data[profile]["about"]["@type"]=="Organization"){
+        }else if (this.data[profile]["about"]["type"]=="Organization"){
           nOrganizations++;
-        }else if (this.data[profile]["about"]["@type"]=="Place"){
+        }else if (this.data[profile]["about"]["type"]=="Place"){
           nPlaces++;
         }
       }
@@ -87,28 +87,28 @@ Pyk.newsDiscovery = function(){
       });
 
       this.cf.dd_dimension = this.cf.data.dimension(function(d){
-        if (!d["about"]["address"][0])
+        if (!d["about"]["address"])
           return "N/A";
-        return d["about"]["address"][0]["country"];
+        return d["about"]["address"]["addressCountry"];
       });
 
       this.cf.ee_dimension = this.cf.data.dimension(function(d){
-        if (!d["about"]["address"][0])
+        if (!d["about"]["address"])
           return "N/A";
-        return d["about"]["address"][0]["city"];
+        return d["about"]["address"]["addressLocality"];
       });
 
       this.cf.ff_dimension = this.cf.data.dimension(function(d){
 
-        if (d["about"]["@type"] == "Organization"){
+        if (d["about"]["type"] == "Organization"){
           if (!d["about"]["name"])
             return "N/A";
           return d["about"]["name"];
-        }else if(d["about"]["@type"] == "Person"){
+        }else if(d["about"]["type"] == "Person"){
           if (!d["about"]["memberOf"][0])
             return "N/A";
           return d["about"]["memberOf"][0]["name"];
-        }else if(d["about"]["@type"] == "Place"){
+        }else if(d["about"]["type"] == "Place"){
           if (!d["about"]["name"])
             return "N/A";
           return d["about"]["name"];
@@ -409,15 +409,15 @@ Pyk.newsDiscovery = function(){
 
     this._renderArticleCardPreview = function(article){
 
-      if (article["about"]["@type"] == "Person"){
+      if (article["about"]["type"] == "Person"){
 
         return nd._renderArticleCardPreviewPerson(article);
 
-      }else if (article["about"]["@type"] == "Organization"){
+      }else if (article["about"]["type"] == "Organization"){
 
         return nd._renderArticleCardPreviewOrganization(article);
 
-      }else if (article["about"]["@type"] == "Place"){
+      }else if (article["about"]["type"] == "Place"){
 
         return nd._renderArticleCardPreviewPlace(article);
 
@@ -442,8 +442,8 @@ Pyk.newsDiscovery = function(){
       if (article["about"]["memberOf"][0])
         profileexcerpt.append($("<div/>").addClass("organisation").html(article["about"]["memberOf"][0]["name"]));
 
-      if (article["about"]["address"][0])
-        profileexcerpt.append($("<div/>").addClass("city").html(article["about"]["address"][0]["city"] + ", " + article["about"]["address"][0]["country"]).get(0));
+      if (article["about"]["address"])
+        profileexcerpt.append($("<div/>").addClass("city").html(article["about"]["address"]["addressLocality"] + ", " + article["about"]["address"]["addressCountry"]).get(0));
 
       return container.get(0).outerHTML;
 
@@ -463,8 +463,8 @@ Pyk.newsDiscovery = function(){
       if (article["about"]["name"])
         profileexcerpt.append("<b>" + article["about"]["name"] + "</b>");
 
-      if (article["about"]["address"][0])
-        profileexcerpt.append($("<div/>").addClass("city").html(article["about"]["address"][0]["city"] + ", " + article["about"]["address"][0]["country"]).get(0));
+      if (article["about"]["address"])
+        profileexcerpt.append($("<div/>").addClass("addressLocality").html(article["about"]["address"]["addressLocality"] + ", " + article["about"]["address"]["addressCountry"]).get(0));
 
       return container.get(0).outerHTML;
 
@@ -484,8 +484,8 @@ Pyk.newsDiscovery = function(){
       if (article["about"]["name"])
         profileexcerpt.append("<b>" + article["about"]["name"] + "</b>");
 
-      if (article["about"]["address"][0])
-        profileexcerpt.append($("<div/>").addClass("city").html(article["about"]["address"][0]["city"] + ", " + article["about"]["address"][0]["country"]).get(0));
+      if (article["about"]["address"])
+        profileexcerpt.append($("<div/>").addClass("city").html(article["about"]["address"]["city"] + ", " + article["about"]["address"]["addressCountry"]).get(0));
 
       return container.get(0).outerHTML;
 
@@ -495,15 +495,15 @@ Pyk.newsDiscovery = function(){
 
        $('#article-card').modal('show');
 
-       if (article["about"]["@type"] == "Person"){
+       if (article["about"]["type"] == "Person"){
 
          return nd._renderArticleCardDetailsPerson(article);
 
-       }else if (article["about"]["@type"] == "Organization"){
+       }else if (article["about"]["type"] == "Organization"){
 
          return nd._renderArticleCardDetailsOrganization(article);
 
-       }else if (article["about"]["@type"] == "Place"){
+       }else if (article["about"]["type"] == "Place"){
 
          return nd._renderArticleCardDetailsPlace(article);
 
@@ -546,8 +546,8 @@ Pyk.newsDiscovery = function(){
         $("#article-card-left").append(organizations);
       }
 
-      if (article["about"]["address"][0])
-        $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"][0]["city"]+", "+article["about"]["address"][0]["country"]+'</p>');
+      if (article["about"]["address"])
+        $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"]["addressLocality"]+", "+article["about"]["address"]["addressCountry"]+'</p>');
 
       // EMAIL
       var email = nd._getValueForKey(article["about"]["contactPoint"],"Email");
@@ -628,8 +628,8 @@ Pyk.newsDiscovery = function(){
       if (article["about"]["name"])
         $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
 
-      if (article["about"]["address"][0])
-        $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"][0]["city"]+", "+article["about"]["address"][0]["country"]+'</p>');
+      if (article["about"]["address"])
+        $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"]["city"]+", "+article["about"]["address"]["addressCountry"]+'</p>');
 
       // EMAIL
       var email = nd._getValueForKey(article["about"]["contactPoint"],"Email");
@@ -732,8 +732,8 @@ Pyk.newsDiscovery = function(){
       if (article["about"]["name"])
         $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
 
-      if (article["about"]["address"][0])
-        $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"][0]["city"]+", "+article["about"]["address"][0]["country"]+'</p>');
+      if (article["about"]["address"])
+        $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"]["addressLocality"]+", "+article["about"]["address"]["addressCountry"]+'</p>');
 
       // Description
       $("#article-card-right").append("<h2>About "+article["about"]["name"]+"</h2>");

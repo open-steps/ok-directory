@@ -1,0 +1,5 @@
+{
+  "schema" : {
+    "$ref": "plp-prototypes/_basic_project.json"
+  }
+}

@@ -1,0 +1,3 @@
+[submodule "plp-prototypes"]
+ path = plp-prototypes
+ url = https://github.com/hackers4peace/plp-prototypes.git

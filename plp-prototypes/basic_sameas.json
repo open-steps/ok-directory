@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "title": "Contact",
+  "properties": {    
+    "name": { "type": "string", "title": "Type (twitter,github,email...)"},
+    "id": { "type": "string", "title": "URL"}
+  }
+}

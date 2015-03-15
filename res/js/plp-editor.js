@@ -5,6 +5,7 @@ $(function(){
   JSONEditor.defaults.options.disable_collapse = true;
   JSONEditor.defaults.options.disable_edit_json = true;
   JSONEditor.defaults.options.disable_properties = true;
+  JSONEditor.defaults.options.ajax = true;
 
   var editor;
   var profileType = 'Person';
@@ -14,9 +15,8 @@ $(function(){
 
     profileType = type;
 
-    $.getJSON('res/js/schemas/'+profileType+'.json', function(json){
+    $.getJSON('plp-prototypes/'+profileType+'.json', function(json){
 
-      //document.getElementById('editor_holder').innerHTML = "";
       if (editor) editor.destroy();
       editor = new JSONEditor(document.getElementById('editor_holder'),json);
 
@@ -138,7 +138,7 @@ $(function(){
                 console.log('Profile correctly downloaded from provider ' + res.text);
 
                 var profile = JSON.parse(res.text);
-                var type = profile["@type"];
+                var type = profile["type"];
                 initEditor(type,profile);
                 selectProfileType(type);
                 $('#addOrEdit').hide();
@@ -279,7 +279,7 @@ $(function(){
   function saveProfile(){
 
     var editorValue = editor.getValue();
-    editorValue["@type"] = profileType;
+    editorValue["type"] = profileType;
     editorValue["@context"] = window.plp.config.context;
 
     var profile = JSON.stringify(editorValue);

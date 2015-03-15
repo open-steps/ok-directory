@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "title": "Person",
+  "properties": {
+    "type": { "type": "string", "default": "Person", "options": {"hidden": true}},
+    "name": { "type": "string" , "title": "Name"},
+    "description": { "type": "string", "title": "About yourself"},
+    "birthDate":  { "type": "string" , "title": "Birth date"},
+    "nationality" : { "type" : "string", "title": "Nationality"},
+    "url":  { "type" : "string", "title": "Homepage"},
+    "image": { "type": "string" , "title": "Image URL"},
+    "address": {
+      "$ref": "plp-prototypes/basic_postaladdress.json"
+    },
+    "memberOf": {
+      "type": "array",
+      "uniqueItems": true,
+      "title": "Your companies, groups or organisations",
+      "items": {
+        "$ref": "plp-prototypes/_basic_organization.json"
+      }
+    },
+    "sameAs": {
+      "type": "array",
+      "uniqueItems": true,
+      "title": "Contact",
+      "items":  {
+        "$ref": "plp-prototypes/basic_sameas.json"
+      }
+    },
+    "interest": {
+      "type": "array",
+      "uniqueItems": true,
+      "title": "Areas of interest",
+      "items":  {
+        "$ref": "plp-prototypes/basic_interest.json"
+      }
+    }
+  }
+}

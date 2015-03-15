@@ -23,9 +23,12 @@ var initializeMap = function() {
 
 var codeAddressFromArticle = function(context,article,last) {
 
-  if (!article["about"]["address"][0]) return;
+  console.log(article["about"]["address"]);
 
-  var addressToGeocode = article["about"]["address"][0]["country"]+'_'+article["about"]["address"][0]["city"];
+  if (!article["about"]["address"]) return;
+
+  var addressToGeocode = article["about"]["address"]["addressCountry"]+'_'+article["about"]["address"]["addressLocality"];
+
   var imgIcon = L.icon({
       iconUrl: 'res/img/dot.png',
       //shadowUrl: 'res/img/avatar_bg.png',
@@ -47,7 +50,7 @@ var codeAddressFromArticle = function(context,article,last) {
 
       if (err){
         console.log(err);
-      }else if(res.status != 400){        
+      }else if(res.status != 400){
         fetchedAddresses[addressToGeocode] = res.text;
         var latLng = fetchedAddresses[addressToGeocode].split(",");
         var marker = new L.marker(new L.latLng(latLng[0],latLng[1]),{icon: imgIcon});
@@ -67,9 +70,9 @@ var codeAddressFromArticle = function(context,article,last) {
 // Moves the centre of the map to the position of an article
 var panMapToArticle = function(context,article){
 
-  if (!article["about"]["address"][0]) return;
+  if (!article["about"]["address"]) return;
 
-  var addressToGeocode = article["about"]["address"][0]["country"]+', '+article["about"]["address"][0]["city"];
+  var addressToGeocode = article["about"]["address"]["addressCountry"]+', '+article["about"]["address"]["city"];
   if (!fetchedAddresses[addressToGeocode]){
 
     var finalGeocodeApiURL =  window.plp.config.geocoderCacherUrl+"?location="+addressToGeocode;

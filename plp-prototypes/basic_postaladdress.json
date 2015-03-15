@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "title": "Address",
+  "properties": {  
+    "streetAddress": { "type": "string", "title": "Street"},
+    "postalCode": { "type": "string", "title": "Zip code"},
+    "addressLocality": { "type" : "string", "title": "City"},
+    "addressCountry": { "type" : "string", "title": "Country"}
+  }
+}
