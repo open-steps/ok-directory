@@ -72,7 +72,7 @@ var panMapToArticle = function(context,article){
 
   if (!article["about"]["address"]) return;
 
-  var addressToGeocode = article["about"]["address"]["addressCountry"]+', '+article["about"]["address"]["city"];
+  var addressToGeocode = article["about"]["address"]["addressCountry"]+', '+article["about"]["address"]["addressLocality"];
   if (!fetchedAddresses[addressToGeocode]){
 
     var finalGeocodeApiURL =  window.plp.config.geocoderCacherUrl+"?location="+addressToGeocode;

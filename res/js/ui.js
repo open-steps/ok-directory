@@ -485,7 +485,7 @@ Pyk.newsDiscovery = function(){
         profileexcerpt.append("<b>" + article["about"]["name"] + "</b>");
 
       if (article["about"]["address"])
-        profileexcerpt.append($("<div/>").addClass("city").html(article["about"]["address"]["city"] + ", " + article["about"]["address"]["addressCountry"]).get(0));
+        profileexcerpt.append($("<div/>").addClass("city").html(article["about"]["address"]["addressLocality"] + ", " + article["about"]["address"]["addressCountry"]).get(0));
 
       return container.get(0).outerHTML;
 
@@ -550,36 +550,36 @@ Pyk.newsDiscovery = function(){
         $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"]["addressLocality"]+", "+article["about"]["address"]["addressCountry"]+'</p>');
 
       // EMAIL
-      var email = nd._getValueForKey(article["about"]["contactPoint"],"Email");
+      var email = nd._getValueForKey(article["about"]["sameAs"],"Email");
       if (email){
        $("#article-card-left").append($("<div/>").addClass("email contact-point").html('<a href="' + "mailto:" + email + '"><i class="fa fa-envelope fa-lg"></i></a>'));
       }
 
       // WEBSITE
-      if (article["about"]["website"]){
-        $("#article-card-left").append($("<div/>").addClass("website contact-point").html('<a href="' + article["about"]["website"] + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>'));
+      if (article["about"]["url"]){
+        $("#article-card-left").append($("<div/>").addClass("website contact-point").html('<a href="' + article["about"]["url"] + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>'));
       }
 
       // TWITTER
-      var twitter = nd._getValueForKey(article["about"]["contactPoint"],"Twitter");
+      var twitter = nd._getValueForKey(article["about"]["sameAs"],"Twitter");
       if (twitter){
         $("#article-card-left").append($("<div/>").addClass("twitter contact-point").html('<a href="https://www.twitter.com/' + nd._cleanTwitterHandle(twitter) + '" target="_blank"><i class="fa fa-twitter fa-lg"></i></a>'));
       }
 
       // FACEBOOK
-      var facebook = nd._getValueForKey(article["about"]["contactPoint"],"Facebook");
+      var facebook = nd._getValueForKey(article["about"]["sameAs"],"Facebook");
       if (facebook){
         $("#article-card-left").append($("<div/>").addClass("facebook contact-point").html('<a href="' + facebook + '" target="_blank"><i class="fa fa-facebook fa-lg"></i></a>'));
       }
 
       // LINKEDIN
-      var linkedin = nd._getValueForKey(article["about"]["contactPoint"],"LinkedIn");
+      var linkedin = nd._getValueForKey(article["about"]["sameAs"],"LinkedIn");
       if (linkedin){
         $("#article-card-left").append($("<div/>").addClass("linkedin contact-point").html('<a href="' + linkedin + '" target="_blank"><i class="fa fa-linkedin fa-lg"></i></a>'));
       }
 
       // GITHUB
-      var github = nd._getValueForKey(article["about"]["contactPoint"],"Github");
+      var github = nd._getValueForKey(article["about"]["sameAs"],"Github");
       if (github){
         $("#article-card-left").append($("<div/>").addClass("github contact-point").html('<a href="' + github + '" target="_blank"><i class="fa fa-github fa-lg"></i></a>'));
       }
@@ -629,39 +629,39 @@ Pyk.newsDiscovery = function(){
         $("#article-card-left").append('<h2 id="article-card-name">'+article["about"]["name"]+'</h2>');
 
       if (article["about"]["address"])
-        $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"]["city"]+", "+article["about"]["address"]["addressCountry"]+'</p>');
+        $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"]["addressLocality"]+", "+article["about"]["address"]["addressCountry"]+'</p>');
 
       // EMAIL
-      var email = nd._getValueForKey(article["about"]["contactPoint"],"Email");
+      var email = nd._getValueForKey(article["about"]["sameAs"],"Email");
       if (email){
        $("#article-card-left").append($("<div/>").addClass("email contact-point").html('<a href="' + "mailto:" + email + '"><i class="fa fa-envelope fa-lg"></i></a>'));
       }
 
       // WEBSITE
-      if (article["about"]["website"]){
-        $("#article-card-left").append($("<div/>").addClass("website contact-point").html('<a href="' + article["about"]["website"] + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>'));
+      if (article["about"]["url"]){
+        $("#article-card-left").append($("<div/>").addClass("website contact-point").html('<a href="' + article["about"]["url"] + '" target="_blank"><i class="fa fa-globe fa-lg"></i></a>'));
       }
 
       // TWITTER
-      var twitter = nd._getValueForKey(article["about"]["contactPoint"],"Twitter");
+      var twitter = nd._getValueForKey(article["about"]["sameAs"],"Twitter");
       if (twitter){
         $("#article-card-left").append($("<div/>").addClass("twitter contact-point").html('<a href="https://www.twitter.com/' + nd._cleanTwitterHandle(twitter) + '" target="_blank"><i class="fa fa-twitter fa-lg"></i></a>'));
       }
 
       // FACEBOOK
-      var facebook = nd._getValueForKey(article["about"]["contactPoint"],"Facebook");
+      var facebook = nd._getValueForKey(article["about"]["sameAs"],"Facebook");
       if (facebook){
         $("#article-card-left").append($("<div/>").addClass("facebook contact-point").html('<a href="' + facebook + '" target="_blank"><i class="fa fa-facebook fa-lg"></i></a>'));
       }
 
       // LINKEDIN
-      var linkedin = nd._getValueForKey(article["about"]["contactPoint"],"LinkedIn");
+      var linkedin = nd._getValueForKey(article["about"]["sameAs"],"LinkedIn");
       if (linkedin){
         $("#article-card-left").append($("<div/>").addClass("linkedin contact-point").html('<a href="' + linkedin + '" target="_blank"><i class="fa fa-linkedin fa-lg"></i></a>'));
       }
 
       // GITHUB
-      var github = nd._getValueForKey(article["about"]["contactPoint"],"Github");
+      var github = nd._getValueForKey(article["about"]["sameAs"],"Github");
       if (github){
         $("#article-card-left").append($("<div/>").addClass("github contact-point").html('<a href="' + github + '" target="_blank"><i class="fa fa-github fa-lg"></i></a>'));
       }
@@ -895,10 +895,10 @@ Pyk.newsDiscovery = function(){
 
     this._setTwitterProfileImageUrl = function(article,img){
 
-      var twitter = nd._getValueForKey(article["about"]["contactPoint"],"Twitter");
+      var twitter = nd._getValueForKey(article["about"]["sameAs"],"Twitter");
       if (!twitter) return;
 
-      var twitterHandle = nd._getValueForKey(article["about"]["contactPoint"],"Twitter")
+      var twitterHandle = nd._getValueForKey(article["about"]["sameAs"],"Twitter")
       twitterHandle = nd._cleanTwitterHandle(twitterHandle);
 
       var imageGetterUrl = window.plp.config.twitterImageGetterUrl+"?screen_name="+twitterHandle;
@@ -938,8 +938,8 @@ Pyk.newsDiscovery = function(){
 
     this._getValueForKey = function(element,value){
       for (key in element){
-        if (element[key]["type"] == value)
-          return element[key]["id"];
+        if (element[key]["name"].toLowerCase().indexOf(value.toLowerCase()) > -1)
+          return element[key]["url"];
       }
     }
 
