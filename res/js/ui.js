@@ -22,7 +22,7 @@ Pyk.newsDiscovery = function(){
         });
 
         //Get the data from directory
-        superagent.get(window.plp.config.directory)
+        superagent.get(window.plp.config.directory.url)
           .set('Accept', 'application/json')
           .end(function(res){
 
@@ -608,7 +608,7 @@ Pyk.newsDiscovery = function(){
         $("#article-card-right").append(skills);
       }
 
-      $("#profile-published-uri").html("<p>PLP Profile stored under: <b></br><a href=\""+article["about"]["@id"]+"\">"+article["about"]["@id"]+"</a></b></p>");
+      $("#profile-published-uri").html("<p>PLP Profile stored under: <b></br><a href=\""+article["about"]["id"]+"\">"+article["about"]["id"]+"</a></b></p>");
     }
 
     // Generates the HTML content of the card representation of the articles on the grid
@@ -631,7 +631,7 @@ Pyk.newsDiscovery = function(){
       if (article["about"]["address"])
         $("#article-card-left").append('<p id="article-card-location">'+article["about"]["address"]["addressLocality"]+", "+article["about"]["address"]["addressCountry"]+'</p>');
 
-      // EMAIL
+      // EMAILf
       var email = nd._getValueForKey(article["about"]["sameAs"],"Email");
       if (email){
        $("#article-card-left").append($("<div/>").addClass("email contact-point").html('<a href="' + "mailto:" + email + '"><i class="fa fa-envelope fa-lg"></i></a>'));
@@ -712,7 +712,7 @@ Pyk.newsDiscovery = function(){
 
       }
 
-      $("#profile-published-uri").html("<p>PLP Profile stored under: <b></br><a href=\""+article["about"]["@id"]+"\">"+article["about"]["@id"]+"</a></b></p>");
+      $("#profile-published-uri").html("<p>PLP Profile stored under: <b></br><a href=\""+article["about"]["id"]+"\">"+article["about"]["id"]+"</a></b></p>");
     }
 
     // Generates the HTML content of the card representation of the articles on the grid
@@ -739,7 +739,7 @@ Pyk.newsDiscovery = function(){
       $("#article-card-right").append("<h2>About "+article["about"]["name"]+"</h2>");
       $("#article-card-right").append('<p id="article-card-description">'+article["about"]["description"]+'</p>');
 
-      $("#profile-published-uri").html("<p>PLP Profile stored under: <b></br><a href=\""+article["about"]["@id"]+"\">"+article["about"]["@id"]+"</a></b></p>");
+      $("#profile-published-uri").html("<p>PLP Profile stored under: <b></br><a href=\""+article["about"]["id"]+"\">"+article["about"]["id"]+"</a></b></p>");
     }
 
     this._isActiveFilter = function(d,e){
@@ -903,7 +903,6 @@ Pyk.newsDiscovery = function(){
 
       var imageGetterUrl = window.plp.config.twitterImageGetterUrl+"?screen_name="+twitterHandle;
       superagent.get(imageGetterUrl)
-      .withCredentials()
       .set('Accept', 'text/plain')
       .end(function(err,res){
 

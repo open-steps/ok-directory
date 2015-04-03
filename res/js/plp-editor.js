@@ -15,7 +15,7 @@ $(function(){
 
     profileType = type;
 
-    $.getJSON('plp-prototypes/'+profileType+'.json', function(json){
+    $.getJSON(window.plp.config.prototypesDir+profileType+'.json', function(json){
 
       if (editor) editor.destroy();
       editor = new JSONEditor(document.getElementById('editor_holder'),json);
@@ -65,54 +65,62 @@ $(function(){
     selectProfileType("Place");
   });
 
-  // STEP 2
   $('#generateBtn').on('click',function() {
-
-    // Validate
-    var errors = editor.validate();
-    if(!errors.length) {
-
-      saveProfile();
-
-      var profile = JSON.parse(localStorage.profile);
-
-      if (profileHasId(profile)){
-
-        superagent.put(profile["@id"])
-        .type('application/ld+json')
-        .accept('application/ld+json')
-        .send(localStorage.profile)
-        .end(function(err,provRes){
-
-          if (err){
-            showProfilePublishedError();
-          }else if (provRes.ok){
-            showProfilePublishedOk(profile["@id"]);
-          }
-
-        });
-
-      }else{
-
-        superagent.post(window.plp.config.provider)
-        .type('application/ld+json')
-        .accept('application/ld+json')
-        .send(localStorage.profile)
-        .end(function(err,provRes){
-
-          if (err){
-            showProfilePublishedError();
-          }else if (provRes.ok){
-            postProfileToDirectory(JSON.parse(provRes.text));
-          }
-
-        });
-
-      }
-
-    }
-
+    saveProfile();
+    window.login.provider()
+    .then(publishToProvider)
+    .then(listInDirectory)
+    .catch(function(err){ console.log(err); });
   });
+
+  // STEP 2
+  // $('#generateBtn').on('click',function() {
+  //
+  //   // Validate
+  //   var errors = editor.validate();
+  //   if(!errors.length) {
+  //
+  //     saveProfile();
+  //
+  //     var profile = JSON.parse(localStorage.profile);
+  //
+  //     if (profileHasId(profile)){
+  //
+  //       superagent.put(profile["@id"])
+  //       .type('application/ld+json')
+  //       .accept('application/ld+json')
+  //       .send(localStorage.profile)
+  //       .end(function(err,provRes){
+  //
+  //         if (err){
+  //           showProfilePublishedError();
+  //         }else if (provRes.ok){
+  //           showProfilePublishedOk(profile["@id"]);
+  //         }
+  //
+  //       });
+  //
+  //     }else{
+  //
+  //       superagent.post(window.plp.config.provider)
+  //       .type('application/ld+json')
+  //       .accept('application/ld+json')
+  //       .send(localStorage.profile)
+  //       .end(function(err,provRes){
+  //
+  //         if (err){
+  //           showProfilePublishedError();
+  //         }else if (provRes.ok){
+  //           postProfileToDirectory(JSON.parse(provRes.text));
+  //         }
+  //
+  //       });
+  //
+  //     }
+  //
+  //   }
+  //
+  // });
 
   $('#editFromUrlBtn').on('click',function() {
 
@@ -210,14 +218,65 @@ $(function(){
   }
 
   function profileHasId(profile){
-    return _.has(profile,"@id");
+    return _.has(profile,"id");
+  }
+
+  /**
+   * token - JWT authorization token
+   */
+  function publishToProvider(token){
+    return new Promise(function(resolve, reject){
+      superagent.post(window.plp.config.provider.url)
+        .type('application/ld+json')
+        .accept('application/ld+json')
+        .set('Authorization', 'Bearer ' + token)
+        .send(localStorage.profile)
+        .end(function(err,provRes){
+          if (err){
+            $('#result-uri').html('<p class="error">Something went wrong: '+err+'</p>');
+            console.log('Error ' + err);
+            reject(err);
+          }else{
+            if(provRes.ok) {
+              console.log('Profile successfully pushed to provider ' + provRes.text);
+              // FIXME: handle errors
+              var profile = JSON.parse(provRes.text);
+              $('#result-uri').html('<h1>Your profile lives here:</h1><h3>'+profile['id']+'</h3><p>You can use this URI for listing it in the different <a href="https://github.com/hackers4peace/plp-docs">directories supporting PLP</a></p>');
+              resolve(profile);
+            }
+          }
+        });
+    });
+  }
+
+  function listInDirectory(profile){
+    if(window.plp.config.directory) {
+      return new Promise(function(resolve, reject){
+        superagent.post(window.plp.config.directory.url)
+        .type('application/ld+json')
+        .accept('application/ld+json')
+        .send(JSON.stringify(profile))
+        .end(function(err,dirRes){
+          if (err){
+            console.log('Error ' + err);
+            showProfilePublishedError();
+            reject(err);
+          }
+          if (dirRes.ok){
+            console.log('Profile succesfully listed in directory ' + dirRes.text);
+            showProfilePublishedOk(profile["id"]);
+            resolve();
+          }
+        });
+      });
+    }
   }
 
   function postProfileToDirectory(profile){
 
     if (window.plp.config.directory){
 
-      superagent.post(window.plp.config.directory)
+      superagent.post(window.plp.config.directory.url)
       .type('application/ld+json')
       .accept('application/ld+json')
       .send(JSON.stringify(profile))
@@ -231,7 +290,7 @@ $(function(){
           }else if (dirRes.ok){
             console.log('Profile succesfully listed in directory ' + dirRes.text);
           }
-          showProfilePublishedOk(profile["@id"]);
+          showProfilePublishedOk(profile["id"]);
         }
 
       });
@@ -239,6 +298,50 @@ $(function(){
     }
 
   }
+
+  var agent = {};
+
+  /**
+   * resolves with JWT token
+   */
+  function login(endpoint, assertion){
+    return new Promise(function(resolve, reject){
+      superagent.post(endpoint)
+      .send({ assertion: assertion })
+      .end(function(response){
+        if(response.status === 200){
+          var data = response.body;
+          console.log('Persona.onlogin() ' + endpoint, data);
+          agent.persona = data;
+          resolve(data.token);
+        } else {
+          console.log('error', response.error);
+          reject();
+          // FIXME handle case of 403 etc.
+        }
+      });
+    });
+  }
+
+  function logout(endpoint){
+    // FIXME decide if needs to sent assertion!
+    superagent.post(endpoint)
+    .withCredentials()
+    .end(function(response){
+      console.log('Persona.onlogout() ' + endpoint, response);
+      agent = {};
+    });
+  }
+
+  window.login = {};
+  window.login.provider = function(){
+    return new Promise(function(resolve, reject){
+      navigator.id.get(function(assertion){
+        login(window.plp.config.provider.url + '/auth/login', assertion)
+        .then(resolve, reject);
+      }, window.plp.config.provider.persona);
+    });
+  };
 
   function showProfilePublishedOk(profile_url){
 
@@ -273,7 +376,7 @@ $(function(){
   }
 
   function profileWithoutId(profile){
-    return delete profile['@id'];
+    return delete profile['id'];
   }
 
   function saveProfile(){

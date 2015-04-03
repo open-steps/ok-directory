@@ -23,7 +23,7 @@ var initializeMap = function() {
 
 var codeAddressFromArticle = function(context,article,last) {
 
-  console.log(article["about"]["address"]);
+  //console.log(article["about"]["address"]);
 
   if (!article["about"]["address"]) return;
 
@@ -44,7 +44,6 @@ var codeAddressFromArticle = function(context,article,last) {
 
     var finalGeocodeApiURL =  window.plp.config.geocoderCacherUrl+"?location="+addressToGeocode;
     superagent.get(finalGeocodeApiURL)
-    .withCredentials()
     .set('Accept', 'text/plain')
     .end(function(err,res){
 
