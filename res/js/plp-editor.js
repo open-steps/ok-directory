@@ -73,55 +73,6 @@ $(function(){
     .catch(function(err){ console.log(err); });
   });
 
-  // STEP 2
-  // $('#generateBtn').on('click',function() {
-  //
-  //   // Validate
-  //   var errors = editor.validate();
-  //   if(!errors.length) {
-  //
-  //     saveProfile();
-  //
-  //     var profile = JSON.parse(localStorage.profile);
-  //
-  //     if (profileHasId(profile)){
-  //
-  //       superagent.put(profile["@id"])
-  //       .type('application/ld+json')
-  //       .accept('application/ld+json')
-  //       .send(localStorage.profile)
-  //       .end(function(err,provRes){
-  //
-  //         if (err){
-  //           showProfilePublishedError();
-  //         }else if (provRes.ok){
-  //           showProfilePublishedOk(profile["@id"]);
-  //         }
-  //
-  //       });
-  //
-  //     }else{
-  //
-  //       superagent.post(window.plp.config.provider)
-  //       .type('application/ld+json')
-  //       .accept('application/ld+json')
-  //       .send(localStorage.profile)
-  //       .end(function(err,provRes){
-  //
-  //         if (err){
-  //           showProfilePublishedError();
-  //         }else if (provRes.ok){
-  //           postProfileToDirectory(JSON.parse(provRes.text));
-  //         }
-  //
-  //       });
-  //
-  //     }
-  //
-  //   }
-  //
-  // });
-
   $('#editFromUrlBtn').on('click',function() {
 
     var url = $('#existing_profile_field').val();
