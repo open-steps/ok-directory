@@ -41,9 +41,12 @@ $(function(){
 
       });
 
-      if (profile){
-        editor.setValue(profile);
-      }
+      editor.on('ready',function() {
+        console.log("profile ready");
+        if (profile){
+          editor.setValue(profile);
+        }
+      });
 
     });
 
@@ -215,7 +218,7 @@ $(function(){
           }
           if (dirRes.ok){
             console.log('Profile succesfully listed in directory ' + dirRes.text);
-            showProfilePublishedOk(profile["id"]);
+            showProfilePublishedOk(profile["@id"]);
             resolve();
           }
         });
@@ -241,7 +244,7 @@ $(function(){
           }else if (dirRes.ok){
             console.log('Profile succesfully listed in directory ' + dirRes.text);
           }
-          showProfilePublishedOk(profile["id"]);
+          showProfilePublishedOk(profile["@id"]);
         }
 
       });
